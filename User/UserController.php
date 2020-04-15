@@ -19,7 +19,7 @@ class UserController{
 
 	public function fetchProfileOfUser($username){
 		$userService = new UserService();
-		return $userService-fetchProfileOfUser($username);
+		return $userService->fetchProfileOfUser($username);
 	}
 
 
