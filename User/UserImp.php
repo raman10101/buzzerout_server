@@ -18,8 +18,8 @@ class UserImp{
 		return $userQuery->loginUser($username,  $password);
 	}
 	public function fetchProfileOfUser($username){
-		$userService = new UserService();
-		return $userImp-fetchProfileOfUser($username);
+		$userquery = new UserQuery();
+		return $userquery->fetchProfileOfUser($username);
 	}
 
 }
