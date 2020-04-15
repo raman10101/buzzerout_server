@@ -20,8 +20,8 @@ class UserService{
     }
     
     public function fetchProfileOfUser($username){
-		$userService = new UserService();
-		return $userImp-fetchProfileOfUser($username);
+		$userimp = new UserImp();
+		return $userimp->fetchProfileOfUser($username);
 	}
 }
 
