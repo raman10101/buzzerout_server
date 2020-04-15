@@ -22,6 +22,11 @@ class UserController{
 		return $userService-fetchProfileOfUser($username);
 	}
 
+	public function fetchPostById($username){
+		$userService = new UserService();
+		return $userService-fetchProfileOfUser($username);
+	}
+
 
 }
 
