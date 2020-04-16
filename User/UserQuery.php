@@ -77,4 +77,10 @@ class UserQuery
 		}
 		return $response;
 	}
+	public function fetchProfileOfUser($username)
+	{
+		$response =$username;
+
+		return $response;
+	}
 }
