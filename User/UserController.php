@@ -16,13 +16,6 @@ class UserController{
 		return $userService->loginUser($username,  $password);
 	}
 
-
-	public function fetchProfileOfUser($username){
-		$userService = new UserService();
-		return $userService->fetchProfileOfUser($username);
-	}
-
-
 }
 
 ?>

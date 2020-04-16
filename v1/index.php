@@ -7,8 +7,6 @@ require_once '../File/FileController.php';
 require_once '../Mail/MailController.php';
 require_once '../MessageBox/MessageBoxController.php';
 require_once '../QueryBox/QueryBoxController.php';
-
-require_once '../Mail/SendMail.php';
 require '../libs/Slim/Slim.php';
  
 \Slim\Slim::registerAutoloader();

@@ -19,10 +19,7 @@ class UserService{
 		return $userImp->loginUser($username,  $password);
     }
     
-    public function fetchProfileOfUser($username){
-		$userimp = new UserImp();
-		return $userimp->fetchProfileOfUser($username);
-	}
+
 }
 
 ?>
