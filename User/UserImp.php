@@ -7,10 +7,7 @@ class UserImp{
     }
 
 
-	public function registerUser($first_name,$last_name,$username, $email, $password){
-		$userQuery = new UserQuery();
-		return $userQuery->registerUser($first_name,$last_name,$username, $email, $password);
-	}
+
 
 	        
     public function loginUser($username,  $password){

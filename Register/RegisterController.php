@@ -1,20 +1,15 @@
 <?php 
 
-class UserController{
+class RegisterController{
 
     function __construct(){
-        require_once dirname(__FILE__) . '/UserService.php';
+        require_once dirname(__FILE__) . '/RegisterService.php';
     }
 	public function registerUser($first_name,$last_name,$username, $email, $password){
-		$userService = new UserService();
-		return $userService->registerUser($first_name,$last_name,$username, $email, $password);
+		$registerService = new RegisterService();
+		return $registerService->registeruser($first_name,$last_name,$username, $email, $password);
 	}
 	
-
-	public function loginUser($username,  $password){
-		$userService = new UserService();
-		return $userService->loginUser($username,  $password);
-	}
 }
 
 ?>
