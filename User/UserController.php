@@ -15,6 +15,8 @@ class UserController{
 
 	// Fetch User By Email
 
+	// Fetch all feeds of a user by Username
+
 }
 
 ?>
