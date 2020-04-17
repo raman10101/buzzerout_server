@@ -55,9 +55,6 @@ class RegisterQuery
 			$response["message"] = 'Something Went Wrong.';
 			$response["info"] = mysqli_error($this->conn);
 		}
-
 		return $response;
 	}
-
-
 }

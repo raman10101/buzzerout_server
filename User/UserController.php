@@ -6,11 +6,15 @@ class UserController{
         require_once dirname(__FILE__) . '/UserService.php';
     }
 
-	public function loginUser($username,  $password){
+	public function loginUserWithUsername($username,  $password){
 		$userService = new UserService();
-		return $userService->loginUser($username,  $password);
+		return $userService->loginUserWithUsername($username,  $password);
 	}
-
+	
+	public function loginUserWithEmail($username,  $password){
+		$userService = new UserService();
+		return $userService->($username,  $password);
+	}
 	// Fethc User By Username
 
 	// Fetch User By Email

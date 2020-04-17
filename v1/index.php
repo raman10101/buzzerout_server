@@ -3,6 +3,7 @@ error_reporting(-1);
 ini_set('display_errors', 'On');
  
 require_once '../User/UserController.php';
+require_once '../Register/RegisterController.php';
 require_once '../File/FileController.php';
 require_once '../Mail/MailController.php';
 require_once '../MessageBox/MessageBoxController.php';
@@ -22,8 +23,8 @@ $app->post('/user/register',function() use($app){
     $username = $app->request->post('username');
     $email = $app->request->post('email');
     $password = $app->request->post('password');
-    $userController = new UserController();
-    $response = $userController->registerUser($first_name,$last_name,$username, $email, $password);
+    $registerController = new RegisterController();
+    $response = $registerController->registerUser($first_name,$last_name,$username, $email, $password);
     echoRespnse(200,$response);
 });
 $app->post('/user/login',function() use($app){
@@ -31,10 +32,14 @@ $app->post('/user/login',function() use($app){
     $username = $app->request->post('username');
     $password = $app->request->post('password');
     $userController = new UserController();
-    $response = $userController->loginUser($username,$password);
+    if (validateEmail($username)){
+        $response = $userController->loginUserWithUsername($username,$password);
+    }
+    else{
+        $response = $userController->loginUserWithEmail($username,$password);
+    }
     echoRespnse(200,$response);
 });
-
 
 /**
  * Verifying required params posted or not
