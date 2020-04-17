@@ -17,4 +17,9 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchfeedbyusername($username);
     }
+    public function Uploadfeedimage($username,$title,$description,$location,$img)
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->Uploadfeedimage($username,$title,$description,$location,$img);
+    }
 }

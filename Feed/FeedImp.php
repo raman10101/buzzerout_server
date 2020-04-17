@@ -19,4 +19,9 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchfeedbyusername($username);
     }
+    public function Uploadfeedimage($username,$title,$description,$location,$img)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->Uploadfeedimage($username,$title,$description,$location,$img);
+    }
 }

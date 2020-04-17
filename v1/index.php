@@ -38,20 +38,32 @@ $app->post('/user/login', function () use ($app) {
 
 // feed controller
 // feed by location 
-$app->post('/Feed/Fetchfeedbylocation',function() use($app){
+$app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
     verifyRequiredParams((array('location')));
-    $location =$app->request->post('location');
-    $feedController=new FeedController();
-    $response=$feedController->Fetchfeedbylocation($location);
-    echoRespnse(200,$response);
+    $location = $app->request->post('location');
+    $feedController = new FeedController();
+    $response = $feedController->Fetchfeedbylocation($location);
+    echoRespnse(200, $response);
 });
 // feed by user 
-$app->post('/Feed/Fetchfeedbyusername',function() use($app){
+$app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     verifyRequiredParams((array('username')));
-    $username =$app->request->post('username');
-    $feedController=new FeedController();
-    $response=$feedController->Fetchfeedbylocation($username);
-    echoRespnse(200,$response);
+    $username = $app->request->post('username');
+    $feedController = new FeedController();
+    $response = $feedController->Fetchfeedbylocation($username);
+    echoRespnse(200, $response);
+});
+// upload image to feed
+$app->post('/Feed/Uploadfeedimage', function () use ($app) {
+    verifyRequiredParams((array('username', 'title', 'description', 'location', 'img')));
+    $username = $app->request->post('username');
+    $title = $app->request->post('title');
+    $description = $app->request->post('description');
+    $location = $app->request->post('location');
+    $img = $app->request->post('img');
+    $feedController = new FeedController();
+    $response = $feedController->Uploadfeedimage($username, $title, $description, $location, $img);
+    echoRespnse(200, $response);
 });
 /**
  * Verifying required params posted or not

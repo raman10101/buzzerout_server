@@ -22,5 +22,9 @@ class FeedController
 		return $feedService->Fetchfeedbyusername($username);
 	}
 	// Fetch Feed By Email
-
+	public function Uploadfeedimage($username,$title,$description,$location,$img)
+	{
+		$feedService = new FeedService();
+		return $feedService->Uploadfeedimage($username,$title,$description,$location,$img);
+	}
 }
