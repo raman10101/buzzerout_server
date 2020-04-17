@@ -6,16 +6,15 @@ class UserService{
         require_once dirname(__FILE__) . '/UserImp.php';
     }
 	
-    
-
-
-    
-        
-    public function loginUser($username,  $password){
+    public function loginUserWithUsername($username,  $password){
         $userImp = new UserImp();
-		return $userImp->loginUser($username,  $password);
+		return $userImp->loginUserWithUsername($username,  $password);
     }
     
+    public function loginUserWithEmail($username,  $password){
+        $userImp = new UserImp();
+		return $userImp->loginUserWithEmail($username,  $password);
+    }
 
 }
 

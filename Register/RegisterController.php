@@ -8,8 +8,7 @@ class RegisterController{
 	public function registerUser($first_name,$last_name,$username, $email, $password){
 		$registerService = new RegisterService();
 		return $registerService->registeruser($first_name,$last_name,$username, $email, $password);
-	}
-	
+	}	
 }
 
 ?>
