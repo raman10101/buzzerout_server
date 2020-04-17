@@ -24,4 +24,14 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Uploadfeedimage($username,$title,$description,$location,$img);
     }
+    public function Uploadfeedvideo($username, $title, $description, $location, $video)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->Uploadfeedvideo($username, $title, $description, $location, $video);
+    }
+    public function Feedupvote($username, $feedid,$up,$down)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->Feedupvote($username, $feedid,$up,$down);
+    }
 }
