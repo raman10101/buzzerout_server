@@ -1,28 +1,38 @@
 <?php
 error_reporting(-1);
 ini_set('display_errors', 'On');
- 
+
 require_once '../User/UserController.php';
 require_once '../Register/RegisterController.php';
+require_once '../Feed/FeedController.php';
 require_once '../File/FileController.php';
 require_once '../Mail/MailController.php';
 require_once '../MessageBox/MessageBoxController.php';
 require_once '../QueryBox/QueryBoxController.php';
 require '../libs/Slim/Slim.php';
- 
+
 \Slim\Slim::registerAutoloader();
 
 $app = new \Slim\Slim();
 /*
 User Controller
 */
-$app->post('/user/register',function() use($app){
-    verifyRequiredParams((array('username','firstname','lastname','email','password')));
-    $first_name = $app->request->post('firstname');
-    $last_name = $app->request->post('lastname');
+// $app->post('/user/register', function () use ($app) {
+//     verifyRequiredParams((array('username', 'firstname', 'lastname', 'email', 'password')));
+//     $first_name = $app->request->post('firstname');
+//     $last_name = $app->request->post('lastname');
+//     $username = $app->request->post('username');
+//     $email = $app->request->post('email');
+//     $password = $app->request->post('password');
+//     $userController = new UserController();
+//     $response = $userController->registerUser($first_name, $last_name, $username, $email, $password);
+//     echoRespnse(200, $response);
+// });
+$app->post('/user/login', function () use ($app) {
+    verifyRequiredParams((array('username', 'password')));
     $username = $app->request->post('username');
-    $email = $app->request->post('email');
     $password = $app->request->post('password');
+
     $registerController = new RegisterController();
     $response = $registerController->registerUser($first_name,$last_name,$username, $email, $password);
     echoRespnse(200,$response);
@@ -41,10 +51,35 @@ $app->post('/user/login',function() use($app){
     echoRespnse(200,$response);
 });
 
+=======
+    $userController = new UserController();
+    $response = $userController->loginUser($username, $password);
+    echoRespnse(200, $response);
+});
+
+// feed controller
+// feed by location 
+$app->post('/Feed/Fetchfeedbylocation',function() use($app){
+    verifyRequiredParams((array('location')));
+    $location =$app->request->post('location');
+    $feedController=new FeedController();
+    $response=$feedController->Fetchfeedbylocation($location);
+    echoRespnse(200,$response);
+});
+// feed by user 
+$app->post('/Feed/Fetchfeedbyusername',function() use($app){
+    verifyRequiredParams((array('username')));
+    $username =$app->request->post('username');
+    $feedController=new FeedController();
+    $response=$feedController->Fetchfeedbylocation($username);
+    echoRespnse(200,$response);
+});
+
 /**
  * Verifying required params posted or not
  */
-function verifyRequiredParams($required_fields) {
+function verifyRequiredParams($required_fields)
+{
     $error = false;
     $error_fields = "";
     $request_params = array();
@@ -60,7 +95,7 @@ function verifyRequiredParams($required_fields) {
             $error_fields .= $field . ', ';
         }
     }
- 
+
     if ($error) {
         // Required field(s) are missing or empty
         // echo error json and stop the app
@@ -72,11 +107,12 @@ function verifyRequiredParams($required_fields) {
         $app->stop();
     }
 }
- 
+
 /**
  * Validating email address
  */
-function validateEmail($email) {
+function validateEmail($email)
+{
     $app = \Slim\Slim::getInstance();
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $response["error"] = true;
@@ -85,25 +121,27 @@ function validateEmail($email) {
         $app->stop();
     }
 }
- 
-function IsNullOrEmptyString($str) {
+
+function IsNullOrEmptyString($str)
+{
     return (!isset($str) || trim($str) === '');
 }
- 
+
 /**
  * Echoing json response to client
  * @param String $status_code Http response code
  * @param Int $response Json response
  */
-function echoRespnse($status_code, $response) {
+function echoRespnse($status_code, $response)
+{
     $app = \Slim\Slim::getInstance();
     // Http response code
     $app->status($status_code);
- 
+
     // setting response content type to json
     $app->contentType('application/json');
- 
+
     echo json_encode($response);
 }
- 
+
 $app->run();
