@@ -12,7 +12,7 @@ class UserQuery
 		$this->conn = $db->connect();
 	}
 
-	public function loginUser($username,  $password)
+	public function loginUserWithUsername($username,  $password)
 	{
 		$response = array();
 
@@ -24,9 +24,23 @@ class UserQuery
 		}else{
 			$response["error"] = true;
 			$response["message"] = "User Not found";
-
 		}
 		return $response;
 	}
+	
+	public function loginUserWithEmail($username,  $password)
+	{
+		$response = array();
 
+		$stmt = mysqli_query($this->conn,"select * from users where email='".$username."' and password ='".$password."' ");
+		if(mysqli_num_rows($stmt) > 0){
+			$response["error"] = false;
+			$response["message"] = "User Found";
+			$response["user"] = mysqli_fetch_assoc($stmt);
+		}else{
+			$response["error"] = true;
+			$response["message"] = "User Not found";
+		}
+		return $response;
+	}
 }

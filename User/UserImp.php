@@ -6,15 +6,15 @@ class UserImp{
         require_once dirname(__FILE__) . '/UserQuery.php';
     }
 
-
-
-
-	        
-    public function loginUser($username,  $password){
+    public function loginUserWithUsername($username,  $password){
         $userQuery = new UserQuery();
-		return $userQuery->loginUser($username,  $password);
-	}
-
+		return $userQuery->loginUserWithUsername($username,  $password);
+    }
+    
+    public function loginUserWithEmail($username,  $password){
+        $userQuery = new UserQuery();
+		return $userQuery->loginUserWithEmail($username,  $password);
+    }
 
 }
 

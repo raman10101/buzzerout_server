@@ -3,6 +3,7 @@ error_reporting(-1);
 ini_set('display_errors', 'On');
 
 require_once '../User/UserController.php';
+require_once '../Register/RegisterController.php';
 require_once '../Feed/FeedController.php';
 require_once '../File/FileController.php';
 require_once '../Mail/MailController.php';
@@ -31,6 +32,26 @@ $app->post('/user/login', function () use ($app) {
     verifyRequiredParams((array('username', 'password')));
     $username = $app->request->post('username');
     $password = $app->request->post('password');
+
+    $registerController = new RegisterController();
+    $response = $registerController->registerUser($first_name,$last_name,$username, $email, $password);
+    echoRespnse(200,$response);
+});
+$app->post('/user/login',function() use($app){
+    verifyRequiredParams((array('username','password')));
+    $username = $app->request->post('username');
+    $password = $app->request->post('password');
+    $userController = new UserController();
+    if (validateEmail($username)){
+        $response = $userController->loginUserWithUsername($username,$password);
+    }
+    else{
+        $response = $userController->loginUserWithEmail($username,$password);
+    }
+    echoRespnse(200,$response);
+});
+
+=======
     $userController = new UserController();
     $response = $userController->loginUser($username, $password);
     echoRespnse(200, $response);
@@ -53,6 +74,7 @@ $app->post('/Feed/Fetchfeedbyusername',function() use($app){
     $response=$feedController->Fetchfeedbylocation($username);
     echoRespnse(200,$response);
 });
+
 /**
  * Verifying required params posted or not
  */
