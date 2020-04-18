@@ -13,7 +13,7 @@ if(mysqli_num_rows($stmt) > 0){
 
     $current_date_Timestamp = time();
     
-    if ($current_date_Timestamp > $old_date_Timestamp){
+    if ($current_date_Timestamp < $old_date_Timestamp){
         // Link not expired
 
         // Add Enrty to User Table
