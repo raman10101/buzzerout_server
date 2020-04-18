@@ -17,19 +17,30 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchfeedbyusername($username);
     }
-    public function Uploadfeedimage($username,$title,$description,$location,$img)
+    public function Fetchvotesonpost($feedid)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Uploadfeedimage($username,$title,$description,$location,$img);
+        return $feedImp->Fetchvotesonpost($feedid);
+    }
+
+    public function Uploadfeedimage($username, $title, $description, $location, $img)
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->Uploadfeedimage($username, $title, $description, $location, $img);
     }
     public function Uploadfeedvideo($username, $title, $description, $location, $video)
     {
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedvideo($username, $title, $description, $location, $video);
     }
-    public function Feedupvote($username, $feedid,$up,$down)
+    public function Feedupvote($username, $feedid, $up, $down)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Feedupvote($username, $feedid,$up,$down);
+        return $feedImp->Feedupvote($username, $feedid, $up, $down);
+    }
+    public function Fetchallimageoffeed($feedid)
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->Fetchallimageoffeed($feedid);
     }
 }

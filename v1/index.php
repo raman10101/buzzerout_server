@@ -66,7 +66,6 @@ $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     $response = $feedController->Fetchfeedbyusername($username);
     echoRespnse(200, $response);
 });
-
 // upload image to feed
 $app->post('/Feed/Uploadfeedimage', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location', 'img')));
