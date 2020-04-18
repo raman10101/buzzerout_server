@@ -26,7 +26,7 @@ class RegisterQuery
 		// Same Email cannot register again, to be checked( !!! Important)
 		// Password Stored Should be Encrypted (!!! Important)
 		$stmt = mysqli_query($this->conn, "insert into register(first_name,last_name,username,email,password,activation_link,valid_till)
-		values('" . $first_name . "','" . $last_name . "','" . $username . "','" . $email . "','" . $password . "','" . $link . "',DATE_ADD(NOW(), INTERVAL + 6 DAY))");
+		values('" . $first_name . "','" . $last_name . "','" . $username . "','" . $email . "','" . $password . "','" . $unique . "',DATE_ADD(NOW(), INTERVAL + 6 DAY))");
 		// 3.Send Mail
 		if ($stmt) {
 			// Inserted Record in database
