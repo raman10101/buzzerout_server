@@ -63,7 +63,7 @@ class RegisterQuery
 		$response = array();
         $stmt = mysqli_query($this->conn, "select *  FROM register ");
         $response['data'] = array();
-		if($stmt){  
+		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "ALL users to register.";
             while($row = $stmt->fetch_assoc()){
@@ -82,7 +82,7 @@ class RegisterQuery
 	public function checkUsername($username)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "select *  FROM register ");
+		$stmt = mysqli_query($this->conn, "select *  FROM register " );
 		$match = 0;
 		if (mysqli_num_rows($stmt) > 0) {
 			// check for the duplication of the username!!!
