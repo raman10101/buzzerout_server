@@ -57,4 +57,25 @@ class RegisterQuery
 		}
 		return $response;
 	}
+	
+	public function allUsersToRegister()
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM register ");
+        $response['data'] = array();
+		if($stmt){  
+            $response["error"] = false;
+            $response["message"] = "ALL users to register.";
+            while($row = $stmt->fetch_assoc()){
+                array_push($response['data'],$row );
+            }
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No Address";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }
