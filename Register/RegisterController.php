@@ -15,6 +15,11 @@ class RegisterController{
 		$registerService = new RegisterService();
 		return $registerService->allUsersToRegister();
 	}
+	
+	public function checkUsername($username){
+		$registerService = new RegisterService();
+		return $registerService->checkUsername($username);
+	}
 }
 
 ?>

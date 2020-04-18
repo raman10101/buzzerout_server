@@ -28,6 +28,14 @@ $app->post('/user/register', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/register/checkUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $registerController = new RegisterController();
+    $response = $registerController->checkUsername($username);
+    echoRespnse(200, $response);
+});
+
 $app->post('/register/allUsersToRegister', function () use ($app) {
     $registerController = new RegisterController();
     $response = $registerController->allUsersToRegister();
@@ -39,7 +47,8 @@ $app->post('/user/login',function() use($app){
     $username = $app->request->post('username');
     $password = $app->request->post('password');
     $userController = new UserController();
-    if (validateEmail($username)){
+    $check_email_response = validateEmail($username);
+    if ($check_email_response['error']){
         $response = $userController->loginUserWithUsername($username,$password);
     }
     else{
