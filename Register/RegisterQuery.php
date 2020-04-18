@@ -78,4 +78,42 @@ class RegisterQuery
 		}
 		return $response;
 	}
+	
+	public function checkUsername($username)
+	{
+		$response = array();
+		$stmt = mysqli_query($this->conn, "select *  FROM register ");
+		if (mysqli_num_rows($stmt) > 0) {
+			// check for the duplication of the username!!!
+			$match = 0;
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				if ($row['username'] == $username){
+					$match = 1;
+					$response["error"] = true;
+					$response["message"] = "Username already exists!!!";
+					break;
+				}
+			}
+		}
+		if ($match == 0){
+			$stmt2 = mysqli_query($this->conn, "select *  FROM users ");
+			if (mysqli_num_rows($stmt2) > 0) {
+				// check for the duplication of the username!!!
+				while ($row = mysqli_fetch_assoc($stmt2)) {
+					if ($row['username'] == $username){
+						$match = 1;
+						$response["error"] = true;
+						$response["message"] = "Username already exists!!!";
+						break;
+					}
+				}
+			}
+		}
+        if ($match == 0){
+			$response["error"] = false;
+            $response["message"] = "Username does not exists, can prceed with the current username";
+		}
+		return $response;
+	}
 }
+?>

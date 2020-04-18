@@ -15,6 +15,11 @@ class RegisterImp{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->allUsersToRegister();
 	}
+	
+	public function checkUsername($username){
+		$registerQuery = new RegisterQuery();
+		return $registerQuery->checkUsername($username);
+	}
 
 }
 
