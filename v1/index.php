@@ -57,8 +57,16 @@ $app->post('/user/login',function() use($app){
 });
 
 // feed controller
+
+
+
+
+
+
+
+
 // feed by location 
-$app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
+$app->post('/feed/fetchFeedByLocation', function () use ($app) {
     verifyRequiredParams((array('location')));
     $location = $app->request->post('location');
     $feedController = new FeedController();
@@ -67,7 +75,7 @@ $app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
 });
 
 // feed by user 
-$app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
+$app->post('/feed/fetchFeedByUsername', function () use ($app) {
     verifyRequiredParams((array('username')));
     $username = $app->request->post('username');
     $feedController = new FeedController();
@@ -75,7 +83,7 @@ $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     echoRespnse(200, $response);
 });
 // upload image to feed
-$app->post('/Feed/Uploadfeedimage', function () use ($app) {
+$app->post('/feed/uploadFeedImage', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location', 'img')));
     $username = $app->request->post('username');
     $title = $app->request->post('title');
@@ -87,7 +95,7 @@ $app->post('/Feed/Uploadfeedimage', function () use ($app) {
     echoRespnse(200, $response);
 });
 
-$app->post('/Feed/Uploadfeedvideo', function () use ($app) {
+$app->post('/feed/uploadFeedVideo', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location', 'video')));
     $username = $app->request->post('username');
     $title = $app->request->post('title');
@@ -98,7 +106,7 @@ $app->post('/Feed/Uploadfeedvideo', function () use ($app) {
     $response = $feedController->Uploadfeedvideo($username, $title, $description, $location, $video);
     echoRespnse(200, $response);
 });
-$app->post('/Feed/Feedupvote', function () use ($app) {
+$app->post('/feed/feedUpvote', function () use ($app) {
     verifyRequiredParams((array('username', 'feed_id')));
     $username = $app->request->post('username');
     $feedid = $app->request->post('feed_id');
@@ -107,7 +115,7 @@ $app->post('/Feed/Feedupvote', function () use ($app) {
     $response = $feedController->Feedupvote($username, $feedid,1,0);
     echoRespnse(200, $response);
 });
-$app->post('/Feed/Feeddownvote', function () use ($app) {
+$app->post('/feed/feedDownvote', function () use ($app) {
     verifyRequiredParams((array('username', 'feed_id')));
     $username = $app->request->post('username');
     $feedid = $app->request->post('feed_id');

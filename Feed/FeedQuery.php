@@ -16,7 +16,7 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from Feed where location='" . $location . "' ");
+		$stmt = mysqli_query($this->conn, "select * from feed where location='" . $location . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
@@ -32,7 +32,7 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from Feed where usename='" . $username . "' ");
+		$stmt = mysqli_query($this->conn, "select * from feed where username='" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
@@ -48,7 +48,7 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from Feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
+		$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "upvotes Found";
@@ -62,7 +62,7 @@ class FeedQuery
 			$response["message"] = "upvote Not found";
 			$response["error mess"] = mysqli_error($this->conn);
 		}
-		$stmt = mysqli_query($this->conn, "select * from Feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
+		$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "upvotes Found";
@@ -84,7 +84,7 @@ class FeedQuery
 		$response = array();
 		$image_id = uniqid($img);
 		$feedid = uniqid($image_id);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( usename ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
 		if ($stmt) {
 			$stmt = mysqli_query($this->conn, "INSERT INTO feed_images (  image_url ) VALUES ('" . $img . "') ");
 			if ($stmt) {
@@ -108,7 +108,7 @@ class FeedQuery
 		$response = array();
 		$video_id = uniqid($video);
 		$feedid = uniqid($video_id);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( usename ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
 		if ($stmt) {
 			$stmt = mysqli_query($this->conn, "INSERT INTO feed_videos (  video_url ) VALUES ('" . $video . "') ");
 			if ($stmt) {

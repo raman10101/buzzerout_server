@@ -1,0 +1,6 @@
+1) Correct Feed Upload API -> Make differnet Api for Image Upload
+2) Fetch All Feeds
+3) Clear All Feeds
+4) Clear Feeds By Location
+5) Clear Feeds Of Username
+6) Collab Feed+ Image + Video + Votes + (Tags)
