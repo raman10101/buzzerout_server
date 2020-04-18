@@ -19,6 +19,11 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchfeedbyusername($username);
     }
+    public function Fetchvotesonpost($feedid)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->Fetchvotesonpost($feedid);
+    }
     public function Uploadfeedimage($username,$title,$description,$location,$img)
     {
         $feedQuery = new FeedQuery();
@@ -33,5 +38,10 @@ class FeedImp
     {
         $feedQuery = new FeedQuery();
         return $feedQuery->Feedupvote($username, $feedid,$up,$down);
+    }
+    public function Fetchallimageoffeed($feedid)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->Fetchallimageoffeed($feedid);
     }
 }

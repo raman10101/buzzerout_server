@@ -60,6 +60,13 @@ $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     $response = $feedController->Fetchfeedbyusername($username);
     echoRespnse(200, $response);
 });
+$app->post('/Feed/Fetchvotesonpost', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $feedid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->Fetchvotesonpost($feedid);
+    echoRespnse(200, $response);
+});
 // upload image to feed
 $app->post('/Feed/Uploadfeedimage', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location', 'img')));

@@ -21,6 +21,16 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Fetchfeedbyusername($username);
 	}
+	public function Fetchvotesonpost($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->Fetchvotesonpost($feedid);
+	}
+	public function Fetchallimageoffeed($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->Fetchallimageoffeed($feedid);
+	}
 	// Fetch Feed By Email
 	public function Uploadfeedimage($username,$title,$description,$location,$img)
 	{
