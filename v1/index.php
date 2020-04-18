@@ -57,7 +57,7 @@ $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     verifyRequiredParams((array('username')));
     $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->Fetchfeedbylocation($username);
+    $response = $feedController->Fetchfeedbyusername($username);
     echoRespnse(200, $response);
 });
 // upload image to feed
@@ -93,7 +93,7 @@ $app->post('/Feed/Feedupvote', function () use ($app) {
     $response = $feedController->Feedupvote($username, $feedid,1,0);
     echoRespnse(200, $response);
 });
-$app->post('/Feed/Feedupvote', function () use ($app) {
+$app->post('/Feed/Feeddownvote', function () use ($app) {
     verifyRequiredParams((array('username', 'feed_id')));
     $username = $app->request->post('username');
     $feedid = $app->request->post('feed_id');
