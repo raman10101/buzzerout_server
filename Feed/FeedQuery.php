@@ -32,7 +32,7 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from Feed where location='" . $username . "' ");
+		$stmt = mysqli_query($this->conn, "select * from Feed where usename='" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
@@ -40,6 +40,7 @@ class FeedQuery
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
+			$response["error mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -53,15 +54,14 @@ class FeedQuery
 			$stmt = mysqli_query($this->conn, "INSERT INTO feed_images (  image_url ) VALUES ('" . $img . "') ");
 			if ($stmt) {
 				$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images_mapper ( feed_id ,  image_id ) VALUES ('" . $feedid . "','" . $image_id . "') ");
+				$response["error"]=false;
 				$response["message image"] = "image uploaded";
 			} else {
 				$response["error"] = true;
 				$response["message"] = mysqli_error($this->conn);
 			}
 
-			$response["error"] = false;
 			$response["message feed"] = "Feed uploaded";
-			$response["Feed"] = mysqli_fetch_assoc($stmt);
 		} else {
 			$response["error"] = true;
 			$response["message"] = mysqli_error($this->conn);
@@ -77,14 +77,14 @@ class FeedQuery
 		if ($stmt) {
 			$stmt = mysqli_query($this->conn, "INSERT INTO feed_videos (  video_url ) VALUES ('" . $video . "') ");
 			if ($stmt) {
+				$response["error"] = false;
 				$response["message video"] = "video uploaded";
 			} else {
 				$response["error"] = true;
 				$response["message"] = mysqli_error($this->conn);
 			}
-			$response["error"] = false;
+			
 			$response["message feed"] = "Feed uploaded";
-			$response["Feed"] = mysqli_fetch_assoc($stmt);
 		} else {
 			$response["error"] = true;
 			$response["message"] = mysqli_error($this->conn);
@@ -102,7 +102,6 @@ class FeedQuery
 			$response["message feed"] = "Feed upvoted";}
 			if($up==0 && $down==1){
 				$response["message feed"] = "Feed downvoted";}
-			$response["Feed"] = mysqli_fetch_assoc($stmt);
 		} else {
 			$response["error"] = true;
 			$response["message"] = mysqli_error($this->conn);
