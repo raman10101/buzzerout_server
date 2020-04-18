@@ -47,8 +47,7 @@ $app->post('/user/login',function() use($app){
     $username = $app->request->post('username');
     $password = $app->request->post('password');
     $userController = new UserController();
-    $check_email_response = validateEmail($username);
-    if ($check_email_response['error']){
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL)){
         $response = $userController->loginUserWithUsername($username,$password);
     }
     else{

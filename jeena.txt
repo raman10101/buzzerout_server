@@ -1,0 +1,4 @@
+1- In Rgister Service - Check for Same Email (Register as well as User)
+    1- Register (True) : TimeStamp to be increased , same id to be used, link generate again. Mail
+    2- User (True) : Cannot Signup (Same Email Cannot Make Two Accounts)
+    
