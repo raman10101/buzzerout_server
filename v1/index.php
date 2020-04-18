@@ -48,8 +48,6 @@ $app->post('/user/login',function() use($app){
     echoRespnse(200,$response);
 });
 
-
-
 // feed controller
 // feed by location 
 $app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
@@ -59,6 +57,7 @@ $app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
     $response = $feedController->Fetchfeedbylocation($location);
     echoRespnse(200, $response);
 });
+
 // feed by user 
 $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     verifyRequiredParams((array('username')));
@@ -67,6 +66,7 @@ $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     $response = $feedController->Fetchfeedbyusername($username);
     echoRespnse(200, $response);
 });
+
 // upload image to feed
 $app->post('/Feed/Uploadfeedimage', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location', 'img')));
