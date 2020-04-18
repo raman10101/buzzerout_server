@@ -9,11 +9,11 @@ $stmt = mysqli_query($conn, "select valid_till from register where activation_li
 if(mysqli_num_rows($stmt) > 0){
     // check for the expiry of the activation link.
     $old_date = mysqli_fetch_assoc($stmt);
-    $old_date_Timestamp = strtotime((string)$old_date);
+    $old_date_Timestamp = strtotime($old_date);
 
-    $current_date_Timestamp = (string)time();
+    $current_date_Timestamp = time();
     
-    if ($current_date_Timestamp - $old_date_Timestamp < 518400){
+    if ($current_date_Timestamp > $old_date){
         // Link not expired
 
         // Add Enrty to User Table

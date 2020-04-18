@@ -10,6 +10,11 @@ class RegisterService{
 		$registerImp = new RegisterImp();
 		return $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
     }   
+    
+    public function allUsersToRegister(){
+		$registerImp = new RegisterImp();
+		return $registerImp->allUsersToRegister();
+    }   
 }
 
 ?>

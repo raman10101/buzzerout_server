@@ -10,6 +10,11 @@ class RegisterImp{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->registerUser($first_name,$last_name,$username, $email, $password);
 	}
+	
+	public function allUsersToRegister(){
+		$registerQuery = new RegisterQuery();
+		return $registerQuery->allUsersToRegister();
+	}
 
 }
 

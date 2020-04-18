@@ -9,6 +9,12 @@ class RegisterController{
 		$registerService = new RegisterService();
 		return $registerService->registeruser($first_name,$last_name,$username, $email, $password);
 	}	
+
+	
+	public function allUsersToRegister(){
+		$registerService = new RegisterService();
+		return $registerService->allUsersToRegister();
+	}
 }
 
 ?>
