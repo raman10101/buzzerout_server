@@ -13,7 +13,7 @@ class UserController{
 	
 	public function loginUserWithEmail($username,  $password){
 		$userService = new UserService();
-		return $userService->($username,  $password);
+		return $userService->loginUserWithEmail($username,  $password);
 	}
 	// Fethc User By Username
 

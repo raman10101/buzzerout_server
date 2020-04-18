@@ -15,28 +15,19 @@ require '../libs/Slim/Slim.php';
 
 $app = new \Slim\Slim();
 /*
-User Controller
 */
-// $app->post('/user/register', function () use ($app) {
-//     verifyRequiredParams((array('username', 'firstname', 'lastname', 'email', 'password')));
-//     $first_name = $app->request->post('firstname');
-//     $last_name = $app->request->post('lastname');
-//     $username = $app->request->post('username');
-//     $email = $app->request->post('email');
-//     $password = $app->request->post('password');
-//     $userController = new UserController();
-//     $response = $userController->registerUser($first_name, $last_name, $username, $email, $password);
-//     echoRespnse(200, $response);
-// });
-$app->post('/user/login', function () use ($app) {
-    verifyRequiredParams((array('username', 'password')));
+$app->post('/user/register', function () use ($app) {
+    verifyRequiredParams((array('username', 'firstname', 'lastname', 'email', 'password')));
+    $first_name = $app->request->post('firstname');
+    $last_name = $app->request->post('lastname');
     $username = $app->request->post('username');
+    $email = $app->request->post('email');
     $password = $app->request->post('password');
-
     $registerController = new RegisterController();
-    $response = $registerController->registerUser($first_name,$last_name,$username, $email, $password);
-    echoRespnse(200,$response);
+    $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password);
+    echoRespnse(200, $response);
 });
+
 $app->post('/user/login',function() use($app){
     verifyRequiredParams((array('username','password')));
     $username = $app->request->post('username');
@@ -51,11 +42,6 @@ $app->post('/user/login',function() use($app){
     echoRespnse(200,$response);
 });
 
-=======
-    $userController = new UserController();
-    $response = $userController->loginUser($username, $password);
-    echoRespnse(200, $response);
-});
 
 // feed controller
 // feed by location 
