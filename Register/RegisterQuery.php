@@ -83,9 +83,10 @@ class RegisterQuery
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "select *  FROM register ");
+		$match = 0;
 		if (mysqli_num_rows($stmt) > 0) {
 			// check for the duplication of the username!!!
-			$match = 0;
+			
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				if ($row['username'] == $username){
 					$match = 1;
