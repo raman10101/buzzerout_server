@@ -17,7 +17,7 @@ $app = new \Slim\Slim();
 /*
 */
 $app->post('/user/register', function () use ($app) {
-    verifyRequiredParams((array('username', 'firstname', 'lastname', 'email', 'password')));
+    verifyRequiredParams((array('username', 'firstname', 'email', 'password')));
     $first_name = $app->request->post('firstname');
     $last_name = $app->request->post('lastname');
     $username = $app->request->post('username');
@@ -25,6 +25,12 @@ $app->post('/user/register', function () use ($app) {
     $password = $app->request->post('password');
     $registerController = new RegisterController();
     $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password);
+    echoRespnse(200, $response);
+});
+
+$app->post('/register/allUsersToRegister', function () use ($app) {
+    $registerController = new RegisterController();
+    $response = $registerController->allUsersToRegister();
     echoRespnse(200, $response);
 });
 
@@ -42,7 +48,6 @@ $app->post('/user/login',function() use($app){
     echoRespnse(200,$response);
 });
 
-
 // feed controller
 // feed by location 
 $app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
@@ -52,19 +57,13 @@ $app->post('/Feed/Fetchfeedbylocation', function () use ($app) {
     $response = $feedController->Fetchfeedbylocation($location);
     echoRespnse(200, $response);
 });
+
 // feed by user 
 $app->post('/Feed/Fetchfeedbyusername', function () use ($app) {
     verifyRequiredParams((array('username')));
     $username = $app->request->post('username');
     $feedController = new FeedController();
     $response = $feedController->Fetchfeedbyusername($username);
-    echoRespnse(200, $response);
-});
-$app->post('/Feed/Fetchvotesonpost', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
-    $feedid = $app->request->post('feed_id');
-    $feedController = new FeedController();
-    $response = $feedController->Fetchvotesonpost($feedid);
     echoRespnse(200, $response);
 });
 // upload image to feed
