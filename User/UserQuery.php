@@ -66,7 +66,7 @@ class UserQuery
 	{
 		$response = array();
         $stmt = mysqli_query($this->conn, "DELETE FROM users;");
-		if(mysqli_num_rows($stmt) > 0){  
+		if($stmt){  
             $response["error"] = false;
             $response["message"] = "All cleared.";
         }

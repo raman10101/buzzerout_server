@@ -232,7 +232,7 @@ class FeedQuery
 		}
 		return $response;
 	}
-	public function     Uploadfeed($username, $title, $description, $location)
+	public function  Uploadfeed($username, $title, $description, $location)
 
 	{
 		$response = array();

@@ -9,6 +9,7 @@ class RegisterService{
     public function registerUser($first_name,$last_name,$username, $email, $password){
       $registerImp = new RegisterImp();
       $response = $registerImp->fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password);
+      // To Add Check in User Table Also
       if ($response['error'] == false){
         return $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
       }

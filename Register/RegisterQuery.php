@@ -64,6 +64,10 @@ class RegisterQuery
 		$stmt = mysqli_query($this->conn,"select * from users where email='".$email."'");
 		if(mysqli_num_rows($stmt) > 0){
 			$response["error"] = true;
+			$response["users"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["users"],$row);
+			}
 			$response["message"] = "An Account is already present by the the same email.";
 		}
 		else{
@@ -71,6 +75,10 @@ class RegisterQuery
 			if(mysqli_num_rows($stmt2) > 0){
 				$stmt2 = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', lastname= '" . $last_name . "', username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
 				$response["error"] = true;
+				$response["users"] = array();
+				while($row = mysqli_fetch_assoc($stmt2)){
+				array_push($response["users"],$row);
+			}
 				$response["message"] = "User is found in register table with same email , so the link is activated again!!!";
 			}
 			else{
@@ -104,8 +112,8 @@ class RegisterQuery
 	public function clearRegister()
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "DELETE FROM register;");
-		if(mysqli_num_rows($stmt) > 0){  
+        $stmt = mysqli_query($this->conn, "DELETE FROM register");
+		if($stmt){  
             $response["error"] = false;
             $response["message"] = "All cleared.";
         }
