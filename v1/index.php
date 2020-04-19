@@ -160,12 +160,12 @@ $app->post('/feed/feedDownvote', function () use ($app) {
 });
 
 
-$app->post('/feed/fetchVotesOnPost', function () use ($app) {
+$app->post('/feed/fetchVotesOnFeed', function () use ($app) {
     verifyRequiredParams((array('feed_id')));
     $feedid = $app->request->post('feed_id');
 
     $feedController = new FeedController();
-    $response = $feedController->Fetchvotesonpost($feedid);
+    $response = $feedController->Fetchvotesonfeed($feedid);
     echoRespnse(200, $response);
 });
 
@@ -199,6 +199,22 @@ $app->post('/feed/clearFeedByUsername', function () use ($app) {
 });
 
 
+$app->post('/feed/fetchAllVideoOfFeed', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $feedid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->Fetchallvideooffeed($feedid);
+    echoRespnse(200, $response);
+});
+
+
+$app->post('/feed/fetchAllImageOfFeed', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $feedid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->Fetchallimageoffeed($feedid);
+    echoRespnse(200, $response);
+});
 
 
 

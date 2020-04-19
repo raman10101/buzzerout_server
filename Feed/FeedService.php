@@ -10,17 +10,31 @@ class FeedService
     public function Fetchfeedbylocation($location)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchfeedbylocation($location);
+        $feedService= new FeedService();
+        $response=$feedImp->Fetchfeedbylocation($location);
+        for($i=0;$i<count($response["Feed"]);$i++)
+        {
+            $feedid=$response["Feed"][$i]["feed_id"];
+            $response["Feed"][$i]["detail"]=$feedService->Fetchfeedinfo($feedid);
+        }
+        return $response;
     }
     public function Fetchfeedbyusername($username)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchfeedbyusername($username);
+        $feedService= new FeedService();
+        $response=$feedImp->Fetchfeedbyusername($username);
+        for($i=0;$i<count($response["Feed"]);$i++)
+        {
+            $feedid=$response["Feed"][$i]["feed_id"];
+            $response["Feed"][$i]["detail"]=$feedService->Fetchfeedinfo($feedid);
+        }
+        return $response;
     }
-    public function Fetchvotesonpost($feedid)
+    public function Fetchvotesonfeed($feedid)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchvotesonpost($feedid);
+        return $feedImp->Fetchvotesonfeed($feedid);
     }
 
     public function Uploadfeedimage($feed_id, $img)
@@ -46,7 +60,14 @@ class FeedService
     public function fetchAllFeed()
     {
         $feedImp = new FeedImp();
-        return $feedImp->fetchAllFeed();
+        $feedService= new FeedService();
+        $response=$feedImp->fetchAllFeed();
+        for($i=0;$i<count($response["Feed"]);$i++)
+        {
+            $feedid=$response["Feed"][$i]["feed_id"];
+            $response["Feed"][$i]["detail"]=$feedService->Fetchfeedinfo($feedid);
+        }
+        return $response;
     }
     public function clearAllFeed()
     {
@@ -110,5 +131,27 @@ class FeedService
         else{
             return $temp;
         }
+    }
+    public function Fetchallvideooffeed($feedid)
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->Fetchallvideooffeed($feedid);
+    }
+    public function Fetchfeedinfo($feedid)
+    {
+        $feedImp = new FeedImp();
+        $response=array();
+        $temp=$feedImp->Fetchallimageoffeed($feedid);
+        if($temp["error"]==false){
+        $response["all image link"]=$temp["image link"];}
+        $temp=$feedImp->Fetchallvideooffeed($feedid);
+        if($temp["error"]==false){
+        $response["all video link"]=$temp["video link"];}
+        $temp=$feedImp->Fetchvotesonfeed($feedid);
+        if($temp["error"]==false){
+        $response["upvote list"]=$temp["upvote list"];
+        $response["downvote list"]=$temp["downvote list"];}
+        $response["info msg"]="all info provided";
+        return $response;
     }
 }

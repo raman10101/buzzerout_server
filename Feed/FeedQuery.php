@@ -50,12 +50,12 @@ class FeedQuery
 		}
 		return $response;
 	}
-	public function Fetchvotesonpost($feedid)
+	public function Fetchvotesonfeed($feedid)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
-			$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
+			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["error"] = false;
 				$response["upvote message"] = "upvotes Found";
@@ -68,7 +68,7 @@ class FeedQuery
 				$response["upvote message"] = "upvote Not found";
 				$response["upvote error mess"] = mysqli_error($this->conn);
 			}
-			$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
+			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["error"] = false;
 				$response["downvote message"] = "downvote Found";
@@ -154,19 +154,20 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from feed_image_mapper where feed_id='" . $feedid . "' ");
+		$stmt = mysqli_query($this->conn, "select * from feed_images_mapper where feed_id='" . $feedid . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["image link"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				$stmt2 = mysqli_query($this->conn, "select image_url from feed_image where id='" . $row["image_id"] . "' ");
+				$stmt2 = mysqli_query($this->conn, "select image_url from feed_images where id='" . $row["image_id"] . "' ");
 				while ($row2 = (mysqli_fetch_assoc($stmt2))) {
 					array_push($response["image link"], $row2);
 				}
+				$response["message"]="feed images found";
 			}
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not found";
+			$response["message"] = "no feed image found";
 			$response["error mess"] = mysqli_error($this->conn);
 		}
 		return $response;
@@ -178,9 +179,9 @@ class FeedQuery
 		$stmt = mysqli_query($this->conn, "select * from feed ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
-			$response["feed"] = array();
+			$response["Feed"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["feed"], $row);
+				array_push($response["Feed"], $row);
 			}
 		} else {
 			$response["error"] = true;
@@ -248,7 +249,25 @@ class FeedQuery
 		}
 		return $response;
 	}
+	public function Fetchallvideooffeed($feedid)
+	{
+		$response = array();
 
+		$stmt = mysqli_query($this->conn, "select video_url from feed_videos where feed_id='" . $feedid . "' ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Feed Found";
+			$response["video link"] = array();
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["video link"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not found";
+		}
+		return $response;
+	}
+	
 
 	//delete (index not written)
 	// feed delete 
