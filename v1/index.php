@@ -16,7 +16,12 @@ require '../libs/Slim/Slim.php';
 $app = new \Slim\Slim();
 /*
 */
-$app->post('/user/register', function () use ($app) {
+
+//Register Controller
+
+
+
+$app->post('/register/registerUser', function () use ($app) {
     verifyRequiredParams((array('username', 'firstname', 'email', 'password')));
     $first_name = $app->request->post('firstname');
     $last_name = $app->request->post('lastname');
@@ -42,6 +47,15 @@ $app->post('/register/allUsersToRegister', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/register/clearRegister', function () use ($app) {
+    $registerController = new RegisterController();
+    $response = $registerController->clearRegister();
+    echoRespnse(200, $response);
+});
+
+
+
+// User Controller
 $app->post('/user/login',function() use($app){
     verifyRequiredParams((array('username','password')));
     $username = $app->request->post('username');
@@ -56,6 +70,19 @@ $app->post('/user/login',function() use($app){
     echoRespnse(200,$response);
 });
 
+$app->post('/user/fetchUserByUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userController = new UserController();
+    $response = $userController->fetchUserByUsername($username);
+    echoRespnse(200, $response);
+});
+
+$app->post('/user/clearUser', function () use ($app) {
+    $userController = new UserController();
+    $response = $userController->clearUser();
+    echoRespnse(200, $response);
+});
 // feed controller
 
 

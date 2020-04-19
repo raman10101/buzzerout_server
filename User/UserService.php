@@ -15,6 +15,16 @@ class UserService{
         $userImp = new UserImp();
 		return $userImp->loginUserWithEmail($username,  $password);
     }
+    
+    public function fetchUserByUsername($username){
+		$userImp = new UserImp();
+		return $userImp->fetchUserByUsername($username);
+	}
+    
+    public function clearUser(){
+        $userImp = new UserImp();
+		return $userImp->clearUser();
+    }
 
 }
 

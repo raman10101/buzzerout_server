@@ -15,6 +15,15 @@ class UserImp{
         $userQuery = new UserQuery();
 		return $userQuery->loginUserWithEmail($username,  $password);
     }
+    
+    public function fetchUserByUsername($username){
+		$userQuery = new UserQuery();
+		return $userQuery->fetchUserByUsername($username);
+	}
+    public function clearUser(){
+        $userQuery = new UserQuery();
+		return $userQuery->clearUser();
+    }
 
 }
 
