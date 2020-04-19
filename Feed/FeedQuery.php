@@ -21,8 +21,8 @@ class FeedQuery
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
 			$response["Feed"] = array();
-			while ($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["Feed"],$row);
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["Feed"], $row);
 			}
 		} else {
 			$response["error"] = true;
@@ -40,8 +40,8 @@ class FeedQuery
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
 			$response["Feed"] = array();
-			while ($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["Feed"],$row);
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["Feed"], $row);
 			}
 		} else {
 			$response["error"] = true;
@@ -89,47 +89,42 @@ class FeedQuery
 		return $response;
 	}
 
-	public function Uploadfeedimage($username, $title, $description, $location,  $img)
+	public function Uploadfeedimage($feed_id, $img)
 	{
 		$response = array();
-		$image_id = uniqid($img);
-		$feedid = uniqid($image_id);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images ( image_url ) VALUES ('".$img."')");
 		if ($stmt) {
-			$stmt = mysqli_query($this->conn, "INSERT INTO feed_images (  image_url ) VALUES ('" . $img . "') ");
-			if ($stmt) {
-				$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images_mapper ( feed_id ,  image_id ) VALUES ('" . $feedid . "','" . $image_id . "') ");
-				$response["error"] = false;
-				$response["message image"] = "image uploaded";
-			} else {
+			$stmt = mysqli_query($this->conn, "SELECT *  FROM  feed_images  WHERE image_url='".$img."'");
+			if (mysqli_num_rows($stmt) > 0){
+				$row = mysqli_fetch_assoc($stmt);
+				$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images_mapper ( feed_id ,  image_id ) VALUES ('".$feed_id."','".$row["id"]."') ");
+				if($stmt){
+					$response["error"] = false;
+					$response["message"]="image uploaded";
+				}else{
+					$response["error"] = true;
+					$response["tag"]="mapper no updated";
+					$response["message"] = mysqli_error($this->conn);
+				}
+			}else {
 				$response["error"] = true;
+				$response["tag"]="cannot fetch the img_url";
 				$response["message"] = mysqli_error($this->conn);
 			}
-
-			$response["message feed"] = "Feed uploaded";
-		} else {
-			$response["error"] = true;
-			$response["message"] = mysqli_error($this->conn);
-		}
+			} else {
+				$response["error"] = true;
+				$response["tag"]="image_url no updated";
+				$response["message"] = mysqli_error($this->conn);
+			}
 		return $response;
 	}
-	public function Uploadfeedvideo($username, $title, $description, $location, $video)
+	public function Uploadfeedvideo( $feedid,$video)
 	{
 		$response = array();
-		$video_id = uniqid($video);
-		$feedid = uniqid($video_id);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_videos ( feed_id ,  video_url ) VALUES ('".$feedid."','".$video."') ");
 		if ($stmt) {
-			$stmt = mysqli_query($this->conn, "INSERT INTO feed_videos (  video_url ) VALUES ('" . $video . "') ");
-			if ($stmt) {
-				$response["error"] = false;
-				$response["message video"] = "video uploaded";
-			} else {
-				$response["error"] = true;
-				$response["message"] = mysqli_error($this->conn);
-			}
-
-			$response["message feed"] = "Feed uploaded";
+			$response["error"] = false;
+			$response["message"]="video uploaded";
 		} else {
 			$response["error"] = true;
 			$response["message"] = mysqli_error($this->conn);
@@ -199,7 +194,7 @@ class FeedQuery
 		$response = array();
 		$stmt = mysqli_query($this->conn, "truncate table feed_votes");
 		if ($stmt) {
-			$stmt = mysqli_query($this->conn, "truncate table feed_image");
+			$stmt = mysqli_query($this->conn, "truncate table feed_images");
 			if ($stmt) {
 				$stmt = mysqli_query($this->conn, "truncate table feed_images_mapper");
 				if ($stmt) {
@@ -236,7 +231,23 @@ class FeedQuery
 		}
 		return $response;
 	}
+	public function     Uploadfeed($username, $title, $description, $location)
 
+	{
+		$response = array();
+		$feedid=uniqid($username);
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,  timestamp ) VALUES ('".$feedid."','" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) " );
+		if ($stmt) {
+			$response["error"] = false;
+			$response["feed id"]=$feedid;
+			$response["message"]="feed uploded";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not found";
+			$response["error mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 
 
 	//delete (index not written)
@@ -244,10 +255,10 @@ class FeedQuery
 	public function feedDelete($feedid)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "delete from feed where location = '".$feedid."' ");
+		$stmt = mysqli_query($this->conn, "delete from feed where feed_id = '" . $feedid . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"]="all feed deleted";
+			$response["message"] = "all feed deleted";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
@@ -259,22 +270,22 @@ class FeedQuery
 	public function imgdelete($feedid)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "select from feed_images_mapper where feed_id = '".$feedid."' ");
-		if ($stmt) {
+		$stmt = mysqli_query($this->conn, "select * from feed_images_mapper where feed_id = '" . $feedid . "' ");
+		if (mysqli_num_rows($stmt) > 0) {
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				$image_id=$row["image_id"];
-				$stmt2=mysqli_query($this->conn, "delete from feed_images where id='".$image_id."' ");
-				if($stmt2){
-					$stmt2=mysqli_query($this->conn, "delete from feed_images_mapper where image_id='".$image_id."' and feed_id='".$feedid."' ");
-					if($stmt2){
-						$response["error"]=false;
-						$response["message"]="all images deleted";
-					}else {
+				$image_id = $row["image_id"];
+				$stmt2 = mysqli_query($this->conn, "delete from feed_images where id='" . $image_id . "' ");
+				if ($stmt2) {
+					$stmt2 = mysqli_query($this->conn, "delete from feed_images_mapper where  image_id='" . $image_id . "' ");
+					if ($stmt2) {
+						$response["error"] = false;
+						$response["message"] = "all images deleted";
+					} else {
 						$response["error"] = true;
 						$response["message"] = "feed_images_mapper delete error";
 						$response["error mess"] = mysqli_error($this->conn);
 					}
-				}else {
+				} else {
 					$response["error"] = true;
 					$response["message"] = "feed_images delete error";
 					$response["error mess"] = mysqli_error($this->conn);
@@ -282,7 +293,7 @@ class FeedQuery
 			}
 		} else {
 			$response["error"] = true;
-			$response["message"] = "feed_images_mapper error";
+			$response["message"] = "no image for feed";
 			$response["error mess"] = mysqli_error($this->conn);
 		}
 		return $response;
@@ -291,10 +302,10 @@ class FeedQuery
 	public function videoDelete($feedid)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "delete from feed_video where feed_id = '".$feedid."' ");
+		$stmt = mysqli_query($this->conn, "delete from feed_videos where feed_id = '" . $feedid . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"]="all feed video deleted";
+			$response["message"] = "all feed video deleted";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
@@ -306,10 +317,10 @@ class FeedQuery
 	public function voteDelete($feedid)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "delete from feed_votes where feed_id = '".$feedid."' ");
+		$stmt = mysqli_query($this->conn, "delete from feed_votes where feed_id = '" . $feedid . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"]="all feed votes deleted";
+			$response["message"] = "all feed votes deleted";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";

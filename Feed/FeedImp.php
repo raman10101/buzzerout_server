@@ -24,15 +24,15 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchvotesonpost($feedid);
     }
-    public function Uploadfeedimage($username,$title,$description,$location,$img)
+    public function Uploadfeedimage($feed_id, $img)
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->Uploadfeedimage($username,$title,$description,$location,$img);
+        return $feedQuery->Uploadfeedimage($feed_id, $img);
     }
-    public function Uploadfeedvideo($username, $title, $description, $location, $video)
+    public function Uploadfeedvideo( $feedid,$video)
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->Uploadfeedvideo($username, $title, $description, $location, $video);
+        return $feedQuery->Uploadfeedvideo( $feedid,$video);
     }
     public function Feedupvote($username, $feedid,$up,$down)
     {
@@ -54,6 +54,18 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->clearAllFeed();
     }
+    public function     Uploadfeed($username, $title, $description, $location)
+
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->    Uploadfeed($username, $title, $description, $location)
+        ;
+    }
+
+
+
+
+
     // delete funcion 
     public function feedDelete($feedid)
     {
