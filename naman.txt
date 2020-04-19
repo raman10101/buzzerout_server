@@ -1,3 +1,9 @@
 1) Start Service Extra funcitonality Usng Controller
 2) Correct the response indexes
 3) Limit upvoting of feeds by user
+4) User Profile-
+    1) Update Username 
+    2) Update Password
+    3) Upadte Name
+    4) Cannot Change Email
+    5) What other information can be there in Profile. (Discuss)
