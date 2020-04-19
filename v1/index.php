@@ -125,6 +125,35 @@ $app->post('/feed/feedDownvote', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+
+$app->post('/feed/fetchVotesOnPost', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $feedid = $app->request->post('feed_id');
+
+    $feedController = new FeedController();
+    $response = $feedController->Fetchvotesonpost($feedid);
+    echoRespnse(200, $response);
+});
+
+$app->post('/feed/fetchAllFeed', function () use ($app) {
+    $feedController = new FeedController();
+    $response = $feedController->fetchAllFeed();
+    echoRespnse(200, $response);
+});
+
+$app->post('/feed/clearAllFeed', function () use ($app) {
+    $feedController = new FeedController();
+    $response = $feedController->clearAllFeed();
+    echoRespnse(200, $response);
+});
+
+
+
+
+
+
+
+
 /**
  * Verifying required params posted or not
  */
