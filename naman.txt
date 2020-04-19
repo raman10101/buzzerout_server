@@ -4,3 +4,7 @@
 4) Clear Feeds By Location
 5) Clear Feeds Of Username
 6) Collab Feed+ Image + Video + Votes + (Tags)
+
+
+
+**check servise clear feed by location

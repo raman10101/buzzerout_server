@@ -43,4 +43,24 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchallimageoffeed($feedid);
     }
+    public function fetchAllFeed()
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->fetchAllFeed();
+    }
+    public function clearAllFeed()
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->clearAllFeed();
+    }
+    public function clearFeedByLocation($location)
+    {
+        $feedImp = new FeedImp();
+        $response=array();
+        $temp=$feedImp->Fetchfeedbylocation($location);
+        for ($i=0; $i < count($temp["Feed"]); $i++) { 
+            # code...
+
+        }
+    }
 }

@@ -44,4 +44,35 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchallimageoffeed($feedid);
     }
+    public function fetchAllFeed()
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->fetchAllFeed();
+    }
+    public function clearAllFeed()
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->clearAllFeed();
+    }
+    // delete funcion 
+    public function feedDelete($feedid)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->feedDelete($feedid);
+    }
+    public function imgdelete($feedid)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->imgdelete($feedid);
+    }
+    public function videoDelete($feedid)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->videoDelete($feedid);
+    }
+    public function voteDelete($feedid)
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->voteDelete($feedid);
+    }
 }

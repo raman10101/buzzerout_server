@@ -47,4 +47,19 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Feedupvote($username, $feedid,$up,$down);
 	}
+	public function fetchAllFeed()
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchAllFeed();
+	}
+	public function clearAllFeed()
+	{
+		$feedService = new FeedService();
+		return $feedService->clearAllFeed();
+	}
+	public function clearFeedByLocation($location)
+	{
+		$feedService = new FeedService();
+		return $feedService->clearFeedByLocation($location);
+	}
 }
