@@ -12,24 +12,32 @@ class FeedService
         $feedImp = new FeedImp();
         $feedService= new FeedService();
         $response=$feedImp->Fetchfeedbylocation($location);
+        if($response["false"]){
         for($i=0;$i<count($response["Feed"]);$i++)
         {
             $feedid=$response["Feed"][$i]["feed_id"];
             $response["Feed"][$i]["detail"]=$feedService->Fetchfeedinfo($feedid);
         }
-        return $response;
+        return $response;}
+        else{
+            return $response;
+        }
     }
     public function Fetchfeedbyusername($username)
     {
         $feedImp = new FeedImp();
         $feedService= new FeedService();
         $response=$feedImp->Fetchfeedbyusername($username);
+        if($response["error"]==false){
         for($i=0;$i<count($response["Feed"]);$i++)
         {
             $feedid=$response["Feed"][$i]["feed_id"];
             $response["Feed"][$i]["detail"]=$feedService->Fetchfeedinfo($feedid);
         }
-        return $response;
+        return $response;}
+        else{
+            return $response;
+        }
     }
     public function Fetchvotesonfeed($feedid)
     {
@@ -62,12 +70,16 @@ class FeedService
         $feedImp = new FeedImp();
         $feedService= new FeedService();
         $response=$feedImp->fetchAllFeed();
+        if($response["error"]==false){
         for($i=0;$i<count($response["Feed"]);$i++)
         {
             $feedid=$response["Feed"][$i]["feed_id"];
             $response["Feed"][$i]["detail"]=$feedService->Fetchfeedinfo($feedid);
         }
-        return $response;
+        return $response;}
+        else{
+            return $response;
+        }
     }
     public function clearAllFeed()
     {
