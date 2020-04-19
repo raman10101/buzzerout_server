@@ -32,15 +32,15 @@ class FeedController
 		return $feedService->Fetchallimageoffeed($feedid);
 	}
 	// Fetch Feed By Email
-	public function Uploadfeedimage($username,$title,$description,$location,$img)
+	public function Uploadfeedimage($feed_id, $img)
 	{
 		$feedService = new FeedService();
-		return $feedService->Uploadfeedimage($username,$title,$description,$location,$img);
+		return $feedService->Uploadfeedimage($feed_id, $img);
 	}
-	public function Uploadfeedvideo($username, $title, $description, $location, $video)
+	public function Uploadfeedvideo( $feedid,$video)
 	{
 		$feedService = new FeedService();
-		return $feedService->Uploadfeedvideo($username, $title, $description, $location, $video);
+		return $feedService->Uploadfeedvideo( $feedid,$video);
 	}
 	public function Feedupvote($username, $feedid,$up,$down)
 	{
@@ -61,5 +61,15 @@ class FeedController
 	{
 		$feedService = new FeedService();
 		return $feedService->clearFeedByLocation($location);
+	}
+	public function Uploadfeed($username, $title, $description, $location)
+	{
+		$feedService = new FeedService();
+		return $feedService->Uploadfeed($username, $title, $description, $location);
+	}
+	public function clearFeedByusername($username)
+	{
+		$feedService = new FeedService();
+		return $feedService->clearFeedByusername($username);
 	}
 }

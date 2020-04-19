@@ -109,28 +109,35 @@ $app->post('/feed/fetchFeedByUsername', function () use ($app) {
     $response = $feedController->Fetchfeedbyusername($username);
     echoRespnse(200, $response);
 });
-// upload image to feed
-$app->post('/feed/uploadFeedImage', function () use ($app) {
-    verifyRequiredParams((array('username', 'title', 'description', 'location', 'img')));
+
+
+// upload feed 
+$app->post('/feed/uploadFeed', function () use ($app) {
+    verifyRequiredParams((array('username', 'title', 'description', 'location')));
     $username = $app->request->post('username');
     $title = $app->request->post('title');
     $description = $app->request->post('description');
     $location = $app->request->post('location');
-    $img = $app->request->post('img');
     $feedController = new FeedController();
-    $response = $feedController->Uploadfeedimage($username, $title, $description, $location, $img);
+    $response = $feedController->Uploadfeed($username, $title, $description, $location);
     echoRespnse(200, $response);
 });
-
+// upload image to feed
+$app->post('/feed/uploadFeedImage', function () use ($app) {
+    verifyRequiredParams((array('feed_id', 'img')));
+    $feed_id = $app->request->post('feed_id');
+    $img = $app->request->post('img');
+    $feedController = new FeedController();
+    $response = $feedController->Uploadfeedimage($feed_id, $img);
+    echoRespnse(200, $response);
+});
+// feed video upload 
 $app->post('/feed/uploadFeedVideo', function () use ($app) {
-    verifyRequiredParams((array('username', 'title', 'description', 'location', 'video')));
-    $username = $app->request->post('username');
-    $title = $app->request->post('title');
-    $description = $app->request->post('description');
-    $location = $app->request->post('location');
+    verifyRequiredParams((array('feed_id', 'video')));
+    $feedid = $app->request->post('feed_id');
     $video = $app->request->post('video');
     $feedController = new FeedController();
-    $response = $feedController->Uploadfeedvideo($username, $title, $description, $location, $video);
+    $response = $feedController->Uploadfeedvideo( $feedid,$video);
     echoRespnse(200, $response);
 });
 $app->post('/feed/feedUpvote', function () use ($app) {
@@ -174,8 +181,22 @@ $app->post('/feed/clearAllFeed', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/feed/clearFeedByLocation', function () use ($app) {
+    verifyRequiredParams((array('location')));
+    $location = $app->request->post('location');
+    $feedController = new FeedController();
+    $response = $feedController->clearFeedByLocation($location);
+    echoRespnse(200, $response);
+});
 
 
+$app->post('/feed/clearFeedByUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $feedController = new FeedController();
+    $response = $feedController->clearFeedByusername($username);
+    echoRespnse(200, $response);
+});
 
 
 
