@@ -43,4 +43,39 @@ class UserQuery
 		}
 		return $response;
 	}
+
+	public function fetchUserByUsername($username)
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM users where username = '". $username. "'");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "User found.";
+            $response['user'] = $stmt->fetch_assoc();
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No user found.";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
+	public function clearUser()
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "DELETE FROM users;");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "All cleared.";
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "clearing not succesfull";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }

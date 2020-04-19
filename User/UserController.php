@@ -15,11 +15,16 @@ class UserController{
 		$userService = new UserService();
 		return $userService->loginUserWithEmail($username,  $password);
 	}
-	// Fethc User By Username
-
-	// Fetch User By Email
-
-	// Fetch all feeds of a user by Username
+	
+	public function fetchUserByUsername($username){
+		$userService = new UserService();
+		return $userService->fetchUserByUsername($username);
+	}
+	
+	public function clearUser(){
+		$userService = new UserService();
+		return $userService->clearUser();
+	}
 
 }
 

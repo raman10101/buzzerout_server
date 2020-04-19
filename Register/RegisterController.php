@@ -9,7 +9,6 @@ class RegisterController{
 		$registerService = new RegisterService();
 		return $registerService->registeruser($first_name,$last_name,$username, $email, $password);
 	}	
-
 	
 	public function allUsersToRegister(){
 		$registerService = new RegisterService();
@@ -19,6 +18,11 @@ class RegisterController{
 	public function checkUsername($username){
 		$registerService = new RegisterService();
 		return $registerService->checkUsername($username);
+	}
+	
+	public function clearRegister(){
+		$registerService = new RegisterService();
+		return $registerService->clearRegister();
 	}
 }
 
