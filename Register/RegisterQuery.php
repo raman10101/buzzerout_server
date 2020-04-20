@@ -61,6 +61,32 @@ class RegisterQuery
 	public function fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password)
 	{
 		$response = array();
+		$stmt = mysqli_query($this->conn,"select * from register where email='".$email."'");
+		if(mysqli_num_rows($stmt) > 0){
+			$stmt2 = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', lastname= '" . $last_name . "', username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
+			if($stmt2){
+				$response["error"] = true;
+				$response["message"] = "User is found in register table with same email , so the link is activated again!!!";
+			}
+			else{
+				$response["error"] = true;
+				$response["message"] = "User is found in register table with same email ,but the link validity is not updated!!";
+				$response["info"] = mysqli_error($this->conn);
+			}
+			$response["users"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["users"],$row);
+			}
+		}
+		else{
+			$response["error"] = false;
+		}	
+		return $response;
+	}
+	
+	public function fetchUserByEmail($email)
+	{
+		$response = array();
 		$stmt = mysqli_query($this->conn,"select * from users where email='".$email."'");
 		if(mysqli_num_rows($stmt) > 0){
 			$response["error"] = true;
@@ -71,20 +97,8 @@ class RegisterQuery
 			$response["message"] = "An Account is already present by the the same email.";
 		}
 		else{
-			$stmt2 = mysqli_query($this->conn,"select * from register where email='".$email."'");
-			if(mysqli_num_rows($stmt2) > 0){
-				$stmt2 = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', lastname= '" . $last_name . "', username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
-				$response["error"] = true;
-				$response["users"] = array();
-				while($row = mysqli_fetch_assoc($stmt2)){
-				array_push($response["users"],$row);
-			}
-				$response["message"] = "User is found in register table with same email , so the link is activated again!!!";
-			}
-			else{
-				$response["error"] = false;
-			}
-		}				
+			$response["error"] = false;
+		}
 		return $response;
 	}
 	

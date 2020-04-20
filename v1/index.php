@@ -5,6 +5,7 @@ ini_set('display_errors', 'On');
 require_once '../User/UserController.php';
 require_once '../Register/RegisterController.php';
 require_once '../Feed/FeedController.php';
+require_once '../Comment/CommentController.php';
 require_once '../File/FileController.php';
 require_once '../Mail/MailController.php';
 require_once '../MessageBox/MessageBoxController.php';
@@ -75,6 +76,12 @@ $app->post('/user/fetchUserByUsername', function () use ($app) {
     $username = $app->request->post('username');
     $userController = new UserController();
     $response = $userController->fetchUserByUsername($username);
+    echoRespnse(200, $response);
+});
+
+$app->post('/user/fetchAllUsers', function () use ($app) {
+    $userController = new UserController();
+    $response = $userController->fetchAllUsers();
     echoRespnse(200, $response);
 });
 
@@ -215,6 +222,36 @@ $app->post('/feed/fetchAllImageOfFeed', function () use ($app) {
     $response = $feedController->Fetchallimageoffeed($feedid);
     echoRespnse(200, $response);
 });
+
+
+
+
+
+
+// Comments Controller
+
+$app->post('/comment/addComment', function () use ($app) {
+    verifyRequiredParams((array('feed_id',  'user_id', 'text')));
+    $feed_id = $app->request->post('feed_id');
+    $user_id = $app->request->post('user_id');
+    $text = $app->request->post('text');
+    $commentController = new CommentController();
+    $response = $commentController->addComment($feed_id,  $user_id, $text);
+    echoRespnse(200, $response);
+});
+
+$app->post('/comment/fetchAllComments', function () use ($app) {
+    $commentController = new CommentController();
+    $response = $commentController->fetchAllComments();
+    echoRespnse(200, $response);
+});
+
+$app->post('/comment/clearComment', function () use ($app) {
+    $commentController = new CommentController();
+    $response = $commentController->clearComment();
+    echoRespnse(200, $response);
+});
+
 
 
 

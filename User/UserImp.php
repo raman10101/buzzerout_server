@@ -19,7 +19,13 @@ class UserImp{
     public function fetchUserByUsername($username){
 		$userQuery = new UserQuery();
 		return $userQuery->fetchUserByUsername($username);
-	}
+    }
+    
+    public function fetchAllUsers(){
+		$userQuery = new UserQuery();
+		return $userQuery->fetchAllUsers();
+    }
+
     public function clearUser(){
         $userQuery = new UserQuery();
 		return $userQuery->clearUser();
