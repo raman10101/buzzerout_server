@@ -7,3 +7,9 @@
     3) Upadte Name
     4) Cannot Change Email
     5) What other information can be there in Profile. (Discuss)
+        a. address 
+        b. phone number
+        c. gender
+        d. age
+        e. DOB
+        f. work
