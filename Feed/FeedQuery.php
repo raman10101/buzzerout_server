@@ -58,33 +58,33 @@ class FeedQuery
 			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["error"] = false;
-				$response["upvote message"] = "upvotes Found";
-				$response["upvote list"] = array();
+				$response["upvote_message"] = "upvotes Found";
+				$response["upvote_list"] = array();
 				while ($row = mysqli_fetch_assoc($stmt)) {
-					array_push($response["upvote list"], $row);
+					array_push($response["upvote_list"], $row);
 				}
 			} else {
 				$response["error"] = true;
-				$response["upvote message"] = "upvote Not found";
-				$response["upvote error mess"] = mysqli_error($this->conn);
+				$response["upvote_message"] = "upvote Not found";
+				$response["upvote_error_mess"] = mysqli_error($this->conn);
 			}
 			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["error"] = false;
-				$response["downvote message"] = "downvote Found";
-				$response["downvote list"] = array();
+				$response["downvote_message"] = "downvote Found";
+				$response["downvote_list"] = array();
 				while ($row = mysqli_fetch_assoc($stmt)) {
-					array_push($response["downvote list"], $row);
+					array_push($response["downvote_list"], $row);
 				}
 			} else {
 				$response["error"] = true;
-				$response["downvote message"] = "no downvote found";
-				$response["downvote error mess"] = mysqli_error($this->conn);
+				$response["downvote_message"] = "no downvote found";
+				$response["downvote_error_mess"] = mysqli_error($this->conn);
 			}
 		} else {
 			$response["error"] = true;
-			$response["downvote message"] = "no votes found";
-			$response["downvote error mess"] = mysqli_error($this->conn);
+			$response["downvote_message"] = "no votes found";
+			$response["downvote_error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -92,39 +92,39 @@ class FeedQuery
 	public function Uploadfeedimage($feed_id, $img)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images ( image_url ) VALUES ('".$img."')");
+		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images ( image_url ) VALUES ('" . $img . "')");
 		if ($stmt) {
-			$stmt = mysqli_query($this->conn, "SELECT *  FROM  feed_images  WHERE image_url='".$img."'");
-			if (mysqli_num_rows($stmt) > 0){
+			$stmt = mysqli_query($this->conn, "SELECT *  FROM  feed_images  WHERE image_url='" . $img . "'");
+			if (mysqli_num_rows($stmt) > 0) {
 				$row = mysqli_fetch_assoc($stmt);
-				$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images_mapper ( feed_id ,  image_id ) VALUES ('".$feed_id."','".$row["id"]."') ");
-				if($stmt){
+				$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images_mapper ( feed_id ,  image_id ) VALUES ('" . $feed_id . "','" . $row["id"] . "') ");
+				if ($stmt) {
 					$response["error"] = false;
-					$response["message"]="image uploaded";
-				}else{
+					$response["message"] = "image uploaded";
+				} else {
 					$response["error"] = true;
-					$response["tag"]="mapper no updated";
+					$response["tag"] = "mapper no updated";
 					$response["message"] = mysqli_error($this->conn);
 				}
-			}else {
-				$response["error"] = true;
-				$response["tag"]="cannot fetch the img_url";
-				$response["message"] = mysqli_error($this->conn);
-			}
 			} else {
 				$response["error"] = true;
-				$response["tag"]="image_url no updated";
+				$response["tag"] = "cannot fetch the img_url";
 				$response["message"] = mysqli_error($this->conn);
 			}
+		} else {
+			$response["error"] = true;
+			$response["tag"] = "image_url no updated";
+			$response["message"] = mysqli_error($this->conn);
+		}
 		return $response;
 	}
-	public function Uploadfeedvideo( $feedid,$video)
+	public function Uploadfeedvideo($feedid, $video)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_videos ( feed_id ,  video_url ) VALUES ('".$feedid."','".$video."') ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_videos ( feed_id ,  video_url ) VALUES ('" . $feedid . "','" . $video . "') ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"]="video uploaded";
+			$response["message"] = "video uploaded";
 		} else {
 			$response["error"] = true;
 			$response["message"] = mysqli_error($this->conn);
@@ -134,19 +134,32 @@ class FeedQuery
 	public function Feedupvote($username, $feedid, $up, $down)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
-		if ($stmt) {
-
-			$response["error"] = false;
-			if ($up == 1 && $down == 0) {
-				$response["message feed"] = "Feed upvoted";
-			}
-			if ($up == 0 && $down == 1) {
-				$response["message feed"] = "Feed downvoted";
+		$stmt = mysqli_query($this->conn, "SELECT * FROM feed_votes WHERE feed_id='" . $feedid . "' and username='" . $username . "'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$stmt = mysqli_query($this->conn, "UPDATE feed_votes SET upvotes='" . $up . "' , downvotes='" . $down . "' WHERE feed_id='" . $feedid . "' and username='" . $username . "'");
+			if ($stmt) {
+				$response["error"] = false;
+				$response["message"] = "vote updated";
+			} else {
+				$response["error"] = true;
+				$response["message"] = "error in updating vote";
+				$response["info"] = mysqli_error($this->conn);
 			}
 		} else {
-			$response["error"] = true;
-			$response["message"] = mysqli_error($this->conn);
+			$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
+			if ($stmt) {
+
+				$response["error"] = false;
+				if ($up == 1 && $down == 0) {
+					$response["message_feed"] = "Feed upvoted";
+				}
+				if ($up == 0 && $down == 1) {
+					$response["message_feed"] = "Feed downvoted";
+				}
+			} else {
+				$response["error"] = true;
+				$response["message"] = mysqli_error($this->conn);
+			}
 		}
 		return $response;
 	}
@@ -157,13 +170,13 @@ class FeedQuery
 		$stmt = mysqli_query($this->conn, "select * from feed_images_mapper where feed_id='" . $feedid . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
-			$response["image link"] = array();
+			$response["image_link"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				$stmt2 = mysqli_query($this->conn, "select image_url from feed_images where id='" . $row["image_id"] . "' ");
 				while ($row2 = (mysqli_fetch_assoc($stmt2))) {
-					array_push($response["image link"], $row2);
+					array_push($response["image_link"], $row2);
 				}
-				$response["message"]="feed images found";
+				$response["message"] = "feed images found";
 			}
 		} else {
 			$response["error"] = true;
@@ -186,7 +199,7 @@ class FeedQuery
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -207,28 +220,28 @@ class FeedQuery
 							$response["message"] = "success fully truncate";
 						} else {
 							$response["error"] = true;
-							$response["message"] = "Feed Not found";
-							$response["error mess"] = mysqli_error($this->conn);
+							$response["message"] = "Feed Not deleted";
+							$response["error_mess"] = mysqli_error($this->conn);
 						}
 					} else {
 						$response["error"] = true;
-						$response["message"] = "Feed Not found";
-						$response["error mess"] = mysqli_error($this->conn);
+						$response["message"] = "Feed video Not found";
+						$response["error_mess"] = mysqli_error($this->conn);
 					}
 				} else {
 					$response["error"] = true;
-					$response["message"] = "Feed Not found";
-					$response["error mess"] = mysqli_error($this->conn);
+					$response["message"] = "Feed image mapper Not found";
+					$response["error_mess"] = mysqli_error($this->conn);
 				}
 			} else {
 				$response["error"] = true;
-				$response["message"] = "Feed Not found";
-				$response["error mess"] = mysqli_error($this->conn);
+				$response["message"] = "Feed images  Not found";
+				$response["error_mess"] = mysqli_error($this->conn);
 			}
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not found";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["message"] = "Feed votes Not found";
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -236,16 +249,16 @@ class FeedQuery
 
 	{
 		$response = array();
-		$feedid=uniqid($username);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,  timestamp ) VALUES ('".$feedid."','" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) " );
+		$feedid = uniqid($username);
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["feed id"]=$feedid;
-			$response["message"]="feed uploded";
+			$response["feed_id"] = $feedid;
+			$response["message"] = "feed uploded";
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not found";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["message"] = "Feed Not inserted";
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -257,17 +270,17 @@ class FeedQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
-			$response["video link"] = array();
+			$response["video_link"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["video link"], $row);
+				array_push($response["video_link"], $row);
 			}
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not found";
+			$response["message"] = "Feed video Not found";
 		}
 		return $response;
 	}
-	
+
 
 	//delete (index not written)
 	// feed delete 
@@ -281,7 +294,7 @@ class FeedQuery
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -302,18 +315,18 @@ class FeedQuery
 					} else {
 						$response["error"] = true;
 						$response["message"] = "feed_images_mapper delete error";
-						$response["error mess"] = mysqli_error($this->conn);
+						$response["error_mess"] = mysqli_error($this->conn);
 					}
 				} else {
 					$response["error"] = true;
 					$response["message"] = "feed_images delete error";
-					$response["error mess"] = mysqli_error($this->conn);
+					$response["error_mess"] = mysqli_error($this->conn);
 				}
 			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "no image for feed";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -328,7 +341,7 @@ class FeedQuery
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -343,7 +356,7 @@ class FeedQuery
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
-			$response["error mess"] = mysqli_error($this->conn);
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}

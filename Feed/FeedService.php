@@ -105,10 +105,10 @@ class FeedService
     {
         $feedController = new FeedController();
         $response = array();
-        $response["feed delete"] = $feedController->feedDelete($feedid);
-        $response["feed image delete"] = $feedController->imgdelete($feedid);
-        $response["feed video delete"] = $feedController->videoDelete($feedid);
-        $response["feed vote delete"] = $feedController->voteDelete($feedid);
+        $response["feed_delete"] = $feedController->feedDelete($feedid);
+        $response["feed_image_delete"] = $feedController->imgdelete($feedid);
+        $response["feed_video_delete"] = $feedController->videoDelete($feedid);
+        $response["feed_vote_delete"] = $feedController->voteDelete($feedid);
         return $response;
     }
 
@@ -157,16 +157,16 @@ class FeedService
         $response = array();
         $temp = $feedController->Fetchallimageoffeed($feedid);
         if ($temp["error"] == false) {
-            $response["images"] = $temp["image link"];
+            $response["images"] = $temp["image_link"];
         }
         $temp = $feedController->Fetchallvideooffeed($feedid);
         if ($temp["error"] == false) {
-            $response["videos"] = $temp["video link"];
+            $response["videos"] = $temp["video_link"];
         }
         $temp = $feedController->Fetchvotesonfeed($feedid);
         if ($temp["error"] == false) {
-            $response["upvotes"] = $temp["upvote list"];
-            $response["downvotes"] = $temp["downvote list"];
+            $response["upvotes"] = $temp["upvote_list"];
+            $response["downvotes"] = $temp["downvote_list"];
         }
         $response["info"] = "all info provided";
         return $response;
