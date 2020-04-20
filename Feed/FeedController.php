@@ -77,4 +77,36 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Fetchallvideooffeed($feedid);
 	}
+	public function Fetchfeedinfo($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->Fetchfeedinfo($feedid);
+	}
+	public function feedDelete($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->feedDelete($feedid);
+	}
+	public function imgdelete($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->imgdelete($feedid);
+	}
+	public function videoDelete($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->videoDelete($feedid);
+	}
+	public function voteDelete($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->voteDelete($feedid);
+	}
+	public function clearFeedByFeedId($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->clearFeedByFeedId($feedid);
+	}
 }
+
+
