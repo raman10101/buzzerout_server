@@ -19,7 +19,12 @@ class UserService{
     public function fetchUserByUsername($username){
 		$userImp = new UserImp();
 		return $userImp->fetchUserByUsername($username);
-	}
+    }
+    
+    public function fetchAllUsers(){
+		$userImp = new UserImp();
+		return $userImp->fetchAllUsers();
+    }
     
     public function clearUser(){
         $userImp = new UserImp();

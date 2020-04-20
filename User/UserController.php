@@ -21,6 +21,11 @@ class UserController{
 		return $userService->fetchUserByUsername($username);
 	}
 	
+	public function fetchAllUsers(){
+		$userService = new UserService();
+		return $userService->fetchAllUsers();
+	}
+	
 	public function clearUser(){
 		$userService = new UserService();
 		return $userService->clearUser();
