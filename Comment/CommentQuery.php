@@ -25,6 +25,7 @@ class CommentQuery
         else{
 			$response["error"] = true;
 			$response["message"] = "Comment not added";
+			$response["info"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
