@@ -11,6 +11,7 @@ require_once '../Mail/MailController.php';
 require_once '../MessageBox/MessageBoxController.php';
 require_once '../QueryBox/QueryBoxController.php';
 require_once '../Follow/FollowController.php';
+require_once '../Profile/ProfileController.php';
 require '../libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
@@ -307,6 +308,30 @@ $app->post('/follow/deleteUserConnections', function () use ($app) {
 $app->post('/follow/deleteAllFollow', function () use ($app) {
     $followController = new FollowController();
     $response = $followController->deleteAllFollow();
+    echoRespnse(200, $response);
+});
+
+
+// profile controller
+
+$app->post('/profile/deleteUserConnections', function () use ($app) {
+    verifyRequiredParams((array('username','address','mobile','gender','profile_image','timeline_image','dob')));
+    $username = $app->request->post('username');
+    $user_address = $app->request->post('address');
+    $user_mobile = $app->request->post('mobile');
+    $user_gender = $app->request->post('gender');
+    $user_profile_image = $app->request->post('profile_image');
+    $user_timeline_image = $app->request->post('timeline_image');
+    $user_dob = $app->request->post('dob');
+    $profileController = new ProfileController();
+    $response = $profileController->createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image);
+    echoRespnse(200, $response);
+});
+$app->post('/profile/fetchProfileOfUser', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $profileController = new ProfileController();
+    $response = $profileController->fetchProfileOfUser($username);
     echoRespnse(200, $response);
 });
 
