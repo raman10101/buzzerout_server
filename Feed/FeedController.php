@@ -37,15 +37,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Uploadfeedimage($feed_id, $img);
 	}
-	public function Uploadfeedvideo( $feedid,$video)
+	public function Uploadfeedvideo($feedid, $video)
 	{
 		$feedService = new FeedService();
-		return $feedService->Uploadfeedvideo( $feedid,$video);
+		return $feedService->Uploadfeedvideo($feedid, $video);
 	}
-	public function Feedupvote($username, $feedid,$up,$down)
+	public function Feedupvote($username, $feedid, $up, $down)
 	{
 		$feedService = new FeedService();
-		return $feedService->Feedupvote($username, $feedid,$up,$down);
+		return $feedService->Feedupvote($username, $feedid, $up, $down);
 	}
 	public function fetchAllFeed()
 	{
@@ -108,5 +108,3 @@ class FeedController
 		return $feedService->clearFeedByFeedId($feedid);
 	}
 }
-
-

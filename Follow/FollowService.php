@@ -12,25 +12,25 @@ class FollowService
         $followImp = new FollowImp();
         return $followImp->fetchFollowing($username);
     }
-    public function newFollow($by,$to)
+    public function newFollow($by, $to)
     {
         $followImp = new FollowImp();
-        return $followImp->newFollow($by,$to);
+        return $followImp->newFollow($by, $to);
     }
     public function fetchFollowedBy($username)
     {
         $followImp = new FollowImp();
         return $followImp->fetchFollowedBy($username);
     }
-    public function deleteFollowing($username,$to)
+    public function deleteFollowing($username, $to)
     {
         $followImp = new FollowImp();
-        return $followImp->deleteFollowing($username,$to);
+        return $followImp->deleteFollowing($username, $to);
     }
-    public function deleteFollower($username,$by)
+    public function deleteFollower($username, $by)
     {
         $followImp = new FollowImp();
-        return $followImp->deleteFollower($username,$by);
+        return $followImp->deleteFollower($username, $by);
     }
     public function deleteUserConnections($username)
     {

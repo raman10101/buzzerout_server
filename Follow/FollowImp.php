@@ -14,30 +14,29 @@ class FollowImp
         $FollowQuery = new FollowQuery();
         return $FollowQuery->fetchFollowing($username);
     }
-    public function newFollow($by,$to)
+    public function newFollow($by, $to)
     {
         $FollowQuery = new FollowQuery();
-        return $FollowQuery->newFollow($by,$to);
+        return $FollowQuery->newFollow($by, $to);
     }
     public function fetchFollowedBy($username)
     {
         $FollowQuery = new FollowQuery();
         return $FollowQuery->fetchFollowedBy($username);
     }
-    public function deleteFollowing($username,$to)
+    public function deleteFollowing($username, $to)
     {
         $FollowQuery = new FollowQuery();
-        return $FollowQuery->deleteFollowing($username,$to);
+        return $FollowQuery->deleteFollowing($username, $to);
     }
-    public function deleteFollower($username,$by)
+    public function deleteFollower($username, $by)
     {
         $FollowQuery = new FollowQuery();
-        return $FollowQuery->deleteFollower($username,$by);
+        return $FollowQuery->deleteFollower($username, $by);
     }
     public function deleteUserConnections($username)
     {
         $FollowQuery = new FollowQuery();
         return $FollowQuery->deleteUserConnections($username);
     }
-    
 }

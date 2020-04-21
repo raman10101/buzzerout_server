@@ -30,7 +30,8 @@ class FeedService
                 $feedid = $response["Feed"][$i]["feed_id"];
                 $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid);
             }
-        } return $response;
+        }
+        return $response;
     }
     public function Fetchvotesonfeed($feedid)
     {
@@ -68,7 +69,7 @@ class FeedService
                 $feedid = $response["Feed"][$i]["feed_id"];
                 $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid);
             }
-        } 
+        }
         return $response;
     }
     public function clearAllFeed()
@@ -128,7 +129,8 @@ class FeedService
                 $response[$feedid] = array();
                 $response[$feedid] = $feedController->clearFeedByFeedId($feedid);
             }
-        } return $response;
+        }
+        return $response;
     }
     public function clearFeedByusername($username)
     {
@@ -143,8 +145,8 @@ class FeedService
                 $response[$feedid] = array();
                 $response[$feedid] = $feedController->clearFeedByFeedId($feedid);
             }
-           
-        } return $response;
+        }
+        return $response;
     }
     public function Fetchallvideooffeed($feedid)
     {

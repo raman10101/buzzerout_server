@@ -57,18 +57,17 @@ $app->post('/register/clearRegister', function () use ($app) {
 
 
 // User Controller
-$app->post('/user/login',function() use($app){
-    verifyRequiredParams((array('username','password')));
+$app->post('/user/login', function () use ($app) {
+    verifyRequiredParams((array('username', 'password')));
     $username = $app->request->post('username');
     $password = $app->request->post('password');
     $userController = new UserController();
-    if (!filter_var($username, FILTER_VALIDATE_EMAIL)){
-        $response = $userController->loginUserWithUsername($username,$password);
+    if (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $response = $userController->loginUserWithUsername($username, $password);
+    } else {
+        $response = $userController->loginUserWithEmail($username, $password);
     }
-    else{
-        $response = $userController->loginUserWithEmail($username,$password);
-    }
-    echoRespnse(200,$response);
+    echoRespnse(200, $response);
 });
 
 $app->post('/user/fetchUserByUsername', function () use ($app) {
@@ -144,7 +143,7 @@ $app->post('/feed/uploadFeedVideo', function () use ($app) {
     $feedid = $app->request->post('feed_id');
     $video = $app->request->post('video');
     $feedController = new FeedController();
-    $response = $feedController->Uploadfeedvideo( $feedid,$video);
+    $response = $feedController->Uploadfeedvideo($feedid, $video);
     echoRespnse(200, $response);
 });
 $app->post('/feed/feedUpvote', function () use ($app) {
@@ -153,7 +152,7 @@ $app->post('/feed/feedUpvote', function () use ($app) {
     $feedid = $app->request->post('feed_id');
 
     $feedController = new FeedController();
-    $response = $feedController->Feedupvote($username, $feedid,1,0);
+    $response = $feedController->Feedupvote($username, $feedid, 1, 0);
     echoRespnse(200, $response);
 });
 $app->post('/feed/feedDownvote', function () use ($app) {
@@ -162,7 +161,7 @@ $app->post('/feed/feedDownvote', function () use ($app) {
     $feedid = $app->request->post('feed_id');
 
     $feedController = new FeedController();
-    $response = $feedController->Feedupvote($username, $feedid,0,1);
+    $response = $feedController->Feedupvote($username, $feedid, 0, 1);
     echoRespnse(200, $response);
 });
 
@@ -264,7 +263,7 @@ $app->post('/follow/addComment', function () use ($app) {
     $by = $app->request->post('followed_by');
     $to = $app->request->post('followes_to');
     $followController = new FollowController();
-    $response = $followController->newFollow($by,$to);
+    $response = $followController->newFollow($by, $to);
     echoRespnse(200, $response);
 });
 $app->post('/follow/fetchFollowing', function () use ($app) {
@@ -282,19 +281,19 @@ $app->post('/follow/fetchFollowedBy', function () use ($app) {
     echoRespnse(200, $response);
 });
 $app->post('/follow/deleteFollowing', function () use ($app) {
-    verifyRequiredParams((array('username','user_to_deleted')));
+    verifyRequiredParams((array('username', 'user_to_deleted')));
     $username = $app->request->post('username');
-    $to=$app->request->post('user_to_deleted');
+    $to = $app->request->post('user_to_deleted');
     $followController = new FollowController();
-    $response = $followController->deleteFollowing($username,$to);
+    $response = $followController->deleteFollowing($username, $to);
     echoRespnse(200, $response);
 });
 $app->post('/follow/deleteFollowing', function () use ($app) {
-    verifyRequiredParams((array('username','follower_username')));
+    verifyRequiredParams((array('username', 'follower_username')));
     $username = $app->request->post('username');
-    $by=$app->request->post('follower_username');
+    $by = $app->request->post('follower_username');
     $followController = new FollowController();
-    $response = $followController->deleteFollower($username,$by);
+    $response = $followController->deleteFollower($username, $by);
     echoRespnse(200, $response);
 });
 $app->post('/follow/deleteUserConnections', function () use ($app) {
