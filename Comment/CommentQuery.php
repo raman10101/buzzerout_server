@@ -16,8 +16,7 @@ class CommentQuery
 	{
 		$response = array();
 
-        $stmt = mysqli_query($this->conn, "insert into comments(feed_id,user_id,text,timestamp)
-        values('" . $feed_id . "','" . $user_id . "','" . $text . ", NOW()");
+        $stmt = mysqli_query($this->conn, "insert into comments (feed_id,user_id,text,timestamp) values('".$feed_id."','".$user_id."','".$text."',NOW())");
         if($stmt){
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
@@ -25,6 +24,10 @@ class CommentQuery
         else{
 			$response["error"] = true;
 			$response["message"] = "Comment not added";
+			$response["feed_id"] = $feed_id;
+			$response["user_id"] = $user_id;
+			$response["text"] = $text;
+			$response["info"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
