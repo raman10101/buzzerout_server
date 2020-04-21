@@ -29,15 +29,15 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Uploadfeedimage($feed_id, $img);
     }
-    public function Uploadfeedvideo( $feedid,$video)
+    public function Uploadfeedvideo($feedid, $video)
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->Uploadfeedvideo( $feedid,$video);
+        return $feedQuery->Uploadfeedvideo($feedid, $video);
     }
-    public function Feedupvote($username, $feedid,$up,$down)
+    public function Feedupvote($username, $feedid, $up, $down)
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->Feedupvote($username, $feedid,$up,$down);
+        return $feedQuery->Feedupvote($username, $feedid, $up, $down);
     }
     public function Fetchallimageoffeed($feedid)
     {
@@ -58,7 +58,7 @@ class FeedImp
 
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->    Uploadfeed($username, $title, $description, $location);
+        return $feedQuery->Uploadfeed($username, $title, $description, $location);
     }
     public function   Fetchallvideooffeed($feedid)
 
@@ -66,7 +66,7 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchallvideooffeed($feedid);
     }
-   
+
 
 
 

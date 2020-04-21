@@ -8,8 +8,15 @@
     4) Cannot Change Email
     5) What other information can be there in Profile. (Discuss)
         a. address 
-        b. phone number
+        b. phone_number
         c. gender
         d. age
         e. DOB
-        f. work
+
+
+//new work
+1) follow following
+    a. fetch user follow by user
+    b. fetch user following
+    c. new follow 
+    d. unfollow
