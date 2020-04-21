@@ -255,6 +255,62 @@ $app->post('/comment/clearComment', function () use ($app) {
 
 
 
+
+
+
+//follow controller
+$app->post('/follow/addComment', function () use ($app) {
+    verifyRequiredParams((array('followed_by',  'followes_to')));
+    $by = $app->request->post('followed_by');
+    $to = $app->request->post('followes_to');
+    $followController = new FollowController();
+    $response = $followController->newFollow($by,$to);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/fetchFollowing', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $followController = new FollowController();
+    $response = $followController->fetchFollowing($username);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/fetchFollowedBy', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $followController = new FollowController();
+    $response = $followController->fetchFollowedBy($username);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteFollowing', function () use ($app) {
+    verifyRequiredParams((array('username','user_to_deleted')));
+    $username = $app->request->post('username');
+    $to=$app->request->post('user_to_deleted');
+    $followController = new FollowController();
+    $response = $followController->deleteFollowing($username,$to);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteFollowing', function () use ($app) {
+    verifyRequiredParams((array('username','follower_username')));
+    $username = $app->request->post('username');
+    $by=$app->request->post('follower_username');
+    $followController = new FollowController();
+    $response = $followController->deleteFollower($username,$by);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteUserConnections', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $followController = new FollowController();
+    $response = $followController->deleteUserConnections($username);
+    echoRespnse(200, $response);
+});
+
+
+
+
+
+
+
 /**
  * Verifying required params posted or not
  */
