@@ -37,4 +37,9 @@ class FollowService
         $followImp = new FollowImp();
         return $followImp->deleteUserConnections($username);
     }
+    public function deleteAllFollow()
+    {
+        $followImp = new FollowImp();
+        return $followImp->deleteAllFollow();
+    }
 }

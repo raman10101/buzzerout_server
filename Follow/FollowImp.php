@@ -39,4 +39,9 @@ class FollowImp
         $FollowQuery = new FollowQuery();
         return $FollowQuery->deleteUserConnections($username);
     }
+    public function deleteAllFollow()
+    {
+        $FollowQuery = new FollowQuery();
+        return $FollowQuery->deleteAllFollow();
+    }
 }

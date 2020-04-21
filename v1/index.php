@@ -10,6 +10,7 @@ require_once '../File/FileController.php';
 require_once '../Mail/MailController.php';
 require_once '../MessageBox/MessageBoxController.php';
 require_once '../QueryBox/QueryBoxController.php';
+require_once '../Follow/FollowController.php';
 require '../libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
@@ -258,7 +259,7 @@ $app->post('/comment/clearComment', function () use ($app) {
 
 
 //follow controller
-$app->post('/follow/addComment', function () use ($app) {
+$app->post('/follow/newFollow', function () use ($app) {
     verifyRequiredParams((array('followed_by',  'followes_to')));
     $by = $app->request->post('followed_by');
     $to = $app->request->post('followes_to');
@@ -288,7 +289,7 @@ $app->post('/follow/deleteFollowing', function () use ($app) {
     $response = $followController->deleteFollowing($username, $to);
     echoRespnse(200, $response);
 });
-$app->post('/follow/deleteFollowing', function () use ($app) {
+$app->post('/follow/deleteFollower', function () use ($app) {
     verifyRequiredParams((array('username', 'follower_username')));
     $username = $app->request->post('username');
     $by = $app->request->post('follower_username');
@@ -301,6 +302,11 @@ $app->post('/follow/deleteUserConnections', function () use ($app) {
     $username = $app->request->post('username');
     $followController = new FollowController();
     $response = $followController->deleteUserConnections($username);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteAllFollow', function () use ($app) {
+    $followController = new FollowController();
+    $response = $followController->deleteAllFollow();
     echoRespnse(200, $response);
 });
 

@@ -41,7 +41,7 @@ class FollowQuery
 			$response["count"] = mysqli_num_rows($stmt);
 			$response["list_of_following"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["Follow"], $row);
+				array_push($response["list_of_following"], $row);
 			}
 		} else {
 			$response["error"] = true;
@@ -59,9 +59,9 @@ class FollowQuery
 			$response["error"] = false;
 			$response["message"] = "Follow Found";
 			$response["count"] = mysqli_num_rows($stmt);
-			$response["list_of_following"] = array();
+			$response["list_of_followers"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["list_of_following"], $row);
+				array_push($response["list_of_followers"], $row);
 			}
 		} else {
 			$response["error"] = true;
@@ -115,6 +115,21 @@ class FollowQuery
 				$response["message"] = "Follow Not found";
 				$response["info"] = mysqli_error($this->conn);
 			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Follow Not found";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function deleteAllFollow()
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "TRUNCATE TABLE user_follow");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "all follow deleted";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Follow Not found";

@@ -40,4 +40,9 @@ class FollowController
 		$followService = new FollowService();
 		return $followService->deleteUserConnections($username);
 	}
+	public function deleteAllFollow()
+	{
+		$followService = new FollowService();
+		return $followService->deleteAllFollow();
+	}
 }
