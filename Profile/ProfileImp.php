@@ -19,4 +19,14 @@ class ProfileImp
         $ProfileQuery = new ProfileQuery();
         return $ProfileQuery->fetchProfileOfUser($username);
     }
+    public function updateMobileAddress($username, $mobile, $address)
+    {
+        $ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->updateMobileAddress($username, $mobile, $address);
+    }
+    public function updateDobGender($username, $dob, $gender)
+    {
+        $ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->updateDobGender($username, $dob, $gender);
+    }
 }

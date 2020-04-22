@@ -7,8 +7,6 @@ class FeedController
 	{
 		require_once dirname(__FILE__) . '/FeedService.php';
 	}
-
-
 	// Fethc Feed By Feedname
 	public function Fetchfeedbylocation($location)
 	{
