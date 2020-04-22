@@ -314,7 +314,7 @@ $app->post('/follow/deleteAllFollow', function () use ($app) {
 
 // profile controller
 
-$app->post('/profile/deleteUserConnections', function () use ($app) {
+$app->post('/profile/createProfile', function () use ($app) {
     verifyRequiredParams((array('username','address','mobile','gender','profile_image','timeline_image','dob')));
     $username = $app->request->post('username');
     $user_address = $app->request->post('address');
