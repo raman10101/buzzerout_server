@@ -418,6 +418,105 @@ $app->post('/detail/updateUserDetail', function () use ($app) {
 });
 // places detail
 
+// UsersWork Controller
+
+
+$app->post('/usersWork/addWork', function () use ($app) {
+    verifyRequiredParams((array('username',  'work_place', 'work_profile')));
+    $username = $app->request->post('username');
+    $work_place = $app->request->post('work_place');
+    $work_profile = $app->request->post('work_profile');
+    $usersworkController = new UsersWorkController();
+    $response = $usersworkController->addWork($username,  $work_place, $work_profile);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersWork/fetchWorkByUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $usersworkController = new UsersWorkController();
+    $response = $usersworkController->fetchWorkByUsername($username);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersWork/deleteWorkDetailsById', function () use ($app) {
+    verifyRequiredParams((array('id')));
+    $id = $app->request->post('id');
+    $usersworkController = new UsersWorkController();
+    $response = $usersworkController->deleteWorkDetailsById($id);
+    echoRespnse(200, $response);
+});
+
+
+// UsersCollege Controller
+
+
+$app->post('/usersCollege/addCollege', function () use ($app) {
+    verifyRequiredParams((array('username',  'college_name', 'college_place')));
+    $username = $app->request->post('username');
+    $college_name = $app->request->post('college_name');
+    $college_place = $app->request->post('college_place');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->addCollege($username,  $college_name, $college_place);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersCollege/fetchCollegeByUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->fetchCollegeByUsername($username);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersCollege/deleteCollegeDetailsById', function () use ($app) {
+    verifyRequiredParams((array('id')));
+    $id = $app->request->post('id');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->deleteCollegeDetailsById($id);
+    echoRespnse(200, $response);
+});
+
+
+
+
+
+
+// UsersSocial Controller
+
+
+$app->post('/usersSocial/addSocialAccountDetails', function () use ($app) {
+    verifyRequiredParams((array('username',  'user_facebook', 'user_twitter', 'user_google_plus', 'user_instagram', 'user_youtube')));
+    $username = $app->request->post('username');
+    $user_facebook = $app->request->post('user_facebook');
+    $user_twitter = $app->request->post('user_twitter');
+    $user_google_plus = $app->request->post('user_google_plus');
+    $user_instagram = $app->request->post('user_instagram');
+    $user_youtube = $app->request->post('user_youtube');
+    $userssocialController = new UsersSocialController();
+    $response = $userssocialController->addSocialAccountDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersSocial/fetchSocialDetailsByUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userssocialController = new UsersSocialController();
+    $response = $userssocialController->fetchSocialDetailsByUsername($username);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersSocial/deleteSocialDetailsById', function () use ($app) {
+    verifyRequiredParams((array('id')));
+    $id = $app->request->post('id');
+    $userssocialController = new UsersSocialController();
+    $response = $userssocialController->deleteSocialDetailsById($id);
+    echoRespnse(200, $response);
+});
+
+
+
+
 $app->post('/places/addNewPlace', function () use ($app) {
     verifyRequiredParams((array('username','place_name','place_state')));
     $username = $app->request->post('username');
