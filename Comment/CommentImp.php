@@ -10,10 +10,30 @@ class CommentImp{
         $commentQuery = new CommentQuery();
 		return $commentQuery->addComment($feed_id,  $user_id, $text);
     }
+
+    public function editComment($feed_id,  $user_id, $text){
+      $commentQuery = new CommentQuery();
+    return $commentQuery->editComment($feed_id,  $user_id, $text);
+    }
+    
+    public function fetchCommentByFeed($feed_id){
+      $commentQuery = new CommentQuery();
+    return $commentQuery->fetchCommentByFeed($feed_id);
+    }
     
     public function fetchAllComments(){
 		$commentQuery = new CommentQuery();
 		return $commentQuery->fetchAllComments();
+    }
+    
+    public function deleteComment($id){
+      $commentQuery = new CommentQuery();
+      return $commentQuery->deleteComment($id);
+    }
+    
+    public function deleteCommentByFeedId($feed_id){
+      $commentQuery = new CommentQuery();
+    return $commentQuery->deleteCommentByFeedId($feed_id);
     }
 
     public function clearComment(){

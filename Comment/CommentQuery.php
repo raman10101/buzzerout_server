@@ -24,10 +24,44 @@ class CommentQuery
         else{
 			$response["error"] = true;
 			$response["message"] = "Comment not added";
-			$response["feed_id"] = $feed_id;
-			$response["user_id"] = $user_id;
-			$response["text"] = $text;
 			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+	public function editComment($feed_id,  $user_id, $text)
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "UPDATE comments SET text = '". $text."', modified = NOW() WHERE  feed_id = '".$feed_id."' AND user_id = '".$user_id."'");
+        if($stmt){
+			$response["error"] = false;
+			$response["message"] = "Comment edited";
+        }
+        else{
+			$response["error"] = true;
+			$response["message"] = "Comment not edited";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
+	public function fetchCommentByFeed($feed_id)
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '".$feed_id."'");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "Comments found.";
+            $response["comments"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["comments"],$row);
+			}
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No comment found.";
+            $response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -49,6 +83,40 @@ class CommentQuery
         {
 			$response["error"] = true;
             $response["message"] = "No comment found.";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
+	public function deleteComment($id)
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "DELETE FROM comments where id = '".$id."'");
+		if($stmt){  
+            $response["error"] = false;
+            $response["message"] = "comment deleted.";
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "not deleted";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
+	public function deleteCommentByFeedId($feed_id)
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "DELETE FROM comments where fedd_id = '".$feed_id."'");
+		if($stmt){  
+            $response["error"] = false;
+            $response["message"] = "Comments deleted.";
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "Not deleted.";
             $response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
