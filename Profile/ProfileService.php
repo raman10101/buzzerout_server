@@ -1,5 +1,7 @@
 <?php
 
+use Slim\Middleware\Flash;
+
 class ProfileService
 {
 
@@ -16,5 +18,27 @@ class ProfileService
     {
         $ProfileImp = new ProfileImp();
         return $ProfileImp->fetchProfileOfUser($username);
+    }
+    public function updateMobileAddress($username, $mobile, $address)
+    {
+        $ProfileImp = new ProfileImp();
+        $profileController=new ProfileController();
+        $response=$ProfileImp->updateMobileAddress($username, $mobile, $address);
+        if($response["error"]==false){
+            $temp=$profileController->fetchProfileOfUser($username);
+            $response["updated_detail"]=$temp["profile_detail"];
+        }
+        return $response;
+    }
+    public function updateDobGender($username, $dob, $gender)
+    {
+        $ProfileImp = new ProfileImp();
+        $profileController=new ProfileController();
+        $response=$ProfileImp->updateDobGender($username, $dob, $gender);
+        if($response["error"]==false){
+            $temp=$profileController->fetchProfileOfUser($username);
+            $response["updated_detail"]=$temp["profile_detail"];
+        }
+        return $response;
     }
 }
