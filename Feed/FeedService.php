@@ -6,6 +6,7 @@ class FeedService
     function __construct()
     {
         require_once dirname(__FILE__) . '/FeedImp.php';
+        require_once  './../Comment/CommentController.php';
     }
     public function Fetchfeedbylocation($location)
     {
@@ -110,9 +111,12 @@ class FeedService
         $response["feed_image_delete"] = $feedController->imgdelete($feedid);
         $response["feed_video_delete"] = $feedController->videoDelete($feedid);
         $response["feed_vote_delete"] = $feedController->voteDelete($feedid);
+
+        $commentController = new CommentController();
+        $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($feedid);
         return $response;
     }
-
+    
 
 
 
@@ -169,6 +173,12 @@ class FeedService
         if ($temp["error"] == false) {
             $response["upvotes"] = $temp["upvote_list"];
             $response["downvotes"] = $temp["downvote_list"];
+        }
+
+        $commentController = new CommentController();
+        $temp = $commentController->fetchCommentByFeed($feedid);
+        if ($temp["error"] == false) {
+            $response["comments"] = $temp["comments"];
         }
         $response["info"] = "all info provided";
         return $response;
