@@ -10,10 +10,30 @@ class CommentController{
 		$commentService = new CommentService();
 		return $commentService->addComment($feed_id,  $user_id, $text);
 	}
+
+	public function editComment($feed_id,  $user_id, $text){
+		$commentService = new CommentService();
+		return $commentService->editComment($feed_id,  $user_id, $text);
+	}
+	
+	public function fetchCommentByFeed($feed_id){
+		$commentService = new CommentService();
+		return $commentService->fetchCommentByFeed($feed_id);
+	}
 	
 	public function fetchAllComments(){
 		$commentService = new CommentService();
 		return $commentService->fetchAllComments();
+	}
+	
+	public function deleteComment($id){
+		$commentService = new CommentService();
+		return $commentService->deleteComment($id);
+	}
+	
+	public function deleteCommentByFeedId($feed_id){
+		$commentService = new CommentService();
+		return $commentService->deleteCommentByFeedId($feed_id);
 	}
 	
 	public function clearComment(){

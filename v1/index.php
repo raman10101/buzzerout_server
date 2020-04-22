@@ -241,9 +241,43 @@ $app->post('/comment/addComment', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/comment/editComment', function () use ($app) {
+    verifyRequiredParams((array('feed_id',  'user_id', 'text')));
+    $feed_id = $app->request->post('feed_id');
+    $user_id = $app->request->post('user_id');
+    $text = $app->request->post('text');
+    $commentController = new CommentController();
+    $response = $commentController->editComment($feed_id,  $user_id, $text);
+    echoRespnse(200, $response);
+});
+
+$app->post('/comment/fetchCommentByFeed', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $feed_id = $app->request->post('feed_id');
+    $commentController = new CommentController();
+    $response = $commentController->fetchCommentByFeed($feed_id);
+    echoRespnse(200, $response);
+});
+
 $app->post('/comment/fetchAllComments', function () use ($app) {
     $commentController = new CommentController();
     $response = $commentController->fetchAllComments();
+    echoRespnse(200, $response);
+});
+
+$app->post('/comment/deleteComment', function () use ($app) {
+    verifyRequiredParams((array('id')));
+    $id = $app->request->post('id');
+    $commentController = new CommentController();
+    $response = $commentController->deleteComment($id);
+    echoRespnse(200, $response);
+});
+
+$app->post('/comment/deleteCommentByFeedId', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $feed_id = $app->request->post('feed_id');
+    $commentController = new CommentController();
+    $response = $commentController->deleteCommentByFeedId($feed_id);
     echoRespnse(200, $response);
 });
 

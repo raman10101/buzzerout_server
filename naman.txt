@@ -1,22 +1,3 @@
-1) Start Service Extra funcitonality Usng Controller
-2) Correct the response indexes
-3) Limit upvoting of feeds by user
-4) User Profile-
-    1) Update Username 
-    2) Update Password
-    3) Upadte Name
-    4) Cannot Change Email
-    5) What other information can be there in Profile. (Discuss)
-        a. address 
-        b. phone_number
-        c. gender
-        d. age
-        e. DOB
-
-
-//new work
-1) follow following
-    a. fetch user follow by user
-    b. fetch user following
-    c. new follow 
-    d. unfollow
+1) Work on Profile Table
+2) Work on Places Table
+3) Work on Detail Table
