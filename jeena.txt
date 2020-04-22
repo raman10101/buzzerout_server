@@ -1,7 +1,7 @@
-
-    1) Divide API-fetchUserToRegisterByEmail in two
-    2) Users API = Fetch All Users
-    3) Comments Table Functionality-
-        1. Get All Comments
-        2. Clear Table
-        3. Add Comments
+1) Work on social Table
+    -> Chec For Already Submitted Username
+        -> If Submitted  > Update
+        -> If not submitted > create new
+        (Always all entries)
+2) Work on Work Table
+3) Work On College Table
