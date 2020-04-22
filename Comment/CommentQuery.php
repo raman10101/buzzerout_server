@@ -12,22 +12,7 @@ class CommentQuery
 		$this->conn = $db->connect();
 	}
 
-	public function addComment($feed_id,  $user_id, $text)
-	{
-		$response = array();
-
-        $stmt = mysqli_query($this->conn, "insert into comments (feed_id,user_id,text,timestamp) values('".$feed_id."','".$user_id."','".$text."',NOW())");
-        if($stmt){
-			$response["error"] = false;
-			$response["message"] = "Comment added!!";
-        }
-        else{
-			$response["error"] = true;
-			$response["message"] = "Comment not added";
-			$response["info"] = mysqli_error($this->conn);
-		}
-		return $response;
-	}
+	addWork($username,  $work_place, $work_profile)
 
 	public function editComment($feed_id,  $user_id, $text)
 	{
