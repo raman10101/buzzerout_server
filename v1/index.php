@@ -348,7 +348,7 @@ $app->post('/follow/deleteAllFollow', function () use ($app) {
 
 // profile controller
 
-$app->post('/profile/deleteUserConnections', function () use ($app) {
+$app->post('/profile/createProfile', function () use ($app) {
     verifyRequiredParams((array('username','address','mobile','gender','profile_image','timeline_image','dob')));
     $username = $app->request->post('username');
     $user_address = $app->request->post('address');
@@ -368,13 +368,72 @@ $app->post('/profile/fetchProfileOfUser', function () use ($app) {
     $response = $profileController->fetchProfileOfUser($username);
     echoRespnse(200, $response);
 });
+$app->post('/profile/updateMobileAddress', function () use ($app) {
+    verifyRequiredParams((array('username','mobile','address')));
+    $username = $app->request->post('username');
+    $mobile = $app->request->post('mobile');
+    $address = $app->request->post('address');
+    $profileController = new ProfileController();
+    $response = $profileController->updateMobileAddress($username, $mobile, $address);
+    echoRespnse(200, $response);
+});
+$app->post('/profile/updateMobileAddress', function () use ($app) {
+    verifyRequiredParams((array('username','dob','gender')));
+    $username = $app->request->post('username');
+    $dob = $app->request->post('dob');
+    $gender = $app->request->post('gender');
+    $profileController = new ProfileController();
+    $response = $profileController->updateDobGender($username, $dob, $gender);
+    echoRespnse(200, $response);
+});
 
+//detial conrtoller
 
+$app->post('/detail/updateMobileAddress', function () use ($app) {
+    verifyRequiredParams((array('username','about_you','other_name','fav_quote')));
+    $username = $app->request->post('username');
+    $about_you = $app->request->post('about_you');
+    $other_name = $app->request->post('other_name');
+    $fav_quote = $app->request->post('fav_quote');
+    $detailController = new UserdetailController();
+    $response = $detailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+    echoRespnse(200, $response);
+});
+$app->post('/detail/fetchUserDetail', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $detailController = new UserdetailController();
+    $response = $detailController->fetchUserDetail($username);
+    echoRespnse(200, $response);
+});
+$app->post('/detail/updateUserDetail', function () use ($app) {
+    verifyRequiredParams((array('username','about_you','other_name','fav_quote')));
+    $username = $app->request->post('username');
+    $about_you = $app->request->post('about_you');
+    $other_name = $app->request->post('other_name');
+    $fav_quote = $app->request->post('fav_quote');
+    $detailController = new UserdetailController();
+    $response = $detailController->updateUserDetail($username, $about_you, $other_name, $fav_quote);
+    echoRespnse(200, $response);
+});
+// places detail
 
-
-
-
-
+$app->post('/places/addNewPlace', function () use ($app) {
+    verifyRequiredParams((array('username','place_name','place_state')));
+    $username = $app->request->post('username');
+    $place_name = $app->request->post('place_name');
+    $place_state = $app->request->post('place_state');
+    $placeController = new PlacesController();
+    $response = $placeController->addNewPlace($username, $place_name,$place_state);
+    echoRespnse(200, $response);
+});
+$app->post('/places/fetchPlacesOfUser', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $placeController = new PlacesController();
+    $response = $placeController->fetchPlacesOfUser($username);
+    echoRespnse(200, $response);
+});
 /**
  * Verifying required params posted or not
  */

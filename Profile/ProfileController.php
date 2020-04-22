@@ -18,4 +18,14 @@ class ProfileController
 		$ProfileService = new ProfileService();
 		return $ProfileService->fetchProfileOfUser($username);
 	}
+	public function updateMobileAddress($username, $mobile, $address)
+	{
+		$ProfileService = new ProfileService();
+		return $ProfileService->updateMobileAddress($username, $mobile, $address);
+	}
+	public function updateDobGender($username, $dob, $gender)
+	{
+		$ProfileService = new ProfileService();
+		return $ProfileService->updateDobGender($username, $dob, $gender);
+	}
 }

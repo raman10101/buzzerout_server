@@ -43,4 +43,34 @@ class ProfileQuery
 		}
 		return $response;
 	}
+	public function updateMobileAddress($username, $mobile, $address)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "update users_profile set user_mobile='" . $mobile . "' , user_address='" . $address . "' WHERE username = '" . $username . "' ");
+		if ($stmt) {
+			$response["error"] = true;
+			$response["message"] = "Profile update";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Profile Not update";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function updateDobGender($username, $dob, $gender)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "update users_profile set user_dob='" . $dob . "' , user_gender='" . $gender . "' WHERE username = '" . $username . "' ");
+		if ($stmt) {
+			$response["error"] = true;
+			$response["message"] = "Profile update";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Profile Not update";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }
