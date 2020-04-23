@@ -31,17 +31,31 @@ class PlacesQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "SELECT * FROM  users_laces  WHERE username = '" . $username . "' ");
+		$stmt = mysqli_query($this->conn, "SELECT * FROM  users_places  WHERE username = '" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Places created";
-			$response["Places_detail"] = array();
+			$response["places"] = array();
 			while($row=mysqli_fetch_assoc($stmt)){
-				array_push($response["Places_detail"],$row);
+				array_push($response["places"],$row);
 			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Places Not created";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+	public function editPlace($username, $place_name,$place_state,$place_id){
+		$response = array();
+		$stmt = mysqli_query($this->conn,"update users_places set place_name = '".$place_name."', place_state = '".$place_state."' where id = '".$place_id."' and username = '".$username."'   ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Place Updated";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Place Not Updated";
 			$response["info"] = mysqli_error($this->conn);
 		}
 		return $response;

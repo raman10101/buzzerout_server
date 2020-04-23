@@ -18,4 +18,8 @@ class PlacesController
 		$PlacesService = new PlacesService();
 		return $PlacesService->fetchPlacesOfUser($username);
 	}
+	public function editPlace($username, $place_name,$place_state,$place_id){
+		$PlacesService = new PlacesService();
+		return $PlacesService->editPlace($username, $place_name,$place_state,$place_id);
+	}
 }

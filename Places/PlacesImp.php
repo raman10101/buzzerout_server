@@ -19,5 +19,9 @@ class PlacesImp
         $PlacesQuery = new PlacesQuery();
         return $PlacesQuery->fetchPlacesOfUser($username);
     }
+    public function editPlace($username, $place_name,$place_state,$place_id){
+        $PlacesQuery = new PlacesQuery();
+        return $PlacesQuery->editPlace($username, $place_name,$place_state,$place_id);
+    }
 
 }

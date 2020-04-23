@@ -16,6 +16,7 @@ require_once '../UsersSocial/UsersSocialController.php';
 require_once '../UsersCollege/UsersCollegeController.php';
 require_once '../UsersWork/UsersWorkController.php';
 require_once '../Details/UserdetailController.php';
+require_once '../Places/PlacesController.php';
 require '../libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
@@ -501,7 +502,6 @@ $app->post('/usersSocial/addSocialAccountDetails', function () use ($app) {
     $response = $userssocialController->addSocialAccountDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
     echoRespnse(200, $response);
 });
-
 $app->post('/usersSocial/fetchSocialDetailsByUsername', function () use ($app) {
     verifyRequiredParams((array('username')));
     $username = $app->request->post('username');
@@ -509,7 +509,6 @@ $app->post('/usersSocial/fetchSocialDetailsByUsername', function () use ($app) {
     $response = $userssocialController->fetchSocialDetailsByUsername($username);
     echoRespnse(200, $response);
 });
-
 $app->post('/usersSocial/deleteSocialDetailsById', function () use ($app) {
     verifyRequiredParams((array('id')));
     $id = $app->request->post('id');
@@ -519,15 +518,25 @@ $app->post('/usersSocial/deleteSocialDetailsById', function () use ($app) {
 });
 
 
+// User Places
 
-
-$app->post('/places/addNewPlace', function () use ($app) {
+$app->post('/places/addPlace', function () use ($app) {
     verifyRequiredParams((array('username','place_name','place_state')));
     $username = $app->request->post('username');
     $place_name = $app->request->post('place_name');
     $place_state = $app->request->post('place_state');
     $placeController = new PlacesController();
     $response = $placeController->addNewPlace($username, $place_name,$place_state);
+    echoRespnse(200, $response);
+});
+$app->post('/places/editPlace', function () use ($app) {
+    verifyRequiredParams((array('username','place_name','place_state','place_id')));
+    $username = $app->request->post('username');
+    $place_name = $app->request->post('place_name');
+    $place_state = $app->request->post('place_state');
+    $place_id = $app->request->post('place_id');
+    $placeController = new PlacesController();
+    $response = $placeController->editPlace($username, $place_name,$place_state,$place_id);
     echoRespnse(200, $response);
 });
 $app->post('/places/fetchPlacesOfUser', function () use ($app) {

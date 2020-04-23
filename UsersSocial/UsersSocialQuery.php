@@ -33,7 +33,7 @@ class UsersSocialQuery
 	{
 		$response = array();
 
-        $stmt = mysqli_query($this->conn, "UPDATE users_social SET user_facebook = '" . $user_facebook . "', user_twitter ='" . $user_twitter . "', user_google_plus = '" . $user_google_plus . ", user_instagram = '" . $user_instagram . "',user_youtube = '" . $user_youtube . "'  WHERE username = '" . $username . "'");
+        $stmt = mysqli_query($this->conn, "UPDATE users_social SET user_facebook = '" . $user_facebook . "', user_twitter ='" . $user_twitter . "', user_google_plus = '" . $user_google_plus . "', user_instagram = '" . $user_instagram . "',user_youtube = '" . $user_youtube . "'  WHERE username = '" . $username . "'");
         if($stmt){
 			$response["error"] = false;
 			$response["message"] = "social accounts updated!!";
@@ -53,10 +53,10 @@ class UsersSocialQuery
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "social accounts found.";
-            $response["social_accounts_details"] = array();
-			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["social_accounts_details"],$row);
-			}
+            $response["social_accounts_details"] = mysqli_fetch_assoc($stmt);
+			// while($row = mysqli_fetch_assoc($stmt)){
+			// 	array_push($response["social_accounts_details"],$row);
+			// }
         }
         else
         {
