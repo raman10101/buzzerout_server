@@ -34,7 +34,7 @@ class ProfileQuery
 		$stmt = mysqli_query($this->conn, "SELECT * FROM  users_profile  WHERE username = '" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
-			$response["message"] = "Profile created";
+			$response["message"] = "Profile Fetched";
 			$response["profile_detail"] = mysqli_fetch_assoc($stmt);
 		} else {
 			$response["error"] = true;
@@ -49,7 +49,7 @@ class ProfileQuery
 
 		$stmt = mysqli_query($this->conn, "update users_profile set user_mobile='" . $mobile . "' , user_address='" . $address . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
-			$response["error"] = true;
+			$response["error"] = false;
 			$response["message"] = "Profile update";
 		} else {
 			$response["error"] = true;
@@ -64,7 +64,7 @@ class ProfileQuery
 
 		$stmt = mysqli_query($this->conn, "update users_profile set user_dob='" . $dob . "' , user_gender='" . $gender . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
-			$response["error"] = true;
+			$response["error"] = false;
 			$response["message"] = "Profile update";
 		} else {
 			$response["error"] = true;

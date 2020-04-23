@@ -12,6 +12,10 @@ require_once '../MessageBox/MessageBoxController.php';
 require_once '../QueryBox/QueryBoxController.php';
 require_once '../Follow/FollowController.php';
 require_once '../Profile/ProfileController.php';
+require_once '../UsersSocial/UsersSocialController.php';
+require_once '../UsersCollege/UsersCollegeController.php';
+require_once '../UsersWork/UsersWorkController.php';
+require_once '../Details/UserdetailController.php';
 require '../libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
@@ -377,7 +381,7 @@ $app->post('/profile/updateMobileAddress', function () use ($app) {
     $response = $profileController->updateMobileAddress($username, $mobile, $address);
     echoRespnse(200, $response);
 });
-$app->post('/profile/updateMobileAddress', function () use ($app) {
+$app->post('/profile/updateDobGender', function () use ($app) {
     verifyRequiredParams((array('username','dob','gender')));
     $username = $app->request->post('username');
     $dob = $app->request->post('dob');
@@ -389,7 +393,7 @@ $app->post('/profile/updateMobileAddress', function () use ($app) {
 
 //detial conrtoller
 
-$app->post('/detail/updateMobileAddress', function () use ($app) {
+$app->post('/detail/updateUserDetails', function () use ($app) {
     verifyRequiredParams((array('username','about_you','other_name','fav_quote')));
     $username = $app->request->post('username');
     $about_you = $app->request->post('about_you');

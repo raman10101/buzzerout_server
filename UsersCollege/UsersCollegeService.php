@@ -5,7 +5,7 @@ class UsersCollegeService
 
     function __construct()
     {
-        require_once dirname(__FILE__) . '/UsersWorkImp.php';
+        require_once dirname(__FILE__) . '/UsersCollegeImp.php';
     }
     public function addCollege($username,  $college_name, $college_place)
     {

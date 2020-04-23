@@ -1,7 +1,1 @@
-1) Work on social Table
-    -> Chec For Already Submitted Username
-        -> If Submitted  > Update
-        -> If not submitted > create new
-        (Always all entries)
-2) Work on Work Table
-3) Work On College Table
+1) Change UserSocialService.php -> Query should be in Query File

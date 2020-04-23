@@ -49,7 +49,7 @@ class UserdetailQuery
 
 		$stmt = mysqli_query($this->conn, "update users_details set about_you='" . $about_you . "' , other_name='" . $other_name . "',favorite_quote='".$fav_quote."' WHERE username = '" . $username . "' ");
 		if ($stmt) {
-			$response["error"] = true;
+			$response["error"] = false;
 			$response["message"] = "Userdetail update";
 		} else {
 			$response["error"] = true;

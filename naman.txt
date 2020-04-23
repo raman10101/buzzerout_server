@@ -1,3 +1,0 @@
-1) Work on Profile Table
-2) Work on Places Table
-3) Work on Detail Table
