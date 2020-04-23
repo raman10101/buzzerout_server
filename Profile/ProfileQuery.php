@@ -35,7 +35,10 @@ class ProfileQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Profile Fetched";
-			$response["profile_detail"] = mysqli_fetch_assoc($stmt);
+			$response["profile_detail"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["profile_detail"],$row);
+			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Profile Not created";

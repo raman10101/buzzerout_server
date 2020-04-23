@@ -23,22 +23,32 @@ class ProfileService
     {
         $ProfileImp = new ProfileImp();
         $profileController=new ProfileController();
+        $newResponse = array();
         $response=$ProfileImp->updateMobileAddress($username, $mobile, $address);
         if($response["error"]==false){
+            $newResponse["error"] = $response["error"];
+            $newResponse["message"] = $response["message"];
+
             $temp=$profileController->fetchProfileOfUser($username);
-            $response["updated_detail"]=$temp["profile_detail"];
+            $newResponse["updated_detail"]=$temp["profile_detail"];
+
+
         }
-        return $response;
+        return $newResponse;
     }
     public function updateDobGender($username, $dob, $gender)
     {
         $ProfileImp = new ProfileImp();
         $profileController=new ProfileController();
+        $newResponse = array();
+        $temp = array();
         $response=$ProfileImp->updateDobGender($username, $dob, $gender);
         if($response["error"]==false){
+            $newResponse["error"] = $response["error"];
+            $newResponse["message"] = $response["message"];
             $temp=$profileController->fetchProfileOfUser($username);
-            $response["updated_detail"]=$temp["profile_detail"];
+            $newResponse["updated_detail"]=$temp["profile_detail"];
         }
-        return $response;
+        return $newResponse;
     }
 }
