@@ -26,4 +26,9 @@ class UsersCollegeController
 		return $userscollegeService->deleteCollegeDetailsById($id);
 	}
 
+	public function editCollege($username,  $college_name, $college_place,$college_id){
+		$userscollegeService = new UsersCollegeService();
+		return $userscollegeService->editCollege($username,  $college_name, $college_place,$college_id);
+	}
+
 }

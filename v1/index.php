@@ -465,6 +465,17 @@ $app->post('/usersCollege/addCollege', function () use ($app) {
     $response = $userscollegeController->addCollege($username,  $college_name, $college_place);
     echoRespnse(200, $response);
 });
+$app->post('/usersCollege/editCollege', function () use ($app) {
+    verifyRequiredParams((array('username',  'college_name', 'college_place')));
+    $username = $app->request->post('username');
+    $college_name = $app->request->post('college_name');
+    $college_place = $app->request->post('college_place');
+    $college_id = $app->request->post('college_id');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->editCollege($username,  $college_name, $college_place,$college_id);
+    echoRespnse(200, $response);
+});
+
 
 $app->post('/usersCollege/fetchCollegeByUsername', function () use ($app) {
     verifyRequiredParams((array('username')));

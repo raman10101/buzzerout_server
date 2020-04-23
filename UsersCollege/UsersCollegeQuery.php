@@ -28,6 +28,22 @@ class UsersCollegeQuery
 		}
 		return $response;
 	}
+
+	public function editCollege($username,  $college_name, $college_place,$college_id){
+		$response = array();
+
+        $stmt = mysqli_query($this->conn, "update users_college set college_name = ' " .$college_name."' , college_place = '".$college_place."' where id = '".$college_id."' and username = '".$username."'  ");
+        if($stmt){
+			$response["error"] = false;
+			$response["message"] = "college Update!!";
+        }
+        else{
+			$response["error"] = true;
+			$response["message"] = "college not updated";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	
 	public function fetchCollegeByUsername($username)
 	{
@@ -36,9 +52,9 @@ class UsersCollegeQuery
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "college found.";
-            $response["college_details"] = array();
+            $response["colleges"] = array();
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["college_details"],$row);
+				array_push($response["colleges"],$row);
 			}
         }
         else

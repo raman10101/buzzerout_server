@@ -14,6 +14,11 @@ class UsersCollegeImp
         $userscollegeQuery = new UsersCollegeQuery();
         return $userscollegeQuery->addCollege($username,  $college_name, $college_place);
     }
+
+    public function editCollege($username,  $college_name, $college_place,$college_id){
+        $userscollegeQuery = new UsersCollegeQuery();
+        return $userscollegeQuery->editCollege($username,  $college_name, $college_place,$college_id);
+    }
     
     public function fetchCollegeByUsername($username)
     {
