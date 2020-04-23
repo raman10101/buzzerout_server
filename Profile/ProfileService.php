@@ -30,8 +30,10 @@ class ProfileService
             $newResponse["message"] = $response["message"];
 
             $temp=$profileController->fetchProfileOfUser($username);
-            $newResponse["updated_detail"]=$temp["profile_detail"];
-
+            if($temp["error"] ==false){
+                $newResponse["updated_detail"]=$temp["profile_detail"];
+            }
+         
 
         }
         return $newResponse;
@@ -47,7 +49,9 @@ class ProfileService
             $newResponse["error"] = $response["error"];
             $newResponse["message"] = $response["message"];
             $temp=$profileController->fetchProfileOfUser($username);
-            $newResponse["updated_detail"]=$temp["profile_detail"];
+            if($temp["error"] ==false){
+                $newResponse["updated_detail"]=$temp["profile_detail"];
+            }
         }
         return $newResponse;
     }
