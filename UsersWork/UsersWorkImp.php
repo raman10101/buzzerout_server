@@ -15,6 +15,11 @@ class UsersWorkImp
         return $usersworkQuery->addWork($username,  $work_place, $work_profile);
     }
     
+    public function editWork($username,  $work_place, $work_profile,$work_id){
+		$usersworkQuery = new UsersWorkQuery();
+        return $usersworkQuery->editWork($username,  $work_place, $work_profile,$work_id);
+	}
+    
     public function fetchWorkByUsername($username)
     {
         $usersworkQuery = new UsersWorkQuery();

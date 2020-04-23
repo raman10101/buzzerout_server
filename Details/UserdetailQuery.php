@@ -35,7 +35,7 @@ class UserdetailQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Userdetail created";
-			$response["User_detail"] = mysqli_fetch_assoc($stmt);
+			$response["userdetails"] = mysqli_fetch_assoc($stmt);
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Userdetail Not created";
@@ -43,7 +43,7 @@ class UserdetailQuery
 		}
 		return $response;
 	}
-	public function updateUserDetail($username, $about_you, $other_name, $fav_quote)
+	public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
 	{
 		$response = array();
 

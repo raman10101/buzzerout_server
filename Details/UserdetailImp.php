@@ -19,9 +19,9 @@ class UserdetailImp
         $UserdetailQuery = new UserdetailQuery();
         return $UserdetailQuery->fetchUserDetail($username);
     }
-    public function updateUserDetail($username, $about_you, $other_name, $fav_quote)
+    public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
     {
         $UserdetailQuery = new UserdetailQuery();
-        return $UserdetailQuery->updateUserDetail($username, $about_you, $other_name, $fav_quote);
+        return $UserdetailQuery->updateUserDetails($username, $about_you, $other_name, $fav_quote);
     }
 }

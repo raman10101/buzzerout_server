@@ -12,22 +12,34 @@ class UserdetailService
     public function createUserDetail($username, $about_you, $other_name, $fav_quote)
     {
         $UserdetailImp = new UserdetailImp();
-        return $UserdetailImp->createUserDetail($username, $about_you, $other_name, $fav_quote);
+        $UserDetailController=new UserdetailController();
+        $resp = $UserdetailImp->createUserDetail($username, $about_you, $other_name, $fav_quote);
+        if($resp["error"] == false){
+            $respController = $UserDetailController->fetchUserDetail($username);
+            $resp["userdetails"] = $respController["userdetails"];
+        }
+        return $resp;
     }
     public function fetchUserDetail($username)
     {
         $UserdetailImp = new UserdetailImp();
         return $UserdetailImp->fetchUserDetail($username);
     }
-    public function updateUserDetail($username, $about_you, $other_name, $fav_quote)
+    public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
     {
         $UserdetailImp = new UserdetailImp();
-        $UserdetailController=new UserdetailController();
-        $response=$UserdetailImp->updateUserDetail($username, $about_you, $other_name, $fav_quote);
-        if($response["error"]==false){
-            $temp=$UserdetailController->fetchUserDetail($username);
-            $response["updated_detail"]=$temp["User_detail"];
+        $UserDetailController=new UserdetailController();
+        $userDetailFetchResp = $UserDetailController->fetchUserDetail($username);
+        if($userDetailFetchResp["error"] == false){
+            $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
+            if($response["error"]==false){
+                $respController = $UserDetailController->fetchUserDetail($username);
+                $response["userdetails"] = $respController["userdetails"];
+            }
+        }else{
+            return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
         }
+        
         return $response;
     }
 

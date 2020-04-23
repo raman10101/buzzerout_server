@@ -401,7 +401,7 @@ $app->post('/detail/updateUserDetails', function () use ($app) {
     $other_name = $app->request->post('other_name');
     $fav_quote = $app->request->post('fav_quote');
     $detailController = new UserdetailController();
-    $response = $detailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+    $response = $detailController->updateUserDetails($username, $about_you, $other_name, $fav_quote);
     echoRespnse(200, $response);
 });
 $app->post('/detail/fetchUserDetail', function () use ($app) {
@@ -411,16 +411,7 @@ $app->post('/detail/fetchUserDetail', function () use ($app) {
     $response = $detailController->fetchUserDetail($username);
     echoRespnse(200, $response);
 });
-$app->post('/detail/updateUserDetail', function () use ($app) {
-    verifyRequiredParams((array('username','about_you','other_name','fav_quote')));
-    $username = $app->request->post('username');
-    $about_you = $app->request->post('about_you');
-    $other_name = $app->request->post('other_name');
-    $fav_quote = $app->request->post('fav_quote');
-    $detailController = new UserdetailController();
-    $response = $detailController->updateUserDetail($username, $about_you, $other_name, $fav_quote);
-    echoRespnse(200, $response);
-});
+
 // places detail
 
 // UsersWork Controller
@@ -433,6 +424,17 @@ $app->post('/usersWork/addWork', function () use ($app) {
     $work_profile = $app->request->post('work_profile');
     $usersworkController = new UsersWorkController();
     $response = $usersworkController->addWork($username,  $work_place, $work_profile);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersWork/editWork', function () use ($app) {
+    verifyRequiredParams((array('username',  'work_place', 'work_profile','work_id')));
+    $username = $app->request->post('username');
+    $work_place = $app->request->post('work_place');
+    $work_profile = $app->request->post('work_profile');
+    $work_id = $app->request->post('work_id');
+    $usersworkController = new UsersWorkController();
+    $response = $usersworkController->editWork($username,  $work_place, $work_profile,$work_id);
     echoRespnse(200, $response);
 });
 

@@ -28,6 +28,22 @@ class UsersWorkQuery
 		}
 		return $response;
 	}
+
+	public function editWork($username,  $work_place, $work_profile,$work_id){
+		$response = array();
+
+        $stmt = mysqli_query($this->conn, "update users_work set work_place  ='".$work_place."', work_profile = '".$work_profile."' where id = '".$work_id."'  and username = '".$username."'   ");
+        if($stmt){
+			$response["error"] = false;
+			$response["message"] = "work details updated!!";
+        }
+        else{
+			$response["error"] = true;
+			$response["message"] = "work details not updated";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	
 	public function fetchWorkByUsername($username)
 	{
@@ -36,9 +52,9 @@ class UsersWorkQuery
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "work details found.";
-            $response["work_details"] = array();
+            $response["works"] = array();
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["work_details"],$row);
+				array_push($response["works"],$row);
 			}
         }
         else
