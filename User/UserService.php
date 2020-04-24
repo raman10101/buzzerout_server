@@ -8,15 +8,13 @@ class UserService{
     }
 	
     public function loginUserWithUsername($username,  $password){
-        $userImp = new UserImp();
-        $response=$userImp->loginUserWithUsername($username,  $password);
-        return $response;
+      $userImp = new UserImp();
+      return $userImp->loginUserWithUsername($username,  $password);
     }
     
     public function loginUserWithEmail($username,  $password){
-        $userImp = new UserImp();
-        $response=$userImp->loginUserWithEmail($username,  $password);
-      return $response;
+      $userImp = new UserImp();
+      return $userImp->loginUserWithEmail($username,  $password);
     }
     
     public function fetchUserByUsername($username){
