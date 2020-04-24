@@ -4,11 +4,6 @@ class UserService{
 
     function __construct(){
         require_once dirname(__FILE__) . '/UserImp.php';
-        require_once '../Profile/ProfileController.php';
-        require_once '../UsersWork/UsersWorkController.php';
-        require_once '../UsersCollege/UsersCollegeController.php';
-        require_once '../UsersSocial/UsersSocialController.php';
-        require_once '../Details/UserdetailController.php';
     }
 	
     public function loginUserWithUsername($username,  $password){
