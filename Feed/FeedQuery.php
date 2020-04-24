@@ -252,9 +252,19 @@ class FeedQuery
 		$feedid = uniqid($username);
 		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
 		if ($stmt) {
-			$response["error"] = false;
-			$response["feed_id"] = $feedid;
-			$response["message"] = "feed uploded";
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
+			if (mysqli_num_rows($stmt2) > 0) {
+				$response['feedid'] = mysqli_fetch_assoc($stmt2)['feed_id'];
+				$response['description'] = mysqli_fetch_assoc($stmt2)['description'];
+				$response['time'] = mysqli_fetch_assoc($stmt2)['timestamp'];
+				$response["error"] = false;
+				$response["message"] = "feed uploded";
+			}
+			else{
+				$response["error"] = true;
+				$response["message"] = "Feed inserted but error in fetching the feed";
+				$response["error_mess"] = mysqli_error($this->conn);
+			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not inserted";

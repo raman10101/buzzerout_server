@@ -79,9 +79,15 @@ class FeedService
         return $feedImp->clearAllFeed();
     }
     public function Uploadfeed($username, $title, $description, $location)
-    {
+    {  
         $feedImp = new FeedImp();
-        return $feedImp->Uploadfeed($username, $title, $description, $location);
+        $response = $feedImp->Uploadfeed($username, $title, $description, $location);
+        $feedController = new FeedController;
+        $new_response = $feedController->Fetchfeedinfo($response['feedid']);
+        $new_response['description'] = $response['description'];
+        $new_response['feedid'] = $response['feedid'];
+        $new_response['time'] = $response['time'];
+        return $new_response;
     }
     public function feedDelete($feedid)
     {
@@ -174,7 +180,7 @@ class FeedService
             $response["upvotes"] = $temp["upvote_list"];
             $response["downvotes"] = $temp["downvote_list"];
         }
-
+         
         $commentController = new CommentController();
         $temp = $commentController->fetchCommentByFeed($feedid);
         if ($temp["error"] == false) {
