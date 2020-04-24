@@ -34,7 +34,10 @@ class UserController{
 		$userService = new UserService();
 		return $userService->updateFirstLastName($username,$first_name,$last_name);
 	}
-
+	public function fetchaAllDetailOfUser($username){
+		$userService = new UserService();
+		return $userService->fetchaAllDetailOfUser($username);
+	}
 }
 
 ?>
