@@ -30,7 +30,11 @@ class UserController{
 		$userService = new UserService();
 		return $userService->clearUser();
 	}
-
+	public function fetchaAllDetailOfUser($username){
+		$userService = new UserService();
+		return $userService->fetchaAllDetailOfUser($username);
+	}
+	
 }
 
 ?>
