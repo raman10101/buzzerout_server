@@ -30,6 +30,10 @@ class UserController{
 		$userService = new UserService();
 		return $userService->clearUser();
 	}
+	public function updateFirstLastName($username,$first_name,$last_name){
+		$userService = new UserService();
+		return $userService->updateFirstLastName($username,$first_name,$last_name);
+	}
 
 }
 

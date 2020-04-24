@@ -84,7 +84,15 @@ $app->post('/user/fetchUserByUsername', function () use ($app) {
     $response = $userController->fetchUserByUsername($username);
     echoRespnse(200, $response);
 });
-
+$app->post('/user/updateFirstLastName', function () use ($app) {
+    verifyRequiredParams((array('username','first_name','last_name')));
+    $username = $app->request->post('username');
+    $first_name = $app->request->post('first_name');
+    $last_name = $app->request->post('last_name');
+    $userController = new UserController();
+    $response = $userController->updateFirstLastName($username,$first_name,$last_name);
+    echoRespnse(200, $response);
+});
 $app->post('/user/fetchAllUsers', function () use ($app) {
     $userController = new UserController();
     $response = $userController->fetchAllUsers();
