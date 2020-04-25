@@ -23,6 +23,7 @@ class UserService
     if($response['error']==true){
       $response['user']=$usercontroller->fetchaAllDetailOfUser($username);
     }
+    return $response;
   }
 
   public function loginUserWithEmail($username,  $password)
@@ -74,7 +75,7 @@ class UserService
   public function fetchaAllDetailOfUser($username){
     $response=array();
     $usercontroller=new UserController();
-    $temp=$usercontroller->fetchAllUsers();
+    $temp=$usercontroller->fetchUserByUsername($username);
     if($temp['error']==false){
       $response["user"]=$temp['user'];
     }
