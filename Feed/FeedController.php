@@ -75,10 +75,10 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Fetchallvideooffeed($feedid);
 	}
-	public function Fetchfeedinfo($feedid)
+	public function Fetchfeedinfo($feedid,$username)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchfeedinfo($feedid);
+		return $feedService->Fetchfeedinfo($feedid,$username);
 	}
 	public function feedDelete($feedid)
 	{

@@ -16,7 +16,7 @@ class FeedService
         if ($response["false"]) {
             for ($i = 0; $i < count($response["Feed"]); $i++) {
                 $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid);
+                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid,"false");
             }
         }
         return $response;
@@ -29,7 +29,7 @@ class FeedService
         if ($response["error"] == false) {
             for ($i = 0; $i < count($response["Feed"]); $i++) {
                 $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid);
+                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid,$username);
             }
         }
         return $response;
@@ -68,7 +68,7 @@ class FeedService
         if ($response["error"] == false) {
             for ($i = 0; $i < count($response["Feed"]); $i++) {
                 $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid);
+                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid,"false");
             }
         }
         return $response;
@@ -83,7 +83,7 @@ class FeedService
         $feedImp = new FeedImp();
         $response = $feedImp->Uploadfeed($username, $title, $description, $location);
         $feedController = new FeedController;
-        $new_response = $feedController->Fetchfeedinfo($response['feedid']);
+        $new_response = $feedController->Fetchfeedinfo($response['feedid'],$username);
         $new_response['description'] = $response['description'];
         $new_response['feedid'] = $response['feedid'];
         $new_response['time'] = $response['time'];
@@ -137,7 +137,7 @@ class FeedService
                 # code...
                 $feedid = $temp["Feed"][$i]["feed_id"];
                 $response[$feedid] = array();
-                $response[$feedid] = $feedController->clearFeedByFeedId($feedid);
+                $response[$feedid] = $feedController->clearFeedByFeedId($feedid,"false");
             }
         }
         return $response;
@@ -163,7 +163,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchallvideooffeed($feedid);
     }
-    public function Fetchfeedinfo($feedid)
+    public function Fetchfeedinfo($feedid,$username)
     {
         $feedController = new FeedController();
         $response = array();
@@ -180,13 +180,19 @@ class FeedService
             $response["upvotes"] = $temp["upvote_list"];
             $response["downvotes"] = $temp["downvote_list"];
         }
-         
+        $temp = $feedController->Fetchvotesonfeedbyuser($feedid,$username);
+        if ($temp["error"] == false) {
+            if($temp["buzz_upvotes"]){
+            $response["buzz_upvote"] = $temp["buzz_upvotes"];}
+            if($temp["buzz_downvote"]){
+            $response["downvotes"] = $temp["buzz_downvote"];}
+        }
         $commentController = new CommentController();
         $temp = $commentController->fetchCommentByFeed($feedid);
         if ($temp["error"] == false) {
             $response["comments"] = $temp["comments"];
         }
-        
+
         $response["info"] = "all info provided";
         return $response;
     }
