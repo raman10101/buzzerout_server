@@ -186,7 +186,14 @@ class FeedService
         if ($temp["error"] == false) {
             $response["comments"] = $temp["comments"];
         }
+        
         $response["info"] = "all info provided";
         return $response;
+    }
+    public function Fetchvotesonfeedbyuser($feedid,$username)
+
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->Fetchvotesonfeedbyuser($feedid,$username);
     }
 }

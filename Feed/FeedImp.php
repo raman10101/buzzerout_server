@@ -91,4 +91,10 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->voteDelete($feedid);
     }
+    public function Fetchvotesonfeedbyuser($feedid,$username)
+
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->Fetchvotesonfeedbyuser($feedid,$username);
+    }
 }
