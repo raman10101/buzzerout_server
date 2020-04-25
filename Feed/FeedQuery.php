@@ -380,11 +380,16 @@ class FeedQuery
 				$response["error"] = false;
 				$response["buzz_upvotes"] = true;
 			} 
+			else{
+				$response["buzz_upvotes"] = false;
+			}
 			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "'and username='".$username."' and downvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["error"] = false;
-				$response["buzz_upvotes"] = true;
-			} 
+				$response["buzz_downvote"] = true;
+			} else{
+				$response["buzz_downvote"] = false;
+			}
 		} else {
 			$response["error"] = true;
 			$response["bizz_vote"] = false;
