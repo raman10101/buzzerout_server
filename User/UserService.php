@@ -20,8 +20,9 @@ class UserService
     $userImp = new UserImp();
     $response= $userImp->loginUserWithUsername($username,  $password);
     $usercontroller=new UserController();
-    if($response['error']==true){
-      $response['user']=$usercontroller->fetchaAllDetailOfUser($username);
+    if($response['error']==false){
+      $resp=$usercontroller->fetchaAllDetailOfUser($username);
+      $response["user"] = $resp["user"];
     }
     return $response;
   }
@@ -31,7 +32,7 @@ class UserService
     $userImp = new UserImp();
     $response=$userImp->loginUserWithEmail($username,  $password);
     $usercontroller=new UserController();
-    if($response['error']==true){
+    if($response['error']==false){
       $response['user']=$usercontroller->fetchaAllDetailOfUser($username);
     }
   }
@@ -76,52 +77,62 @@ class UserService
     $response=array();
     $usercontroller=new UserController();
     $temp=$usercontroller->fetchUserByUsername($username);
+    $response["user"]= array();
+    $response['user']['college']=array();
+    $response['user']['socialMedia']=array();
+    $response['user']['works']=array();
+    $response['user']['city']=array();
     if($temp['error']==false){
-      $response["user"]=$temp['user'];
+      $response["user"]["first_name"] = $temp["user"]["first_name"];
+      $response["user"]["last_name"] = $temp["user"]["last_name"];
+      $response["user"]["email"] = $temp["user"]["email"];
+      $response["user"]["username"] = $temp["user"]["username"];
     }
 
     $profilecontroller=new ProfileController();
     $temp=$profilecontroller->fetchProfileOfUser($username);
     if($temp['error']==false){
-      $response['user']['user_address']=$temp['user_address'];
-      $response['user']['user_mobile']=$temp['user_mobile'];
-      $response['user']['user_gender']=$temp['user_gender'];
-      $response['user']['user_dob']=$temp['user_dob'];
-      $response['user']['user_profile_image']=$temp['user_profile_image'];
-      $response['user']['user_timeline_image']=$temp['user_timeline_image'];
-      $response['user']['user_website']=$temp['user_website'];
-      $response['user']['user_social_link']=$temp['user_social_link'];
+      $response["user"]["profile"] = $temp["profile_detail"];
+      // $response['user']['user_address']=$temp["profile_detail"]['user_address'];
+      // $response['user']['user_mobile']=$temp["profile_detail"]['user_mobile'];
+      // $response['user']['user_gender']=$temp["profile_detail"]['user_gender'];
+      // $response['user']['user_dob']=$temp["profile_detail"]['user_dob'];
+      // $response['user']['user_profile_image']=$temp["profile_detail"]['user_profile_image'];
+      // $response['user']['user_timeline_image']=$temp["profile_detail"]['user_timeline_image'];
+      // $response['user']['user_website']=$temp["profile_detail"]['user_website'];
+      // $response['user']['user_social_link']=$temp["profile_detail"]['user_social_link'];
     }
     $detailController = new UserdetailController();
     $temp = $detailController->fetchUserDetail($username);
     if($temp['error']==false){
-      $response['user']['about_you']=$temp['about_you'];
-      $response['user']['other_name']=$temp['other_name'];
-      $response['user']['favorite_quote']=$temp['favorite_quote'];
+      $response["user"]["details"] = $temp["userdetails"];
+      // $response['user']['about_you']=$temp["userdetails"]['about_you'];
+      // $response['user']['other_name']=$temp["userdetails"]['other_name'];
+      // $response['user']['favorite_quote']=$temp["userdetails"]['favorite_quote'];
     }
     $workcontroller=new UsersWorkController();
     $temp=$workcontroller->fetchWorkByUsername($username);
-    $response['user']['works']=array();
+    
     if($temp['error']==false){
-      array_push($response['user']['works'],$temp['works']);
+      $response['user']['works']=$temp['works'];
     }
     $placeController = new PlacesController();
     $temp = $placeController->fetchPlacesOfUser($username);
-    $response['user']['city']=array();
+    
     if($temp['error']==false){
-      array_push($response['user']['city'],$temp['places']);
+      $response['user']['city']=$temp['places'];
     }
     $userscollegeController = new UsersCollegeController();
     $temp = $userscollegeController->fetchCollegeByUsername($username);
-    $response['user']['college']=array();
+    
     if($temp['error']==false){
-      array_push($response['user']['college'],$temp['colleges']);
+      $response['user']['college']=$temp['colleges'];
     }
     $userssocialController = new UsersSocialController();
     $temp = $userssocialController->fetchSocialDetailsByUsername($username);
-    $response['user']['socialMedia']=array();
+    
     if($temp['error']==false){
-      array_push($response['user']['socialMedia'],$temp['social_accounts_details']);
+      $response['user']['socialMedia']=$temp['social_accounts_details'];
     }
     return $response;
 }

@@ -34,15 +34,11 @@ class ProfileService
         if ($response['error'] == true){
             $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
-        else{
-            $resp = $profileController->updateMobileAddress($username, $mobile, $address);
-        }
-        if($resp['error'] == false){
+        $resp = $ProfileImp->updateMobileAddress($username, $mobile, $address);
+        if($resp["error"] == false){
             return $profileController->fetchProfileOfUser($username);
         }
-        else{
-            return $resp;
-        }    
+        return $resp; 
     }
 
     public function updateDobGender($username, $dob, $gender)
@@ -54,14 +50,10 @@ class ProfileService
         if ($response['error'] == true){
             $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
-        else{
-            $resp = $profileController->updateDobGender($username, $dob, $gender);
-        }
-        if($resp['error'] == false){
+        $resp = $ProfileImp->updateDobGender($username, $dob, $gender);
+        if($resp["error"] == false){
             return $profileController->fetchProfileOfUser($username);
         }
-        else{
-            return $resp;
-        }    
+        return $resp; 
     }
 }
