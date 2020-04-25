@@ -370,4 +370,27 @@ class FeedQuery
 		}
 		return $response;
 	}
+	public function Fetchvotesonfeedbyuser($feedid,$username)
+	{
+		$response = array();
+		$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' and username='".$username."'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and username='".$username."' and upvotes = 1 ");
+			if (mysqli_num_rows($stmt) > 0) {
+				$response["error"] = false;
+				$response["buzz_upvotes"] = true;
+			} 
+			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "'and username='".$username."' and downvotes = 1 ");
+			if (mysqli_num_rows($stmt) > 0) {
+				$response["error"] = false;
+				$response["buzz_upvotes"] = true;
+			} 
+		} else {
+			$response["error"] = true;
+			$response["bizz_vote"] = false;
+			$response["downvote_error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
 }
