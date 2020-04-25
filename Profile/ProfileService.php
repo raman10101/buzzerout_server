@@ -19,40 +19,49 @@ class ProfileService
         $ProfileImp = new ProfileImp();
         return $ProfileImp->fetchProfileOfUser($username);
     }
+    
+    public function createEmptyProfileOfUser($username)
+    {
+        $ProfileImp = new ProfileImp();
+        return $ProfileImp->createEmptyProfileOfUser($username);
+    }
     public function updateMobileAddress($username, $mobile, $address)
     {
         $ProfileImp = new ProfileImp();
         $profileController=new ProfileController();
-        $newResponse = array();
-        $response=$ProfileImp->updateMobileAddress($username, $mobile, $address);
-        if($response["error"]==false){
-            $newResponse["error"] = $response["error"];
-            $newResponse["message"] = $response["message"];
-
-            $temp=$profileController->fetchProfileOfUser($username);
-            if($temp["error"] ==false){
-                $newResponse["updated_detail"]=$temp["profile_detail"];
-            }
-         
-
+        $response = $profileController->fetchProfileOfUser($username);
+        $resp = array();
+        if ($response['error'] == true){
+            $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
-        return $newResponse;
+        else{
+            $resp = $profileController->updateMobileAddress($username, $mobile, $address);
+        }
+        if($resp['error'] == false){
+            return $profileController->fetchProfileOfUser($username);
+        }
+        else{
+            return $resp;
+        }    
     }
+
     public function updateDobGender($username, $dob, $gender)
     {
         $ProfileImp = new ProfileImp();
         $profileController=new ProfileController();
-        $newResponse = array();
-        $temp = array();
-        $response=$ProfileImp->updateDobGender($username, $dob, $gender);
-        if($response["error"]==false){
-            $newResponse["error"] = $response["error"];
-            $newResponse["message"] = $response["message"];
-            $temp=$profileController->fetchProfileOfUser($username);
-            if($temp["error"] ==false){
-                $newResponse["updated_detail"]=$temp["profile_detail"];
-            }
+        $response = $profileController->fetchProfileOfUser($username);
+        $resp = array();
+        if ($response['error'] == true){
+            $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
-        return $newResponse;
+        else{
+            $resp = $profileController->updateDobGender($username, $dob, $gender);
+        }
+        if($resp['error'] == false){
+            return $profileController->fetchProfileOfUser($username);
+        }
+        else{
+            return $resp;
+        }    
     }
 }

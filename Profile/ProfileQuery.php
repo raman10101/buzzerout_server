@@ -27,6 +27,21 @@ class ProfileQuery
 		}
 		return $response;
 	}
+	public function createEmptyProfileOfUser($username)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "INSERT INTO  users_profile ( username ) VALUES ('" . $username . "') ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Emppty Profile created";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Empty Profile Not created";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	public function fetchProfileOfUser($username)
 	{
 		$response = array();
