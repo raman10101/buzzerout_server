@@ -68,7 +68,9 @@ class FeedService
         if ($response["error"] == false) {
             for ($i = 0; $i < count($response["Feed"]); $i++) {
                 $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid,"false");
+                $newResponse = $feedController->Fetchfeedinfo($feedid,"false");
+                $response["Feed"][$i]["images"] =  $newResponse["images"];
+                $response["Feed"][$i]["comments"] =  $newResponse["comments"];
             }
         }
         return $response;
@@ -190,8 +192,9 @@ class FeedService
         }
         $commentController = new CommentController();
         $temp = $commentController->fetchCommentByFeed($feedid);
+        $response["comments"]  = array();
         if ($temp["error"] == false) {
-            $response["comments"] = $temp["comments"];
+            array_push($response["comments"],$temp["comments"]);
         }
 
         $response["info"] = "all info provided";
