@@ -41,7 +41,7 @@ class ProfileService
         return $resp; 
     }
 
-    public function updateDobGender($username, $dob, $gender)
+    public function updateDobGender($username, $dob, $uob,$gender)
     {
         $ProfileImp = new ProfileImp();
         $profileController=new ProfileController();
@@ -50,7 +50,7 @@ class ProfileService
         if ($response['error'] == true){
             $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
-        $resp = $ProfileImp->updateDobGender($username, $dob, $gender);
+        $resp = $ProfileImp->updateDobGender($username, $dob, $uob,$gender);
         if($resp["error"] == false){
             return $profileController->fetchProfileOfUser($username);
         }

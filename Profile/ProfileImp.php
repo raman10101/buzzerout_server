@@ -29,9 +29,9 @@ class ProfileImp
         $ProfileQuery = new ProfileQuery();
         return $ProfileQuery->updateMobileAddress($username, $mobile, $address);
     }
-    public function updateDobGender($username, $dob, $gender)
+    public function updateDobGender($username, $dob,$uob, $gender)
     {
         $ProfileQuery = new ProfileQuery();
-        return $ProfileQuery->updateDobGender($username, $dob, $gender);
+        return $ProfileQuery->updateDobGender($username, $dob, $uob,$gender);
     }
 }

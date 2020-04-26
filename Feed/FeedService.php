@@ -168,8 +168,9 @@ class FeedService
         $feedController = new FeedController();
         $response = array();
         $temp = $feedController->Fetchallimageoffeed($feedid);
+        $response["images"] = array();
         if ($temp["error"] == false) {
-            $response["images"] = $temp["image_link"];
+            array_push($response["images"], $temp["image_link"]);
         }
         $temp = $feedController->Fetchallvideooffeed($feedid);
         if ($temp["error"] == false) {

@@ -16,19 +16,18 @@ class CommentQuery
 	{
 		$response = array();
 
-        $stmt = mysqli_query($this->conn, "insert into comments (feed_id,user_id,text,timestamp) values('".$feed_id."','".$user_id."','".$text."',NOW())");
-        if($stmt){
+		$stmt = mysqli_query($this->conn, "insert into comments (feed_id,user_id,text,timestamp) values('" . $feed_id . "','" . $user_id . "','" . $text . "',NOW())");
+		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
 			$response['comments'] = array();
 			$stmt2 = mysqli_query($this->conn, "select *  FROM comments ");
-			if(mysqli_num_rows($stmt2) > 0){  
-				while($row = mysqli_fetch_assoc($stmt2)){
-					array_push($response["comments"],$row);
+			if (mysqli_num_rows($stmt2) > 0) {
+				while ($row = mysqli_fetch_assoc($stmt2)) {
+					array_push($response["comments"], $row);
 				}
 			}
-        }
-        else{
+		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not added";
 			$response["info"] = mysqli_error($this->conn);
@@ -39,119 +38,108 @@ class CommentQuery
 	public function editComment($feed_id,  $user_id, $text)
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "UPDATE comments SET text = '". $text."', modified = NOW() WHERE  feed_id = '".$feed_id."' AND user_id = '".$user_id."'");
-        if($stmt){
+		$stmt = mysqli_query($this->conn, "UPDATE comments SET text = '" . $text . "', modified = NOW() WHERE  feed_id = '" . $feed_id . "' AND user_id = '" . $user_id . "'");
+		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment edited";
-        }
-        else{
+		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not edited";
 			$response["info"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
-	
+
 	public function fetchCommentByFeed($feed_id)
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '".$feed_id."'");
-		if(mysqli_num_rows($stmt) > 0){  
-            $response["error"] = false;
-            $response["message"] = "Comments found.";
-            $response["comments"] = array();
-			while($row = mysqli_fetch_assoc($stmt)){
-				$stmt2 = mysqli_query($this->conn, "select *  FROM users where id = '".$row['user_id']."'");
-				if(mysqli_num_rows($stmt2) > 0){
+		$stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '" . $feed_id . "'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Comments found.";
+			$response["comments"] = array();
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				$stmt2 = mysqli_query($this->conn, "select *  FROM users where id = '" . $row['user_id'] . "'");
+				if (mysqli_num_rows($stmt2) > 0) {
 					$row['commentUser_first_name'] = mysqli_fetch_assoc($stmt)['first_name'];
 					$row['commentUser_last_name'] = mysqli_fetch_assoc($stmt)['last_name'];
 					$row['commentUser'] = mysqli_fetch_assoc($stmt)['username'];
+					$stmt3 = mysqli_query($this->conn, "select *  FROM users_profile where username = '" . $row['commentUser'] . "'");
+					if (mysqli_num_rows($stmt3) > 0) {
+						$row['commentImg'] = mysqli_fetch_assoc($stmt3)['user_profile_image'];
+					}
 				}
-				$stmt3 = mysqli_query($this->conn, "select *  FROM users_profile where username = '".$row['commentUser']."'");
-				if(mysqli_num_rows($stmt3) > 0){
-					$row['commentImg'] = mysqli_fetch_assoc($stmt3)['user_profile_image'];
-				}
-				array_push($response["comments"],$row);
+				array_push($response["comments"], $row);
 			}
-        }
-        else
-        {
+		} else {
 			$response["error"] = true;
-            $response["message"] = "No comment found.";
-            $response['info'] = mysqli_error($this->conn);
+			$response["message"] = "No comment found.";
+			$response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
-	
-	
+
+
 	public function fetchAllComments()
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "select *  FROM comments ");
-		if(mysqli_num_rows($stmt) > 0){  
-            $response["error"] = false;
-            $response["message"] = "Comments found.";
-            $response["comments"] = array();
-			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["comments"],$row);
+		$stmt = mysqli_query($this->conn, "select *  FROM comments ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Comments found.";
+			$response["comments"] = array();
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["comments"], $row);
 			}
-        }
-        else
-        {
+		} else {
 			$response["error"] = true;
-            $response["message"] = "No comment found.";
-            $response['info'] = mysqli_error($this->conn);
+			$response["message"] = "No comment found.";
+			$response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
-	
+
 	public function deleteComment($id)
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "DELETE FROM comments where id = '".$id."'");
-		if($stmt){  
-            $response["error"] = false;
-            $response["message"] = "comment deleted.";
-        }
-        else
-        {
+		$stmt = mysqli_query($this->conn, "DELETE FROM comments where id = '" . $id . "'");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "comment deleted.";
+		} else {
 			$response["error"] = true;
-            $response["message"] = "not deleted";
-            $response['info'] = mysqli_error($this->conn);
+			$response["message"] = "not deleted";
+			$response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
-	
+
 	public function deleteCommentByFeedId($feed_id)
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "DELETE FROM comments where fedd_id = '".$feed_id."'");
-		if($stmt){  
-            $response["error"] = false;
-            $response["message"] = "Comments deleted.";
-        }
-        else
-        {
+		$stmt = mysqli_query($this->conn, "DELETE FROM comments where fedd_id = '" . $feed_id . "'");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Comments deleted.";
+		} else {
 			$response["error"] = true;
-            $response["message"] = "Not deleted.";
-            $response['info'] = mysqli_error($this->conn);
+			$response["message"] = "Not deleted.";
+			$response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
-	
+
 	public function clearComment()
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "DELETE FROM comments;");
-		if($stmt){  
-            $response["error"] = false;
-            $response["message"] = "All cleared.";
-        }
-        else
-        {
+		$stmt = mysqli_query($this->conn, "DELETE FROM comments;");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "All cleared.";
+		} else {
 			$response["error"] = true;
-            $response["message"] = "clearing not succesfull";
-            $response['info'] = mysqli_error($this->conn);
+			$response["message"] = "clearing not succesfull";
+			$response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
