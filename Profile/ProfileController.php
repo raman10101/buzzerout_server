@@ -23,9 +23,9 @@ class ProfileController
 		$ProfileService = new ProfileService();
 		return $ProfileService->updateMobileAddress($username, $mobile, $address);
 	}
-	public function updateDobGender($username, $dob, $gender)
+	public function updateDobGender($username, $dob,$uob, $gender)
 	{
 		$ProfileService = new ProfileService();
-		return $ProfileService->updateDobGender($username, $dob, $gender);
+		return $ProfileService->updateDobGender($username, $dob,$uob, $gender);
 	}
 }

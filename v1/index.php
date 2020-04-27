@@ -391,12 +391,13 @@ $app->post('/profile/updateMobileAddress', function () use ($app) {
     echoRespnse(200, $response);
 });
 $app->post('/profile/updateDobGender', function () use ($app) {
-    verifyRequiredParams((array('username','dob','gender')));
+    verifyRequiredParams((array('username','dob','uob','gender')));
     $username = $app->request->post('username');
     $dob = $app->request->post('dob');
     $gender = $app->request->post('gender');
+    $uob = $app->request->post('uob');
     $profileController = new ProfileController();
-    $response = $profileController->updateDobGender($username, $dob, $gender);
+    $response = $profileController->updateDobGender($username, $dob, $uob,$gender);
     echoRespnse(200, $response);
 });
 

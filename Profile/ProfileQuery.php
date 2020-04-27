@@ -50,10 +50,10 @@ class ProfileQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Profile Fetched";
-			$response["profile_detail"] = array();
-			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["profile_detail"],$row);
-			}
+			$response["profile_detail"] = mysqli_fetch_assoc($stmt);
+			// while($row = mysqli_fetch_assoc($stmt)){
+			// 	array_push($response["profile_detail"],$row);
+			// }
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Profile Not created";
@@ -76,11 +76,18 @@ class ProfileQuery
 		}
 		return $response;
 	}
-	public function updateDobGender($username, $dob, $gender)
+	public function updateDobGender($username, $dob,$uob, $gender)
 	{
 		$response = array();
-
-		$stmt = mysqli_query($this->conn, "update users_profile set user_dob='" . $dob . "' , user_gender='" . $gender . "' WHERE username = '" . $username . "' ");
+		// Date
+		// M/D
+		// YEar
+		// 1998
+		$month = explode("/",$dob);
+		$monthString = $uob.'-'.$month[0].'-'.$month[1];
+		$timestamp = strtotime($monthString);
+		$date = date("Y-m-d",$timestamp);
+		$stmt = mysqli_query($this->conn, "update users_profile set user_dob='" . $date . "' , user_gender='" . $gender . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Profile update";
