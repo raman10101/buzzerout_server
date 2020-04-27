@@ -68,6 +68,7 @@ class FeedService
         if ($response["error"] == false) {
             for ($i = 0; $i < count($response["Feed"]); $i++) {
                 $feedid = $response["Feed"][$i]["feed_id"];
+                $response["Feed"][$i]["feedid"]=$response["Feed"][$i]["feed_id"];
                 $newResponse = $feedController->Fetchfeedinfo($feedid,"false");
                 $response["Feed"][$i]["images"] =  $newResponse["images"];
                 $response["Feed"][$i]["comments"] =  $newResponse["comments"];
