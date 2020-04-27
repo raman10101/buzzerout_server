@@ -70,12 +70,13 @@ class CommentQuery
 					$row['commentImg'] = $resp['user_profile_image'];
 				}}
 				array_push($response["comments"],$row);
-
 			}
-		} else {
+        }
+        else
+        {
 			$response["error"] = true;
-			$response["message"] = "No comment found.";
-			$response['info'] = mysqli_error($this->conn);
+            $response["message"] = "No comment found.";
+            $response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}

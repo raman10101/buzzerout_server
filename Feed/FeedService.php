@@ -68,10 +68,17 @@ class FeedService
         if ($response["error"] == false) {
             for ($i = 0; $i < count($response["Feed"]); $i++) {
                 $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["feedid"]=$response["Feed"][$i]["feed_id"];
-                $newResponse = $feedController->Fetchfeedinfo($feedid,"false");
-                $response["Feed"][$i]["images"] =  $newResponse["images"];
-                $response["Feed"][$i]["comments"] =  $newResponse["comments"];
+                $resp = $feedController->Fetchfeedinfo($feedid);
+                $response["Feed"][$i]['comments'] = array();
+                $response["Feed"][$i]['images'] = array();
+                $response["Feed"][$i]['videos'] = array();
+                $response["Feed"][$i]['upvotes'] = array();
+                $response["Feed"][$i]['downvotes'] = array();
+                $response["Feed"][$i]['comments']= $resp['comments'];
+                $response["Feed"][$i]['images']= $resp['images'];
+                $response["Feed"][$i]['videos']= $resp['videos'];
+                $response["Feed"][$i]['upvotes']= $resp['upvotes'];
+                $response["Feed"][$i]['downvotes']= $resp['downvotes'];
             }
         }
         return $response;
@@ -161,38 +168,43 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchallvideooffeed($feedid);
     }
-    public function Fetchfeedinfo($feedid,$username)
+    public function Fetchfeedinfo($feedid)
     {
         $feedController = new FeedController();
         $response = array();
         $temp = $feedController->Fetchallimageoffeed($feedid);
-        $response["images"] = array();
         if ($temp["error"] == false) {
-            array_push($response["images"], $temp["image_link"]);
+            $response["images"] = $temp["image_link"];
+        }
+        else{
+            $response['images'] = array();
         }
         $temp = $feedController->Fetchallvideooffeed($feedid);
         if ($temp["error"] == false) {
             $response["videos"] = $temp["video_link"];
+        }
+        else{
+            $response['videos'] = array();
         }
         $temp = $feedController->Fetchvotesonfeed($feedid);
         if ($temp["error"] == false) {
             $response["upvotes"] = $temp["upvote_list"];
             $response["downvotes"] = $temp["downvote_list"];
         }
-        $temp = $feedController->Fetchvotesonfeedbyuser($feedid,$username);
-        if ($temp["error"] == false) {
-            if($temp["buzz_upvotes"]){
-            $response["buzz_upvote"] = $temp["buzz_upvotes"];}
-            if($temp["buzz_downvote"]){
-            $response["downvotes"] = $temp["buzz_downvote"];}
+        else{
+            $response['upvotes'] = array();
+            $response['downvotes'] = array();
         }
+         
         $commentController = new CommentController();
         $temp = $commentController->fetchCommentByFeed($feedid);
-        $response["comments"]  = array();
         if ($temp["error"] == false) {
-            array_push($response["comments"],$temp["comments"]);
+            $response["comments"] = $temp["comments"];
         }
-
+        else{
+            $response['comments'] = array();   
+        }
+        
         $response["info"] = "all info provided";
         return $response;
     }
