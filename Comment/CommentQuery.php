@@ -53,23 +53,24 @@ class CommentQuery
 	public function fetchCommentByFeed($feed_id)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '" . $feed_id . "'");
-		if (mysqli_num_rows($stmt) > 0) {
-			$response["error"] = false;
-			$response["message"] = "Comments found.";
+        $stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '".$feed_id."'");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "Comments found.";
 			$response["comments"] = array();
-			while ($row = mysqli_fetch_assoc($stmt)) {
-				$stmt2 = mysqli_query($this->conn, "select *  FROM users where id = '" . $row['user_id'] . "'");
-				if (mysqli_num_rows($stmt2) > 0) {
-					$row['commentUser_first_name'] = mysqli_fetch_assoc($stmt)['first_name'];
-					$row['commentUser_last_name'] = mysqli_fetch_assoc($stmt)['last_name'];
-					$row['commentUser'] = mysqli_fetch_assoc($stmt)['username'];
-					$stmt3 = mysqli_query($this->conn, "select *  FROM users_profile where username = '" . $row['commentUser'] . "'");
-					if (mysqli_num_rows($stmt3) > 0) {
-						$row['commentImg'] = mysqli_fetch_assoc($stmt3)['user_profile_image'];
-					}
-				}
-				array_push($response["comments"], $row);
+			while($row = mysqli_fetch_assoc($stmt)){
+				$stmt2 = mysqli_query($this->conn, "select *  FROM users where id = '".$row['user_id']."'");
+				while($resp = mysqli_fetch_assoc($stmt2)){
+					$row['commentUser_first_name'] = $resp['first_name'];
+					$row['commentUser_last_name'] = $resp['last_name'];
+					$row['commentUser'] = $resp['username'];
+				// }
+				$stmt3 = mysqli_query($this->conn, "select *  FROM users_profile where username = '".$resp['username']."'");
+				while($resp = mysqli_fetch_assoc($stmt3)){
+					$row['commentImg'] = $resp['user_profile_image'];
+				}}
+				array_push($response["comments"],$row);
+
 			}
 		} else {
 			$response["error"] = true;

@@ -85,12 +85,7 @@ class FeedService
     {  
         $feedImp = new FeedImp();
         $response = $feedImp->Uploadfeed($username, $title, $description, $location);
-        $feedController = new FeedController;
-        $new_response = $feedController->Fetchfeedinfo($response['feedid'],$username);
-        $new_response['description'] = $response['description'];
-        $new_response['feedid'] = $response['feedid'];
-        $new_response['time'] = $response['time'];
-        return $new_response;
+        return $response;
     }
     public function feedDelete($feedid)
     {
