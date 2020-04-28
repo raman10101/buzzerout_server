@@ -27,8 +27,6 @@ $app = new \Slim\Slim();
 
 //Register Controller
 
-
-
 $app->post('/register/registerUser', function () use ($app) {
     verifyRequiredParams((array('username', 'firstname', 'email', 'password')));
     $first_name = $app->request->post('firstname');
