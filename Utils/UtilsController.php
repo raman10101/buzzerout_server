@@ -8,10 +8,10 @@ class UtilsController
 		require_once dirname(__FILE__) . '/UtilsService.php';
 	}
 
-	public function lowercase($text)
+	public function lowerCase($text)
 	{
 		$UtilsService = new UtilsService();
-		return $UtilsService->lowercase($text);
+		return $UtilsService->lowerCase($text);
 	}
 	public function noSpecialChar($text)
 	{
@@ -22,5 +22,20 @@ class UtilsController
 	{
 		$UtilsService = new UtilsService();
 		return $UtilsService->parseUsernmae($text);
+	}
+	public function passwordLenght($text)
+	{
+		$UtilsService = new UtilsService();
+		return $UtilsService->passwordLenght($text);
+	}
+	public function passwordEncrypt($text)
+	{
+		$UtilsService = new UtilsService();
+		return $UtilsService->passwordEncrypt($text);
+	}
+	public function passwordDecrypt($text)
+	{
+		$UtilsService = new UtilsService();
+		return $UtilsService->passwordDecrypt($text);
 	}
 }
