@@ -1,1 +1,4 @@
-1) Change UserSocialService.php -> Query should be in Query File
+1) Register + User 
+    |-> 1) Include Username and Email check
+    |-> 2) Divide Check Username Into Two
+    |-> 3) LowerCase+ Pssword -> Encrypted + Password.Legth (8,16) + Username.Unique + Email.Unique + Object.Correct
