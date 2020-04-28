@@ -28,4 +28,9 @@ class ProfileController
 		$ProfileService = new ProfileService();
 		return $ProfileService->updateDobGender($username, $dob,$uob, $gender);
 	}
+	public function createEmptyProfileOfUser($username)
+    {
+        $ProfileService = new ProfileService();
+		return $ProfileService->createEmptyProfileOfUser($username);
+    }
 }

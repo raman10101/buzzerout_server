@@ -174,7 +174,7 @@ class FeedQuery
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				$stmt2 = mysqli_query($this->conn, "select image_url from feed_images where id='" . $row["image_id"] . "' ");
 				while ($row2 = (mysqli_fetch_assoc($stmt2))) {
-					array_push($response["image_link"], $row2);
+					array_push($response["image_link"], $row2["image_url"]);
 				}
 				$response["message"] = "feed images found";
 			}

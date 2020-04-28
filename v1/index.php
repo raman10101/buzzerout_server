@@ -477,7 +477,7 @@ $app->post('/usersCollege/addCollege', function () use ($app) {
     echoRespnse(200, $response);
 });
 $app->post('/usersCollege/editCollege', function () use ($app) {
-    verifyRequiredParams((array('username',  'college_name', 'college_place')));
+    verifyRequiredParams((array('username',  'college_name', 'college_place','college_id')));
     $username = $app->request->post('username');
     $college_name = $app->request->post('college_name');
     $college_place = $app->request->post('college_place');
