@@ -9,14 +9,29 @@ class UtilsImp
     }
 
 
-    public function lowercase($text)
+    public function lowerCase($text)
     {
         $UtilsQuery = new UtilsQuery();
-        return $UtilsQuery->lowercase($text);
+        return $UtilsQuery->lowerCase($text);
     }
     public function noSpecialChar($text)
     {
         $UtilsQuery = new UtilsQuery();
         return $UtilsQuery->noSpecialChar($text);
+    }
+    public function passwordLenght($text)
+    {
+        $UtilsQuery = new UtilsQuery();
+        return $UtilsQuery->passwordLenght($text);
+    }
+    public function passwordDecrypt($text)
+    {
+        $UtilsQuery = new UtilsQuery();
+        return $UtilsQuery->passwordDecrypt($text);
+    }
+    public function passwordEncrypt($text)
+    {
+        $UtilsQuery = new UtilsQuery();
+        return $UtilsQuery->passwordEncrypt($text);
     }
 }
