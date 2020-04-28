@@ -140,12 +140,12 @@ class UserQuery
 		// 1.Generate Activation Link
 		$unique = uniqid($email);
 		// $unique = md5($unique);
-		// $link .= "?id=" . $unique;
+		$link .= "?id=" . $unique;
 		// 2.Generate Valid Timestamp -- Store To Database
 		// Same Email cannot register again, to be checked( !!! Important)
 		// Password Stored Should be Encrypted (!!! Important)
-		// $stmt = mysqli_query($this->conn, "insert into forgot_password(email,valid_till)
-		// values('" . $email . "', DATE_ADD(NOW(), INTERVAL + 1 DAY))");
+		// $stmt = mysqli_query($this->conn, "insert into forgot_password(email,activation_link,valid_till)
+		// values('" . $email . "','" . $unique . "', DATE_ADD(NOW(), INTERVAL + 1 DAY))");
 		// 3.Send Mail
 		if (true) {
 			// Inserted Record in database
