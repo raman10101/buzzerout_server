@@ -48,4 +48,8 @@ class UserImp
     $userQuery = new UserQuery();
     return $userQuery->updateFirstLastName($username, $first_name, $last_name);
   }
+  public function forgotPassword($email){
+		$userQuery = new UserQuery();
+		return $userQuery->forgotPassword($email);
+	}
 }

@@ -132,4 +132,48 @@ class UserQuery
 		}
 		return $response;
 	}
+
+	public function forgotPassword($email)
+	{
+		$response = array();
+		$link = "http://buzzerout.com/user-forgot-password.php";
+		// 1.Generate Activation Link
+		$unique = uniqid($email);
+		// $unique = md5($unique);
+		// $link .= "?id=" . $unique;
+		// 2.Generate Valid Timestamp -- Store To Database
+		// Same Email cannot register again, to be checked( !!! Important)
+		// Password Stored Should be Encrypted (!!! Important)
+		// $stmt = mysqli_query($this->conn, "insert into forgot_password(email,valid_till)
+		// values('" . $email . "', DATE_ADD(NOW(), INTERVAL + 1 DAY))");
+		// 3.Send Mail
+		if (true) {
+			// Inserted Record in database
+			// Send Mail'
+			$application = "BuzzerOut";
+			$from = "raman.10101@gmail.com";
+			$to = $email;
+			$subject = "Password reset link";
+			$message = $link;
+			$headers = 'From: ' . $application . '' . "\r\n" .
+				'Reply-To: ' . $from . ' ' . "\r\n" .
+				'Mailed-By: ' . $application . ' ' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+
+			if (!mail($to, $subject, $message, $headers)) {
+				$response["error"] = true;
+				$response["message"] = 'Email was not sent.';
+				$response["info"] = 'Mailer error: ' . error_get_last()['message'];
+			} else {
+				$response["error"] = false;
+				$response["message"] = 'Email has been sent.';
+			}
+		} else {
+			// Not Inserted (Write Condition Here)
+			$response["error"] = true;
+			$response["message"] = 'Something Went Wrong.';
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }

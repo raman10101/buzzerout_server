@@ -42,6 +42,10 @@ class UserController{
 		$userService = new UserService();
 		return $userService->fetchaAllDetailOfUser($username);
 	}
+	public function forgotPassword($email){
+		$userService = new UserService();
+		return $userService->forgotPassword($email);
+	}
 }
 
 ?>

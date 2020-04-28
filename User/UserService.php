@@ -102,22 +102,11 @@ class UserService
     $temp = $profilecontroller->fetchProfileOfUser($username);
     if ($temp['error'] == false) {
       $response["user"]["profile"] = $temp["profile_detail"];
-      // $response['user']['user_address']=$temp["profile_detail"]['user_address'];
-      // $response['user']['user_mobile']=$temp["profile_detail"]['user_mobile'];
-      // $response['user']['user_gender']=$temp["profile_detail"]['user_gender'];
-      // $response['user']['user_dob']=$temp["profile_detail"]['user_dob'];
-      // $response['user']['user_profile_image']=$temp["profile_detail"]['user_profile_image'];
-      // $response['user']['user_timeline_image']=$temp["profile_detail"]['user_timeline_image'];
-      // $response['user']['user_website']=$temp["profile_detail"]['user_website'];
-      // $response['user']['user_social_link']=$temp["profile_detail"]['user_social_link'];
     }
     $detailController = new UserdetailController();
     $temp = $detailController->fetchUserDetail($username);
     if ($temp['error'] == false) {
       $response["user"]["details"] = $temp["userdetails"];
-      // $response['user']['about_you']=$temp["userdetails"]['about_you'];
-      // $response['user']['other_name']=$temp["userdetails"]['other_name'];
-      // $response['user']['favorite_quote']=$temp["userdetails"]['favorite_quote'];
     }
     $workcontroller = new UsersWorkController();
     $temp = $workcontroller->fetchWorkByUsername($username);
@@ -145,4 +134,10 @@ class UserService
     }
     return $response;
   }
+
+  public function forgotPassword($email){
+		$userImp = new UserImp();
+		return $userImp->forgotPassword($email);
+	}
 }
+?>
