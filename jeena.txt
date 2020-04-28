@@ -2,3 +2,4 @@
     |-> 1) Include Username and Email check
     |-> 2) Divide Check Username Into Two
     |-> 3) LowerCase+ Pssword -> Encrypted + Password.Legth (8,16) + Username.Unique + Email.Unique + Object.Correct
+2) Forgot Password
