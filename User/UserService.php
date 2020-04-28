@@ -47,6 +47,10 @@ class UserService
     $userImp = new UserImp();
     return $userImp->fetchUserByUsername($username);
   }
+  public function fetchUserByEmail($email){
+		$userImp = new UserImp();
+		return $userImp->fetchUserByEmail($email);
+	}
 
   public function fetchAllUsers()
   {

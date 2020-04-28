@@ -57,7 +57,25 @@ class UserQuery
         {
 			$response["error"] = true;
             $response["message"] = "No user found.";
-            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+	public function fetchUserByEmail($email)
+	{
+		$response = array();
+		$stmt = mysqli_query($this->conn,"select * from users where email='".$email."'");
+		if(mysqli_num_rows($stmt) > 0){
+			$response["error"] = false;
+			$response["users"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["users"],$row);
+			}
+			$response["message"] = "User found";
+		}
+		else{
+			$response["error"] = true;
+			$response['message'] = "No user found"; 
 		}
 		return $response;
 	}

@@ -26,6 +26,11 @@ class UserImp
     return $userQuery->fetchUserByUsername($username);
   }
 
+  public function fetchUserByEmail($email){
+		$userQuery = new UserQuery();
+		return $userQuery->fetchUserByEmail($email);
+	}
+
   public function fetchAllUsers()
   {
     $userQuery = new UserQuery();

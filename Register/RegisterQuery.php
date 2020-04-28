@@ -63,42 +63,31 @@ class RegisterQuery
 		$response = array();
 		$stmt = mysqli_query($this->conn,"select * from register where email='".$email."'");
 		if(mysqli_num_rows($stmt) > 0){
-			$stmt2 = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', lastname= '" . $last_name . "', username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
-			if($stmt2){
-				$response["error"] = true;
-				$response["message"] = "User is found in register table with same email , so the link is activated again!!!";
-			}
-			else{
-				$response["error"] = true;
-				$response["message"] = "User is found in register table with same email ,but the link validity is not updated!!";
-				$response["info"] = mysqli_error($this->conn);
-			}
+			$response = $this->updateUserInRegister($first_name, $last_name, $username, $email, $password);
+			$response['error'] = false;
 			$response["users"] = array();
 			while($row = mysqli_fetch_assoc($stmt)){
 				array_push($response["users"],$row);
 			}
 		}
 		else{
-			$response["error"] = false;
+			$response["error"] = true;
+			$response['error'] = "No user found";
 		}	
 		return $response;
 	}
 	
-	public function fetchUserByEmail($email)
+	public function updateUserInRegister($first_name, $last_name, $username, $email, $password)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn,"select * from users where email='".$email."'");
-		if(mysqli_num_rows($stmt) > 0){
-			$response["error"] = true;
-			$response["users"] = array();
-			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["users"],$row);
+		$stmt2 = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', lastname= '" . $last_name . "', username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
+			if($stmt2){
+				$response["message"] = "the link is activated again!!!";
 			}
-			$response["message"] = "An Account is already present by the the same email.";
-		}
-		else{
-			$response["error"] = false;
-		}
+			else{
+				$response["message"] = " the link validity is not updated!!";
+				$response["info"] = mysqli_error($this->conn);
+			}
 		return $response;
 	}
 	
@@ -141,39 +130,17 @@ class RegisterQuery
 	}
 
 
-	public function checkUsername($username)
+	public function fetchUsernameInRegister($username)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "select *  FROM register " );
-		$match = 0;
+		$stmt = mysqli_query($this->conn, "select *  FROM register where username = '".$username."'");
 		if (mysqli_num_rows($stmt) > 0) {
 			// check for the duplication of the username!!!
-			
-			while ($row = mysqli_fetch_assoc($stmt)) {
-				if ($row['username'] == $username){
-					$match = 1;
-					$response["error"] = true;
-					$response["message"] = "Username already exists!!!";
-					break;
-				}
-			}
-		}
-		if ($match == 0){
-			$stmt2 = mysqli_query($this->conn, "select *  FROM users ");
-			if (mysqli_num_rows($stmt2) > 0) {
-				// check for the duplication of the username!!!
-				while ($row = mysqli_fetch_assoc($stmt2)) {
-					if ($row['username'] == $username){
-						$match = 1;
-						$response["error"] = true;
-						$response["message"] = "Username already exists!!!";
-						break;
-					}
-				}
-			}
-		}
-        if ($match == 0){
 			$response["error"] = false;
+			$response["message"] = "Username already exists!!!";
+		}
+        else{
+			$response["error"] = true;
             $response["message"] = "Username does not exists, can prceed with the current username";
 		}
 		return $response;

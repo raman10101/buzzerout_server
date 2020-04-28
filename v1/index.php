@@ -82,6 +82,14 @@ $app->post('/user/fetchUserByUsername', function () use ($app) {
     $response = $userController->fetchUserByUsername($username);
     echoRespnse(200, $response);
 });
+
+$app->post('/user/fetchUserByEmail', function () use ($app) {
+    verifyRequiredParams((array('email')));
+    $email = $app->request->post('email');
+    $userController = new UserController();
+    $response = $userController->fetchUserByEmail($email);
+    echoRespnse(200, $response);
+});
 $app->post('/user/updateFirstLastName', function () use ($app) {
     verifyRequiredParams((array('username','first_name','last_name')));
     $username = $app->request->post('username');
@@ -102,13 +110,17 @@ $app->post('/user/clearUser', function () use ($app) {
     $response = $userController->clearUser();
     echoRespnse(200, $response);
 });
+
+$app->post('/user/forgotPassword', function () use ($app) {
+    verifyRequiredParams((array('email')));
+    $email = $app->request->post('email');
+    $userController = new UserController();
+    $response = $userController->forgotPassword($email);
+    echoRespnse(200, $response);
+});
+
+
 // feed controller
-
-
-
-
-
-
 
 
 // feed by location 

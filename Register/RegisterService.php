@@ -4,34 +4,36 @@ class RegisterService{
 
     function __construct(){
       require_once dirname(__FILE__) . '/RegisterImp.php';
+      require_once  './../User/UserController.php';
     }
 	
     public function registerUser($first_name,$last_name,$username, $email, $password){
 
       $username = strtolower($username);
-
       $registerImp = new RegisterImp();
-      $response = $registerImp->fetchUserByEmail($email);
-      
-      if ($response['error'] == false){
-      // Make fetchUserByUserName (Users)
-      // Chekc That Also 
+      $userController = new UserController();
+      // checking account by email in the users table.
+      $response = $userController->fetchUserByEmail($email);
+      if ($response['error'] == true){
+        // checking account by username in the  users table.
+        $response = $userController->fetchUserByUsername($username);
+        if ($response['error'] == true){
+          //  if no user is found by the current username and email in the users table.  
+          // check the register table for the username and the email.
 
-      // Object- 
-      // 1. Users Table - Username, Email
-      // 2. Register Username, email  -> Update
-
-        $response = $registerImp->fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password);
-        if ($response['error'] == false){
-          return $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
-        }
-        else{
-          return $response;
-        }
+          // checking the register table for the email, if found the details are updated.
+          $response = $registerImp->fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password);
+          if ($response['error'] == true){
+            // checking for the username in the register table.
+            $response = $registerImp->fetchUsernameInRegister($username);
+            if ($response['error'] == true){
+              //  if all checks are passed then register the user.
+              $response= $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
+            }
+          }
+        } 
       }
-      else{
-        return $response;
-      } 
+      return $response;
     }   
       
     public function allUsersToRegister(){
@@ -40,13 +42,15 @@ class RegisterService{
       }   
     
     public function checkUsername($username){
-      $registerImp = new RegisterImp();
-      
-      // User ->fetchUserByUsername
-
-      // Register
-      return $registerImp->checkUsername($username);
-
+      $userController = new UserController();
+      $response = $userController->fetchUserByUsername($username);
+      if ($response['error'] == true){
+        $registerImp = new RegisterImp();
+        return $registerImp->fetchUsernameInRegister($username);
+      }
+      else{
+        return $response;
+      }
     }  
     
     public function clearRegister(){

@@ -16,9 +16,9 @@ class RegisterImp{
 		return $registerQuery->allUsersToRegister();
 	}
 	
-	public function checkUsername($username){
+	public function fetchUsernameInRegister($username){
 		$registerQuery = new RegisterQuery();
-		return $registerQuery->checkUsername($username);
+		return $registerQuery->fetchUsernameInRegister($username);
 	}
 	
 	public function fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password){
@@ -26,10 +26,6 @@ class RegisterImp{
 		return $registerQuery->fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password);
 	}
 	
-	public function fetchUserByEmail($email){
-		$registerQuery = new RegisterQuery();
-		return $registerQuery->fetchUserByEmail($email);
-	}
 
 	public function clearRegister(){
 		$registerQuery = new RegisterQuery();

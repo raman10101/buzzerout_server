@@ -23,7 +23,7 @@ class RegisterController{
 	public function clearRegister(){
 		$registerService = new RegisterService();
 		return $registerService->clearRegister();
-	}
+	}	
 }
 
 ?>

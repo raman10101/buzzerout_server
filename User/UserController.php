@@ -20,7 +20,11 @@ class UserController{
 		$userService = new UserService();
 		return $userService->fetchUserByUsername($username);
 	}
-	
+	public function fetchUserByEmail($email){
+		$userService = new UserService();
+		return $userService->fetchUserByEmail($email);
+	}
+
 	public function fetchAllUsers(){
 		$userService = new UserService();
 		return $userService->fetchAllUsers();
