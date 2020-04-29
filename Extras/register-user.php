@@ -40,7 +40,13 @@ if (mysqli_num_rows($stmt) > 0) {
             }
             echo "You Are Authorised. Redirecting to Website.";
         } else {
-            echo "The link is expired " . $old_date ;
+            $stmt = mysqli_query($conn, "delete from register where activation_link = '" . $id . "' ");
+            if($stmt){
+                echo "The link is expired " . $old_date ."please register again";
+            }
+            else{
+                echo "The link is expired.";
+            }
         }
     break;
     }

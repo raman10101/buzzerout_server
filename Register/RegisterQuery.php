@@ -58,12 +58,29 @@ class RegisterQuery
 		return $response;
 	}
 
-	public function fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password)
+	public function fetchUserToRegisterByEmail($email)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn,"select * from register where email='".$email."'");
 		if(mysqli_num_rows($stmt) > 0){
-			$response = $this->updateUserInRegister($first_name, $last_name, $username, $email, $password);
+			$response['error'] = false;
+			$response["users"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["users"],$row);
+			}
+		}
+		else{
+			$response["error"] = true;
+			$response['error'] = "No user found";
+		}	
+		return $response;
+	}
+	
+	public function checkForUpdate($email, $username)
+	{
+		$response = array();
+		$stmt = mysqli_query($this->conn,"select * from register where username='".$username."' and email !='".$email."'");
+		if(mysqli_num_rows($stmt) > 0){
 			$response['error'] = false;
 			$response["users"] = array();
 			while($row = mysqli_fetch_assoc($stmt)){
@@ -82,9 +99,11 @@ class RegisterQuery
 		$response = array();
 		$stmt2 = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', lastname= '" . $last_name . "', username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
 			if($stmt2){
+				$response['error'] = false;
 				$response["message"] = "the link is activated again!!!";
 			}
 			else{
+				$response['error'] == true;
 				$response["message"] = " the link validity is not updated!!";
 				$response["info"] = mysqli_error($this->conn);
 			}

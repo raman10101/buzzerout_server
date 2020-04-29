@@ -8,8 +8,7 @@ class RegisterService{
     }
 	
     public function registerUser($first_name,$last_name,$username, $email, $password){
-
-      
+  
       $username = strtolower($username);
 
       $registerImp = new RegisterImp();
@@ -26,7 +25,7 @@ class RegisterService{
           // check the register table for the username and the email.
 
           // checking the register table for the email, if found the details are updated.
-          $response = $registerImp->fetchUserToRegisterByEmail($first_name, $last_name, $username, $email, $password);
+          $response = $registerImp->fetchUserToRegisterByEmail($email);
           if ($response['error'] == true){
             // checking for the username in the register table.
             $response = $registerImp->fetchUsernameInRegister($username);
@@ -34,16 +33,34 @@ class RegisterService{
               //  if all checks are passed then register the user.
               $response= $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
             }
+            else{
+              $response['error'] = true;
+              $response['message'] = "Username already Taken";
+            }
           }else{
-            //Update User in REgister Table with new timestap, and details
+            $response = $registerImp->checkForUpdate($email, $username);
+            if ($response['error'] == true){
+              $response = $registerImp->updateUserInRegister($first_name, $last_name, $username, $email, $password);
+              if ($response['error'] = false){
+                $response= $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
+              }
+              else{
+                $response['error'] = true;
+                $response['message'] = "upadation not successful";
+              }
+            }
+            else{
+              $response['error'] = true;
+              $response['message'] = "Username Taken";
+            }
           }
-        } else{
+        }else{
           $response["error"] = true;
-          $response["message"] = "Username Already exixts";
+          $response["message"] = "Username Taken";
         }
       }else{
         $response["error"] = true;
-        $response["message"] = "Email Already exixts";
+        $response["message"] = "An account already exists with same email";
       }
       return $response;
     }   
@@ -68,5 +85,5 @@ class RegisterService{
     public function clearRegister(){
       $registerImp = new RegisterImp();
       return $registerImp->clearRegister();
-      }
+    }
 }
