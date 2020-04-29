@@ -188,11 +188,10 @@ class FeedQuery
 	public function fetchAllFeed()
 	{
 		$response = array();
-
+		$response["Feed"] = array();
 		$stmt = mysqli_query($this->conn, "select * from feed ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
-			$response["Feed"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				array_push($response["Feed"], $row);
 			}
