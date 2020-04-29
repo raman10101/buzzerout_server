@@ -9,11 +9,15 @@ class RegisterService{
 	
     public function registerUser($first_name,$last_name,$username, $email, $password){
 
+      
       $username = strtolower($username);
+
       $registerImp = new RegisterImp();
+
       $userController = new UserController();
       // checking account by email in the users table.
       $response = $userController->fetchUserByEmail($email);
+
       if ($response['error'] == true){
         // checking account by username in the  users table.
         $response = $userController->fetchUserByUsername($username);
@@ -30,8 +34,16 @@ class RegisterService{
               //  if all checks are passed then register the user.
               $response= $registerImp->registerUser($first_name,$last_name,$username, $email, $password);
             }
+          }else{
+            //Update User in REgister Table with new timestap, and details
           }
-        } 
+        } else{
+          $response["error"] = true;
+          $response["message"] = "Username Already exixts";
+        }
+      }else{
+        $response["error"] = true;
+        $response["message"] = "Email Already exixts";
       }
       return $response;
     }   
@@ -58,4 +70,3 @@ class RegisterService{
       return $registerImp->clearRegister();
       }
 }
-?>

@@ -1,11 +1,1 @@
-1) Utils
-    |-> Lowercase
-    |-> parseUsernmae + 
-    |-> Username.special (_ + aLpha + Numeric)
-     parseUsername ->
-        1) Check Username Special Characters
-        2) IfUppaercase - >Lowercase
-    |-> Password Length
-    |-> Password Encyrpt
-    |-> Password Decrypt
-
+1) 2) Public Key - Private Key
