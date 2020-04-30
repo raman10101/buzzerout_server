@@ -8,6 +8,7 @@ class FeedService
         require_once dirname(__FILE__) . '/FeedImp.php';
         require_once  './../Comment/CommentController.php';
         require_once  './../Profile/ProfileController.php';
+        require_once  './../User/UserController.php';
     }
     public function Fetchfeedbylocation($location)
     {
@@ -102,6 +103,13 @@ class FeedService
     public function Uploadfeed($username, $title, $description, $location)
     {
         $feedImp = new FeedImp();
+        //Check Username
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if($userResponse["error"] == true){
+            $userResponse["message"] = "Please SigIn To Buzz";
+            return $userResponse;
+        }
         $response = $feedImp->Uploadfeed($username, $title, $description, $location);
         return $response;
     }
