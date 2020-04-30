@@ -20,10 +20,10 @@ class UsersCollegeController
 		return $userscollegeService->fetchCollegeByUsername($username);
 	}
 	
-	public function deleteCollegeDetailsById($id)
+	public function deleteCollegeDetailsById($id, $username)
 	{
 		$userscollegeService = new UsersCollegeService();
-		return $userscollegeService->deleteCollegeDetailsById($id);
+		return $userscollegeService->deleteCollegeDetailsById($id, $username);
 	}
 
 	public function editCollege($username,  $college_name, $college_place,$college_id){

@@ -155,20 +155,22 @@ $app->post('/feed/uploadFeed', function () use ($app) {
 });
 // upload image to feed
 $app->post('/feed/uploadFeedImage', function () use ($app) {
-    verifyRequiredParams((array('feed_id', 'img')));
+    verifyRequiredParams((array('feed_id', 'img', 'username')));
     $feed_id = $app->request->post('feed_id');
+    $username = $app->request->post('username');
     $img = $app->request->post('img');
     $feedController = new FeedController();
-    $response = $feedController->Uploadfeedimage($feed_id, $img);
+    $response = $feedController->Uploadfeedimage($feed_id, $img,$username);
     echoRespnse(200, $response);
 });
 // feed video upload 
 $app->post('/feed/uploadFeedVideo', function () use ($app) {
-    verifyRequiredParams((array('feed_id', 'video')));
+    verifyRequiredParams((array('feed_id', 'video', 'username')));
+    $username = $app->request->post('username');
     $feedid = $app->request->post('feed_id');
     $video = $app->request->post('video');
     $feedController = new FeedController();
-    $response = $feedController->Uploadfeedvideo($feedid, $video);
+    $response = $feedController->Uploadfeedvideo($feedid, $video, $username);
     echoRespnse(200, $response);
 });
 $app->post('/feed/feedUpvote', function () use ($app) {
@@ -289,10 +291,11 @@ $app->post('/comment/fetchAllComments', function () use ($app) {
 });
 
 $app->post('/comment/deleteComment', function () use ($app) {
-    verifyRequiredParams((array('id')));
+    verifyRequiredParams((array('id,', 'userame')));
+    $username = $app->request->post('username');
     $id = $app->request->post('id');
     $commentController = new CommentController();
-    $response = $commentController->deleteComment($id);
+    $response = $commentController->deleteComment($id, $username);
     echoRespnse(200, $response);
 });
 
@@ -466,10 +469,11 @@ $app->post('/usersWork/fetchWorkByUsername', function () use ($app) {
 });
 
 $app->post('/usersWork/deleteWorkDetailsById', function () use ($app) {
-    verifyRequiredParams((array('id')));
+    verifyRequiredParams((array('id', 'username')));
+    $username = $app->request->post('username');
     $id = $app->request->post('id');
     $usersworkController = new UsersWorkController();
-    $response = $usersworkController->deleteWorkDetailsById($id);
+    $response = $usersworkController->deleteWorkDetailsById($id, $username);
     echoRespnse(200, $response);
 });
 
@@ -507,10 +511,11 @@ $app->post('/usersCollege/fetchCollegeByUsername', function () use ($app) {
 });
 
 $app->post('/usersCollege/deleteCollegeDetailsById', function () use ($app) {
-    verifyRequiredParams((array('id')));
+    verifyRequiredParams((array('id', 'username')));
+    $username = $app->request->post('username');
     $id = $app->request->post('id');
     $userscollegeController = new UsersCollegeController();
-    $response = $userscollegeController->deleteCollegeDetailsById($id);
+    $response = $userscollegeController->deleteCollegeDetailsById($id, $username);
     echoRespnse(200, $response);
 });
 
@@ -542,10 +547,11 @@ $app->post('/usersSocial/fetchSocialDetailsByUsername', function () use ($app) {
     echoRespnse(200, $response);
 });
 $app->post('/usersSocial/deleteSocialDetailsById', function () use ($app) {
-    verifyRequiredParams((array('id')));
+    verifyRequiredParams((array('id', 'username')));
+    $username = $app->request->post('username');
     $id = $app->request->post('id');
     $userssocialController = new UsersSocialController();
-    $response = $userssocialController->deleteSocialDetailsById($id);
+    $response = $userssocialController->deleteSocialDetailsById($id, $username);
     echoRespnse(200, $response);
 });
 

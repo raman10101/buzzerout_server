@@ -30,15 +30,15 @@ class FeedController
 		return $feedService->Fetchallimageoffeed($feedid);
 	}
 	// Fetch Feed By Email
-	public function Uploadfeedimage($feed_id, $img)
+	public function Uploadfeedimage($feed_id, $img, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->Uploadfeedimage($feed_id, $img);
+		return $feedService->Uploadfeedimage($feed_id, $img, $username);
 	}
-	public function Uploadfeedvideo($feedid, $video)
+	public function Uploadfeedvideo($feedid, $video, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->Uploadfeedvideo($feedid, $video);
+		return $feedService->Uploadfeedvideo($feedid, $video, $username);
 	}
 	public function Feedupvote($username, $feedid, $up, $down)
 	{
@@ -80,30 +80,30 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Fetchfeedinfo($feedid);
 	}
-	public function feedDelete($feedid)
+	public function feedDelete($feedid, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->feedDelete($feedid);
+		return $feedService->feedDelete($feedid, $username);
 	}
-	public function imgdelete($feedid)
+	public function imgdelete($feedid, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->imgdelete($feedid);
+		return $feedService->imgdelete($feedid, $username);
 	}
-	public function videoDelete($feedid)
+	public function videoDelete($feedid, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->videoDelete($feedid);
+		return $feedService->videoDelete($feedid, $username);
 	}
-	public function voteDelete($feedid)
+	public function voteDelete($feedid, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->voteDelete($feedid);
+		return $feedService->voteDelete($feedid, $username);
 	}
-	public function clearFeedByFeedId($feedid)
+	public function clearFeedByFeedId($feedid, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->clearFeedByFeedId($feedid);
+		return $feedService->clearFeedByFeedId($feedid, $username);
 	}
 	public function Fetchvotesonfeedbyuser($feedid,$username)
 

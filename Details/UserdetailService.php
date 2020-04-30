@@ -8,9 +8,17 @@ class UserdetailService
     function __construct()
     {
         require_once dirname(__FILE__) . '/UserdetailImp.php';
+        require_once  './../User/UserController.php';
     }
     public function createUserDetail($username, $about_you, $other_name, $fav_quote)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To enter details";
+          return $userResponse;
+      }
         $UserdetailImp = new UserdetailImp();
         $UserDetailController=new UserdetailController();
         $resp = $UserdetailImp->createUserDetail($username, $about_you, $other_name, $fav_quote);
@@ -27,6 +35,13 @@ class UserdetailService
     }
     public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To update details";
+          return $userResponse;
+      }
         $UserdetailImp = new UserdetailImp();
         $UserDetailController=new UserdetailController();
         $userDetailFetchResp = $UserDetailController->fetchUserDetail($username);

@@ -101,7 +101,7 @@ class CommentQuery
 		return $response;
 	}
 
-	public function deleteComment($id)
+	public function deleteComment($id, $username)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "DELETE FROM comments where id = '" . $id . "'");

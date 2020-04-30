@@ -24,10 +24,10 @@ class UsersWorkController
 		return $usersworkService->fetchWorkByUsername($username);
 	}
 	
-	public function deleteWorkDetailsById($id)
+	public function deleteWorkDetailsById($id, $username)
 	{
 		$usersworkService = new UsersWorkService();
-		return $usersworkService->deleteWorkDetailsById($id);
+		return $usersworkService->deleteWorkDetailsById($id, $username);
 	}
 
 }

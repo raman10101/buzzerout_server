@@ -42,18 +42,39 @@ class FeedService
         return $feedImp->Fetchvotesonfeed($feedid);
     }
 
-    public function Uploadfeedimage($feed_id, $img)
+    public function Uploadfeedimage($feed_id, $img,$username)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To upload a image";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedimage($feed_id, $img);
     }
-    public function Uploadfeedvideo($feedid, $video)
+    public function Uploadfeedvideo($feedid, $video, $username)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To upload a video";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedvideo($feedid, $video);
     }
     public function Feedupvote($username, $feedid, $up, $down)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To upvote a Buzz";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->Feedupvote($username, $feedid, $up, $down);
     }
@@ -113,34 +134,62 @@ class FeedService
         $response = $feedImp->Uploadfeed($username, $title, $description, $location);
         return $response;
     }
-    public function feedDelete($feedid)
+    public function feedDelete($feedid, $username)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To delete a Buzz";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->feedDelete($feedid);
     }
-    public function imgdelete($feedid)
+    public function imgdelete($feedid, $username)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To delete a image of Buzz";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->imgdelete($feedid);
     }
-    public function videoDelete($feedid)
+    public function videoDelete($feedid, $username)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To delete a video of Buzz";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->videoDelete($feedid);
     }
-    public function voteDelete($feedid)
+    public function voteDelete($feedid, $username)
     {
+        //Check Username
+      $user = new UserController();
+      $userResponse = $user->fetchUserByUsername($username);
+      if($userResponse["error"] == true){
+          $userResponse["message"] = "Please SigIn To delete a vote of Buzz";
+          return $userResponse;
+      }
         $feedImp = new FeedImp();
         return $feedImp->voteDelete($feedid);
     }
-    public function clearFeedByFeedId($feedid)
+    public function clearFeedByFeedId($feedid, $username)
     {
         $feedController = new FeedController();
         $response = array();
-        $response["feed_delete"] = $feedController->feedDelete($feedid);
-        $response["feed_image_delete"] = $feedController->imgdelete($feedid);
-        $response["feed_video_delete"] = $feedController->videoDelete($feedid);
-        $response["feed_vote_delete"] = $feedController->voteDelete($feedid);
+        $response["feed_delete"] = $feedController->feedDelete($feedid, $username);
+        $response["feed_image_delete"] = $feedController->imgdelete($feedid, $username);
+        $response["feed_video_delete"] = $feedController->videoDelete($feedid, $username);
+        $response["feed_vote_delete"] = $feedController->voteDelete($feedid, $username);
 
         $commentController = new CommentController();
         $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($feedid);
@@ -177,7 +226,7 @@ class FeedService
                 # code...
                 $feedid = $temp["Feed"][$i]["feed_id"];
                 $response[$feedid] = array();
-                $response[$feedid] = $feedController->clearFeedByFeedId($feedid);
+                $response[$feedid] = $feedController->clearFeedByFeedId($feedid, $username);
             }
         }
         return $response;

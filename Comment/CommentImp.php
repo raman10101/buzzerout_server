@@ -26,9 +26,9 @@ class CommentImp{
 		return $commentQuery->fetchAllComments();
     }
     
-    public function deleteComment($id){
+    public function deleteComment($id, $username){
       $commentQuery = new CommentQuery();
-      return $commentQuery->deleteComment($id);
+      return $commentQuery->deleteComment($id, $username);
     }
     
     public function deleteCommentByFeedId($feed_id){

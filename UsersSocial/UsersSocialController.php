@@ -20,10 +20,10 @@ class UsersSocialController
 		return $userssocialervice->fetchSocialDetailsByUsername($username);
 	}
 	
-	public function deleteSocialDetailsById($id)
+	public function deleteSocialDetailsById($id,$username)
 	{
 		$userssocialervice = new UsersSocialService();
-		return $userssocialervice->deleteSocialDetailsById($id);
+		return $userssocialervice->deleteSocialDetailsById($id, $username);
 	}
 
 }
