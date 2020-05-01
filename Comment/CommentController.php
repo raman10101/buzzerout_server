@@ -40,7 +40,7 @@ class CommentController{
 		$commentService = new CommentService();
 		return $commentService->clearComment();
 	}
-
+	
 }
 
 ?>
