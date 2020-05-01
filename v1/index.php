@@ -29,13 +29,16 @@ $app = new \Slim\Slim();
 
 $app->post('/register/registerUser', function () use ($app) {
     verifyRequiredParams((array('username', 'firstname', 'email', 'password')));
+
     $first_name = $app->request->post('firstname');
     $last_name = $app->request->post('lastname');
     $username = $app->request->post('username');
     $email = $app->request->post('email');
     $password = $app->request->post('password');
+
     $registerController = new RegisterController();
     $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password);
+    
     echoRespnse(200, $response);
 });
 

@@ -1,2 +1,1 @@
-1) Add Utils In Registration and Login
-2) Public Key - Private Key
+1) Check TODO In Register Folder
