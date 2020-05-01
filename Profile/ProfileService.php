@@ -9,6 +9,7 @@ class ProfileService
     {
         require_once dirname(__FILE__) . '/ProfileImp.php';
         require_once  './../User/UserController.php';
+        require_once './../Profile/ProfileController.php';
     }
     public function createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image)
     {
@@ -84,5 +85,25 @@ class ProfileService
             return $profileController->fetchProfileOfUser($username);
         }
         return $resp; 
+    }
+    public function updateUserTimelineImage($username,$img)
+    {
+        $ProfileImp = new ProfileImp();
+        $profilecontroller = new ProfileController();
+        $response=$ProfileImp->updateUserTimelineImage($username,$img);
+        if($response['error']==false){
+            $response=$profilecontroller->fetchProfileOfUser($username);
+        }
+        return $response;
+    }
+    public function updateUserProfileImage($username,$img)
+    {
+        $ProfileImp = new ProfileImp();
+        $profilecontroller = new ProfileController();
+        $response=$ProfileImp->updateUserProfileImage($username,$img);
+        if($response['error']==false){
+            $response=$profilecontroller->fetchProfileOfUser($username);
+        }
+        return $response;
     }
 }

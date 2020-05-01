@@ -106,9 +106,13 @@ class FeedController
 		return $feedService->clearFeedByFeedId($feedid, $username);
 	}
 	public function Fetchvotesonfeedbyuser($feedid,$username)
-
 	{
 		$feedService = new FeedService();
 		return $feedService->Fetchvotesonfeedbyuser($feedid,$username);
+	}
+	public function editFeed($username, $feed_id,$title, $description, $location)
+	{
+		$feedService = new FeedService();
+		return $feedService->editFeed($username, $feed_id,$title, $description, $location);
 	}
 }
