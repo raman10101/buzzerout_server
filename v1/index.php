@@ -252,6 +252,17 @@ $app->post('/feed/fetchAllImageOfFeed', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/feed/editFeed', function () use ($app) {
+    verifyRequiredParams((array('feed_id', 'username', 'title', 'description', 'location')));
+    $username = $app->request->post('username');
+    $feed_id = $app->request->post('feed_id');
+    $title = $app->request->post('title');
+    $description = $app->request->post('description');
+    $location = $app->request->post('location');
+    $feedController = new FeedController();
+    $response = $feedController->editFeed($feed_id, $username, $title, $description, $location);
+    echoRespnse(200, $response);
+});
 
 
 
@@ -414,6 +425,24 @@ $app->post('/profile/updateDobGender', function () use ($app) {
     $uob = $app->request->post('uob');
     $profileController = new ProfileController();
     $response = $profileController->updateDobGender($username, $dob, $uob,$gender);
+    echoRespnse(200, $response);
+});
+
+$app->post('/profile/updateUserProfileImage', function () use ($app) {
+    verifyRequiredParams((array('username','img')));
+    $username = $app->request->post('username');
+    $img = $app->request->post('img');
+    $profileController = new ProfileController();
+    $response = $profileController->updateUserProfileImage($username, $img);
+    echoRespnse(200, $response);
+});
+
+$app->post('/profile/updateUserTimelineImage', function () use ($app) {
+    verifyRequiredParams((array('username','img')));
+    $username = $app->request->post('username');
+    $img = $app->request->post('img');
+    $profileController = new ProfileController();
+    $response = $profileController->updateUserTimelineImage($username, $img);
     echoRespnse(200, $response);
 });
 
