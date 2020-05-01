@@ -55,29 +55,28 @@ class FeedQuery
 		$response = array();
 		$stmt = mysqli_query($this->conn, "select * from feed_votes where feed_id='" . $feedid . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["upvote_list"] = array();
+			$response["downvote_list"] = array();
 			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
-				$response["error"] = false;
 				$response["upvote_message"] = "upvotes Found";
-				$response["upvote_list"] = array();
+				
 				while ($row = mysqli_fetch_assoc($stmt)) {
 					array_push($response["upvote_list"], $row);
 				}
 			} else {
-				$response["error"] = true;
 				$response["upvote_message"] = "upvote Not found";
 				$response["upvote_error_mess"] = mysqli_error($this->conn);
 			}
 			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
-				$response["error"] = false;
 				$response["downvote_message"] = "downvote Found";
-				$response["downvote_list"] = array();
+				
 				while ($row = mysqli_fetch_assoc($stmt)) {
 					array_push($response["downvote_list"], $row);
 				}
 			} else {
-				$response["error"] = true;
 				$response["downvote_message"] = "no downvote found";
 				$response["downvote_error_mess"] = mysqli_error($this->conn);
 			}
