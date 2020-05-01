@@ -97,4 +97,10 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchvotesonfeedbyuser($feedid,$username);
     }
+    public function editFeed($username, $feed_id,$title, $description, $location)
+
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->editFeed($username, $feed_id,$title, $description, $location);
+    }
 }

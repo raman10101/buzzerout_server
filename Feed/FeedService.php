@@ -278,4 +278,10 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchvotesonfeedbyuser($feedid, $username);
     }
+    public function editFeed($username, $feed_id,$title, $description, $location)
+
+    {
+        $feedImp = new FeedImp();
+        return $feedImp->editFeed($username, $feed_id,$title, $description, $location);
+    }
 }

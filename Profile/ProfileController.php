@@ -32,5 +32,15 @@ class ProfileController
     {
         $ProfileService = new ProfileService();
 		return $ProfileService->createEmptyProfileOfUser($username);
-    }
+	}
+	public function updateUserProfileImage($username,$img)
+    {
+        $ProfileService = new ProfileService();
+		return $ProfileService->updateUserProfileImage($username,$img);
+	}
+	public function updateUserTimelineImage($username,$img)
+    {
+        $ProfileService = new ProfileService();
+		return $ProfileService->updateUserTimelineImage($username,$img);
+	}
 }

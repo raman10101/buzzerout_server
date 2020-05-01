@@ -98,4 +98,35 @@ class ProfileQuery
 		}
 		return $response;
 	}
+	public function updateUserProfileImage($username,$img)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "update users_profile set  user_profile_image='" . $img . "' WHERE username = '" . $username . "' ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Profile update";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Profile Not update";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function updateUserTimelineImage($username,$img)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "update users_profile set  user_timeline_image='" . $img . "' WHERE username = '" . $username . "' ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Profile update";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Profile Not update";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }
+

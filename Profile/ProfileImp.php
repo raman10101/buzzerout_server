@@ -34,4 +34,14 @@ class ProfileImp
         $ProfileQuery = new ProfileQuery();
         return $ProfileQuery->updateDobGender($username, $dob, $uob,$gender);
     }
+    public function updateUserTimelineImage($username,$img)
+    {
+        $ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->updateUserTimelineImage($username,$img);
+    }
+    public function updateUserProfileImage($username,$img)
+    {
+        $ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->updateUserProfileImage($username,$img);
+    }
 }
