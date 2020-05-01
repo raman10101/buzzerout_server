@@ -1,1 +1,4 @@
 1) Check TODO In Register Folder
+2) Comments-
+    1) Edit Comment
+    2) Delete Comment

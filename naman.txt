@@ -1,1 +1,9 @@
-1) 2) Public Key - Private Key
+1) Utils ParseUsername -
+    1) Check Lowercase
+    2) Only AlphaNumeric
+2) Feed -
+    1) Feed Edit
+    2) Feed Delete
+3) Profile - 
+    1) Upload User Image
+    2) Upload TimeLine Image
