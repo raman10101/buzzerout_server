@@ -1,4 +1,2 @@
-1) Check TODO In Register Folder  DONE 
-2) Comments-
-    1) Edit Comment  DONE
-    2) Delete Comment DONE
+1) At the time suceesfuull  registration
+    1) Add entry to users

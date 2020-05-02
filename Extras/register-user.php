@@ -22,7 +22,9 @@ if (mysqli_num_rows($stmt) > 0) {
         if ($current_date_Timestamp < $old_date_Timestamp) {
             // Link not expired
 
-            // Add Enrty to User Table
+            // Add Enrty to User Table (Add only username, email, password, role)
+            // Add TO users profile - > No need to create empty profile
+            // Profile First_name, last_name, user_name, 
             $stmt2 = mysqli_query($conn, "insert into users(username, email, password, first_name, last_name)
             values('$username','$email','$password','$first_name','$last_name')");
             if ($stmt2) {
