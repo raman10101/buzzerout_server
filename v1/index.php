@@ -36,6 +36,13 @@ $app->post('/register/registerUser', function () use ($app) {
     $email = $app->request->post('email');
     $password = $app->request->post('password');
 
+
+    // To check for role
+    $role = 0;
+    if(isset($_POST["role"])){
+        $role = $_POST["role"];
+    }
+
     $registerController = new RegisterController();
     $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password);
     
