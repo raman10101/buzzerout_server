@@ -8,6 +8,8 @@ class UserService
     require_once dirname(__FILE__) . '/UserImp.php';
     require_once dirname(__FILE__) . '/UserController.php';
     require_once '../Profile/ProfileController.php';
+    require_once '../Auth/AuthController.php';
+    require_once '../Feed/FeedController.php';
     require_once '../UsersWork/UsersWorkController.php';
     require_once '../UsersCollege/UsersCollegeController.php';
     require_once '../UsersSocial/UsersSocialController.php';
@@ -47,13 +49,26 @@ class UserService
     // Two Fetch Feed, According Role -> Jeena
     // Fetch Feed According to Username
 
-    $response = $userImp->loginUserWithUsername($username,  $password);
+    $authController = new AuthController();
     $usercontroller = new UserController();
-    if ($response['error'] == false) {
-      $profileController = new ProfileController();
-      $createEmptyProfile  = $profileController->createEmptyProfileOfUser($username);
-      $resp = $usercontroller->fetchaAllDetailOfUser($username);
-      $response["user"] = $resp["user"];
+    $profileController = new ProfileController();
+    $feedController = new FeedController();
+    $response = $authController->authUser($username);
+    if ($response['error'] == false){
+      $response = $userImp->loginUserWithUsername($username,  $password);
+      if ($response['error'] == false) {
+        $resp = $usercontroller->fetchaAllDetailOfUser($username);
+        $response["user"] = $resp["user"];
+        $role = $response["user"]["profile"]['role'];
+        $feedResp = $feedController->fetchFeedByROle($role);
+        if ($feedResp['error'] == false){
+          $response['feed'] = $feedResp['feed'];
+        }
+        else{
+          $response['error'] = true;
+          $response['message'] = "error in feed fetching by role";
+        }
+      }
     }
     return $response;
   }
@@ -65,7 +80,6 @@ class UserService
     $usercontroller = new UserController();
     if ($response['error'] == false) {
       $profileController = new ProfileController();
-      $createEmptyProfile  = $profileController->createEmptyProfileOfUser($username);
       $resp = $usercontroller->fetchaAllDetailOfUser($username);
       $response["user"] = $resp["user"];
     }

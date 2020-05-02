@@ -23,7 +23,7 @@ class RegisterController{
    * This function will register or update a user, 
    * and successfully Send The Mail Of Registration To User 
    */
-  
+   
 	public function registerUser($first_name,$last_name,$username, $email, $password, $role){
 		$registerService = new RegisterService();
 		return $registerService->registeruser($first_name,$last_name,$username, $email, $password, $role);

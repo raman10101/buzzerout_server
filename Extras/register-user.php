@@ -15,6 +15,7 @@ if (mysqli_num_rows($stmt) > 0) {
         $email = $row["email"];
         $first_name = $row["first_name"];
         $last_name = $row["last_name"];
+        $role = $row["role"];
         $old_date_Timestamp = strtotime($old_date);
 
         $current_date_Timestamp = time();
@@ -25,19 +26,29 @@ if (mysqli_num_rows($stmt) > 0) {
             // Add Enrty to User Table (Add only username, email, password, role)
             // Add TO users profile - > No need to create empty profile
             // Profile First_name, last_name, user_name, 
-            $stmt2 = mysqli_query($conn, "insert into users(username, email, password, first_name, last_name)
-            values('$username','$email','$password','$first_name','$last_name')");
+            $stmt2 = mysqli_query($conn, "insert into users(username, email, password, role)
+            values('$username','$email','$password','$role')");
             if ($stmt2) {
-                // Clear Register Tale Entry
-                $stmt3 = mysqli_query($conn, "DELETE FROM register WHERE activation_link = '" . $id . "'");
-                // Go To Website Login Page
-                if ($stmt3) {
-                    // goto login page
-                    header("Location: http://buzzerout.com/sign-in.html");
-                } else {
-                    echo "user not deleted from register table";
+                $stmt3 = mysqli_query($conn, "insert into users_profile(username, last_name, first_name)
+                values('$username','$last_name','$first_name')");
+                if ($stmt3)
+                {
+                    // Clear Register Tale Entry
+                    $stmt4 = mysqli_query($conn, "DELETE FROM register WHERE activation_link = '" . $id . "'");
+                    // Go To Website Login Page
+                    if ($stmt4) {
+                        // goto login page
+                        header("Location: http://buzzerout.com/sign-in.html");
+                    } 
+                    else {
+                        echo "user not deleted from register table";
+                    }
                 }
-            } else {
+                else{
+                    echo "user not inserted into the users_profile table " . mysqli_error($conn);   
+                }
+            } 
+            else {
                 echo "user not inserted into the users table " . mysqli_error($conn);
             }
             echo "You Are Authorised. Redirecting to Website.";
