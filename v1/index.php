@@ -44,7 +44,7 @@ $app->post('/register/registerUser', function () use ($app) {
     }
 
     $registerController = new RegisterController();
-    $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password);
+    $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password, $role);
     
     echoRespnse(200, $response);
 });

@@ -10,7 +10,7 @@ class RegisterService
     require_once  './../Utils/UtilsController.php';
   }
   
-  public function registerUser($first_name, $last_name, $username, $email, $password)
+  public function registerUser($first_name, $last_name, $username, $email, $password, $role)
   {
     
     $registerImp = new RegisterImp();
@@ -55,18 +55,18 @@ class RegisterService
               $response = $registerImp->fetchUsernameInRegister($username);
               if ($response['error'] == true) {
                 //  if all checks are passed then register the user.
-                $response = $registerImp->registerUser($first_name, $last_name, $username, $email, $password);
+                $response = $registerImp->registerUser($first_name, $last_name, $username, $email, $password, $role);
 
               } else {
                 $response['error'] = true;
                 $response['message'] = "Username already Taken";
               }
-            } else {
-
+            } 
+            else {
               $response = $registerImp->checkForUpdate($email, $username);
               if ($response['error'] == true) {
 
-                $response = $registerImp->updateUserInRegister($first_name, $last_name, $username, $email, $password);
+                $response = $registerImp->updateUserInRegister($first_name, $last_name, $username, $email, $password, $role);
 
                 // /**
                 //  * TODO : No Need To Register After Update.

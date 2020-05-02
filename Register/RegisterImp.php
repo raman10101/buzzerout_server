@@ -6,9 +6,9 @@ class RegisterImp{
         require_once dirname(__FILE__) . '/RegisterQuery.php';
 	}
 	
-	public function registerUser($first_name,$last_name,$username, $email, $password){
+	public function registerUser($first_name,$last_name,$username, $email, $password, $role){
 		$registerQuery = new RegisterQuery();
-		return $registerQuery->registerUser($first_name,$last_name,$username, $email, $password);
+		return $registerQuery->registerUser($first_name,$last_name,$username, $email, $password, $role);
 	}
 	
 	public function allUsersToRegister(){
@@ -26,9 +26,9 @@ class RegisterImp{
 		return $registerQuery->fetchUserToRegisterByEmail($email);
 	}
 	
-	public function updateUserInRegister($first_name, $last_name, $username, $email, $password){
+	public function updateUserInRegister($first_name, $last_name, $username, $email, $password, $role){
 		$registerQuery = new RegisterQuery();
-		return $registerQuery->updateUserInRegister($first_name, $last_name, $username, $email, $password);
+		return $registerQuery->updateUserInRegister($first_name, $last_name, $username, $email, $password, $role);
 	}
 	
 	public function checkForUpdate($email, $username){
