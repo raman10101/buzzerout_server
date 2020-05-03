@@ -411,4 +411,23 @@ class FeedQuery
 		}
 		return $response;
 	}
+	public function fetchFeedByROle($role)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "select * from feed where role='" . $role . "' ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Feed Found";
+			$response["feed"] = array();
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["feed"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not found";
+			$response["error mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }

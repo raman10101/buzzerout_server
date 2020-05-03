@@ -103,4 +103,10 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->editFeed($username, $feed_id,$title, $description, $location);
     }
+    public function fetchFeedByROle($role)
+
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->fetchFeedByROle($role);
+    }
 }
