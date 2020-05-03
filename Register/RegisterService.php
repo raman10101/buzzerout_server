@@ -15,27 +15,19 @@ class RegisterService
     
     $registerImp = new RegisterImp();
     $userController = new UserController();
-    $utilsController = new UtilsController();
-    /** 
-     * TODO : Use Utils For Checking Username
-     *        Use a single function like Utils.ParseUserName($username)
-     *        This function will :-
-     *        1. Check For Special Chars in UserName
-     *        2. Convert UpperCase To Lowercase
-     *        3. Only Allow UTF-8 characters, no other symbol Permissiable
-     */
-
-    // $username = strtolower($username);
-    $response = $utilsController->lowerCase($username);
+    // $utilsController = new UtilsController();
+    // $response = $utilsController->lowerCase($username);
+    $response = array();
+    $response["error"] = false;
     if($response['error'] == false){
-      $response = $utilsController->parseUsernmae($username);
+      // $response = $utilsController->parseUsernmae($username);
+      $response["error"] = false;
       if ($response['error'] == true){
         return $response;
       }
       else{
         //Decrypt the password coming from frontend.
         // Encrypt the password again.
-
         // Proceeed to register if everything is ok.
         $response = $userController->fetchUserByEmail($email);
 
@@ -67,19 +59,6 @@ class RegisterService
               if ($response['error'] == true) {
 
                 $response = $registerImp->updateUserInRegister($first_name, $last_name, $username, $email, $password, $role);
-
-                // /**
-                //  * TODO : No Need To Register After Update.
-                //  *        Call Send Mail To User After SuccessFull Update
-                //  */
-                // if ($response['error'] = false) {
-
-                //   $response = $registerImp->registerUser($first_name, $last_name, $username, $email, $password);
-
-                // } else {
-                //   $response['error'] = true;
-                //   $response['message'] = "upadation not successful";
-                // }
               } else {
                 $response['error'] = true;
                 $response['message'] = "Username Already Taken";

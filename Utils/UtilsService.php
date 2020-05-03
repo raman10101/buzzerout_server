@@ -26,7 +26,7 @@ class UtilsService
         $newresponse=array();
         $response=$utilscontroller->noSpecialChar($text);
         if($response['error']==true){
-            $newresponse['error']=true;
+            $newresponse["error"]=true;
             $newresponse['message']='invalid username';
         }else{
             $newresponse['error']=false;

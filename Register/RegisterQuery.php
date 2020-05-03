@@ -22,7 +22,7 @@ class RegisterQuery
 		$unique = uniqid($username);
 		$link .= "?id=" . $unique;
 		$stmt = mysqli_query($this->conn, "insert into register(first_name,last_name,username,email,password,activation_link,valid_till, role)
-		values('" . $first_name . "','" . $last_name . "','" . $username . "','" . $email . "','" . $password . "','" . $unique . "',DATE_ADD(NOW(), INTERVAL + 6 DAY)),'" . $role . "'");
+		values('" . $first_name . "','" . $last_name . "','" . $username . "','" . $email . "','" . $password . "','" . $unique . "',DATE_ADD(NOW(), INTERVAL + 6 DAY),$role)");
 		// 3.Send Mail
 		if ($stmt) {
 			// Inserted Record in database
@@ -98,7 +98,7 @@ class RegisterQuery
 		$unique = uniqid($username);
 		// $unique = md5($unique);
 		$link .= "?id=" . $unique;
-		$stmt = mysqli_query($this->conn, "UPDATE register SET firstname = '" . $first_name . "', role= '" . $role . "', lastname= '" . $last_name . "',activation_link='".$unique."',  username - '" . $username . ", password ='" . $password . "', valid_till = ,DATE_ADD(NOW(), INTERVAL + 6 DAY)) WHERE email = '" . $email . "'");
+		$stmt = mysqli_query($this->conn, "UPDATE register SET first_name = '" . $first_name . "', role= '" . $role . "', last_name= '" . $last_name . "',activation_link='".$unique."',  username = '" . $username . "', password ='" . $password . "', valid_till = DATE_ADD(NOW(), INTERVAL + 6 DAY) WHERE email = '" . $email . "' ");
 		if ($stmt) {
 			// Updated Record in database
 			// Send Mail'
