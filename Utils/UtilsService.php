@@ -25,16 +25,14 @@ class UtilsService
         $utilscontroller=new UtilsController();
         $newresponse=array();
         $response=$utilscontroller->noSpecialChar($text);
-        {
-            if($response['error']==true){
-                $newresponse['error']=true;
-                $newresponse['message']='invalid username';
-            }else{
-                $newresponse['error']=false;
-                $newresponse['messgae']="string has no special character";
-                $response=$utilscontroller->lowerCase;
-                $newresponse['username']=$response['new_username'];
-            }
+        if($response['error']==true){
+            $newresponse['error']=true;
+            $newresponse['message']='invalid username';
+        }else{
+            $newresponse['error']=false;
+            $newresponse['messgae']="string has no special character";
+            $response=$utilscontroller->lowerCase;
+            $newresponse['username']=$response['new_username'];
         }
         return $newresponse;
     }

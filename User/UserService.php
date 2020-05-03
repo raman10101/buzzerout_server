@@ -20,35 +20,6 @@ class UserService
   {
     $userImp = new UserImp();
 
-    // Authentication
-
-    // |-> Auth Service -> User Valid Or NOt -> Role, Other Username variables
-
-    // Authorisation
-
-    // |-> $role == 0 (Live User), $rolw == 1 (Test USer)
-    // If role == 0, throw error
-    // |-> Role = 0, data for live people, else test also
-
-    // Login Successfull
-
-    // Profile Of USer
-    // Feed Of User
-    // Notifications Of User
-
-    // Only That post will be returned
-    // Add comment, only added comment, or only true false
-    // Front -end
-
-    // Front end - refresh, api check login, ya ni hai, login, local uska data hoga, but we will need to call fetch post ($username)
-
-    // Authentcation Authorisation
-
-    // Role According uski feeds usko meelengi
-
-    // Two Fetch Feed, According Role -> Jeena
-    // Fetch Feed According to Username
-
     $authController = new AuthController();
     $usercontroller = new UserController();
     $profileController = new ProfileController();
