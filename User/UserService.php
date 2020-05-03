@@ -29,15 +29,25 @@ class UserService
       $response = $userImp->loginUserWithUsername($username,  $password);
       if ($response['error'] == false) {
         $resp = $usercontroller->fetchaAllDetailOfUser($username);
-        $response["user"] = $resp["user"];
-        $role = $response["user"]["profile"]['role'];
-        $feedResp = $feedController->fetchFeedByROle($role);
-        if ($feedResp['error'] == false){
-          $response['feed'] = $feedResp['feed'];
-        }
-        else{
-          $response['error'] = true;
-          $response['message'] = "error in feed fetching by role";
+        if ($resp['error'] == false){
+          $response["user"] = $resp["user"];
+          $roleResp = $usercontroller->fetchUserByUsername($username);
+          if ($roleResp['error'] == false)
+          {
+            $role = $roleResp['user']['role'];
+            $feedResp = $feedController->fetchFeedByROle($role);
+            if ($feedResp['error'] == false){
+              $response['feed'] = $feedResp['feed'];
+            }
+            else{
+              $response['error'] = true;
+              $response['message'] = "error in feed fetching by role";
+            }
+          }
+          else{
+            $resppnse['error'] = true;
+            $response['message'] = "error in fetching the user by username";
+          }
         }
       }
     }
