@@ -1,46 +1,58 @@
-<?php 
+<?php
 
-class RegisterImp{
+class RegisterImp
+{
 
-    function __construct(){
-        require_once dirname(__FILE__) . '/RegisterQuery.php';
+	function __construct()
+	{
+		require_once dirname(__FILE__) . '/RegisterQuery.php';
 	}
-	
-	public function registerUser($first_name,$last_name,$username, $email, $password, $role){
+
+	public function registerUser($first_name, $last_name, $username, $email, $password, $role)
+	{
 		$registerQuery = new RegisterQuery();
-		return $registerQuery->registerUser($first_name,$last_name,$username, $email, $password, $role);
+		return $registerQuery->registerUser($first_name, $last_name, $username, $email, $password, $role);
 	}
-	
-	public function allUsersToRegister(){
+
+	public function activateRegisterUserLink($email)
+	{
+		$registerQuery = new RegisterQuery();
+		return $registerQuery->activateRegisterUserLink($email);
+	}
+
+	public function allUsersToRegister()
+	{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->allUsersToRegister();
 	}
-	
-	public function fetchUsernameInRegister($username){
+
+	public function fetchUsernameInRegister($username)
+	{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->fetchUsernameInRegister($username);
 	}
-	
-	public function fetchUserToRegisterByEmail($email){
+
+	public function fetchUserToRegisterByEmail($email)
+	{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->fetchUserToRegisterByEmail($email);
 	}
-	
-	public function updateUserInRegister($first_name, $last_name, $username, $email, $password, $role){
+
+	public function updateUserInRegister($first_name, $last_name, $username, $email, $password, $role)
+	{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->updateUserInRegister($first_name, $last_name, $username, $email, $password, $role);
 	}
-	
-	public function checkForUpdate($email, $username){
+
+	public function checkForUpdate($email, $username)
+	{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->checkForUpdate($email, $username);
 	}
 
-	public function clearRegister(){
+	public function clearRegister()
+	{
 		$registerQuery = new RegisterQuery();
 		return $registerQuery->clearRegister();
 	}
-
 }
-
-?>

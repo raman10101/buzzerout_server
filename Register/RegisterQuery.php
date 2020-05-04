@@ -54,6 +54,44 @@ class RegisterQuery
 		return $response;
 	}
 
+	public function activateRegisterUserLink($email)
+	{
+		$response = array();
+		$link = "http://buzzerout.com/register-user.php";
+		// 1.Generate Activation Link
+		$unique = uniqid($email);
+		// $unique = md5($unique);
+		$link .= "?id=" . $unique;
+		$stmt = mysqli_query($this->conn, "UPDATE register SET  valid_till = DATE_ADD(NOW(), INTERVAL + 6 DAY), activation_link = '".$unique."'  WHERE email = '" . $email . "' ");
+		if ($stmt) {
+			// Updated Record in database
+			// Send Mail'
+			$application = "BuzzerOut";
+			$from = "raman.10101@gmail.com";
+			$to = $email;
+			$subject = "User Registration";
+			$message = $link;
+			$headers = 'From: ' . $application . '' . "\r\n" .
+				'Reply-To: ' . $from . ' ' . "\r\n" .
+				'Mailed-By: ' . $application . ' ' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+
+			if (!mail($to, $subject, $message, $headers)) {
+				$response["error"] = true;
+				$response["message"] = 'Email was not sent.';
+				$response["info"] = 'Mailer error: ' . error_get_last()['message'];
+			} else {
+				$response["error"] = false;
+				$response["message"] = 'Email has been sent.';
+			}
+		} else {
+			// Not Updated (Write Condition Here)
+			$response["error"] = true;
+			$response["message"] = 'Something Went Wrong.';
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	public function fetchUserToRegisterByEmail($email)
 	{
 		$response = array();

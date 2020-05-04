@@ -17,6 +17,7 @@ require_once '../UsersCollege/UsersCollegeController.php';
 require_once '../UsersWork/UsersWorkController.php';
 require_once '../Details/UserdetailController.php';
 require_once '../Places/PlacesController.php';
+require_once '../Auth/AuthController.php';
 require '../libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
@@ -25,37 +26,58 @@ $app = new \Slim\Slim();
 /*
 */
 
-//Register Controller
+/**
+ * Auth Controller API starts here
+ */
 
+$app->post('/auth/authenticateNewUsername', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $authController = new AuthController();
+    $response = $authController->authenticateNewUsername($username);
+    echoRespnse(200, $response);
+});
+$app->post('/auth/authenticateNewEmail', function () use ($app) {
+    verifyRequiredParams((array('email')));
+    $email = $app->request->post('email');
+    $authController = new AuthController();
+    $response = $authController->authenticateNewEmail($email);
+    echoRespnse(200, $response);
+});
+
+/**
+ * Auth Controller API ends here
+ */
+
+
+
+/**
+ * Register Controller API starts here
+ */
 $app->post('/register/registerUser', function () use ($app) {
     verifyRequiredParams((array('username', 'firstname', 'email', 'password')));
-
     $first_name = $app->request->post('firstname');
     $last_name = $app->request->post('lastname');
     $username = $app->request->post('username');
     $email = $app->request->post('email');
     $password = $app->request->post('password');
-
-
-    // To check for role
     $role = 0;
     if(isset($_POST["role"])){
         $role = $_POST["role"];
     }
-
     $registerController = new RegisterController();
     $response = $registerController->registerUser($first_name, $last_name, $username, $email, $password, $role);
-    
     echoRespnse(200, $response);
 });
 
-$app->post('/register/checkUsername', function () use ($app) {
-    verifyRequiredParams((array('username')));
-    $username = $app->request->post('username');
+$app->post('/register/activateRegisterUserLink', function () use ($app) {
+    verifyRequiredParams((array('email')));
+    $email = $app->request->post('email');
     $registerController = new RegisterController();
-    $response = $registerController->checkUsername($username);
+    $response = $registerController->activateRegisterUserLink($email);
     echoRespnse(200, $response);
 });
+
 
 $app->post('/register/allUsersToRegister', function () use ($app) {
     $registerController = new RegisterController();
@@ -68,6 +90,18 @@ $app->post('/register/clearRegister', function () use ($app) {
     $response = $registerController->clearRegister();
     echoRespnse(200, $response);
 });
+
+
+/**
+ * Register Controller API ends here
+ */
+
+
+/**
+ * Test Api -2 // Fetch Username in register table
+ */
+
+
 
 
 
