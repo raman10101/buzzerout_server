@@ -243,12 +243,12 @@ class FeedQuery
 		}
 		return $response;
 	}
-	public function  Uploadfeed($username, $title, $description, $location)
+	public function  Uploadfeed($username, $title, $description, $location,$role)
 
 	{
 		$response = array();
 		$feedid = uniqid($username);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,  timestamp ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',NOW()) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '".$role."' ) ");
 		if ($stmt) {
 			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
@@ -414,12 +414,11 @@ class FeedQuery
 	public function fetchFeedByRole($role)
 	{
 		$response = array();
-
+		$response["feed"] = array();
 		$stmt = mysqli_query($this->conn, "select * from feed where role='" . $role . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
-			$response["feed"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				array_push($response["feed"], $row);
 			}

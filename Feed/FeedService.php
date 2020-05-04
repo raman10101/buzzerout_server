@@ -9,6 +9,7 @@ class FeedService
         require_once  './../Comment/CommentController.php';
         require_once  './../Profile/ProfileController.php';
         require_once  './../User/UserController.php';
+        require_once '../Auth/AuthController.php';
     }
     public function Fetchfeedbylocation($location)
     {
@@ -42,39 +43,39 @@ class FeedService
         return $feedImp->Fetchvotesonfeed($feedid);
     }
 
-    public function Uploadfeedimage($feed_id, $img,$username)
+    public function Uploadfeedimage($feed_id, $img, $username)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To upload a image";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To upload a image";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedimage($feed_id, $img);
     }
     public function Uploadfeedvideo($feedid, $video, $username)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To upload a video";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To upload a video";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedvideo($feedid, $video);
     }
     public function Feedupvote($username, $feedid, $up, $down)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To upvote a Buzz";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To upvote a Buzz";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->Feedupvote($username, $feedid, $up, $down);
     }
@@ -95,12 +96,12 @@ class FeedService
                 $username = $response["Feed"][$i]["username"];
                 $profileController = new ProfileController();
                 $profileResponse = $profileController->fetchProfileOfUser($username);
-                if($profileResponse["error"] == false){
+                if ($profileResponse["error"] == false) {
                     $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
                 }
                 $feedid = $response["Feed"][$i]["feed_id"];
                 $response["Feed"][$i]['feedid'] = $feedid;
-                
+
                 $resp = $feedController->Fetchfeedinfo($feedid);
                 $response["Feed"][$i]['comments'] = array();
                 $response["Feed"][$i]['images'] = array();
@@ -124,61 +125,69 @@ class FeedService
     public function Uploadfeed($username, $title, $description, $location)
     {
         $feedImp = new FeedImp();
-        //Check Username
+        $authController = new AuthController();
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
-            $userResponse["message"] = "Please SigIn To Buzz";
-            return $userResponse;
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if($userResponse["error"] == false){
+                $role = $userResponse["user"]["role"];
+                $response = $feedImp->Uploadfeed($username, $title, $description, $location,$role);
+            }
+            
+
+
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
-        $response = $feedImp->Uploadfeed($username, $title, $description, $location);
+       
         return $response;
     }
     public function feedDelete($feedid, $username)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To delete a Buzz";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To delete a Buzz";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->feedDelete($feedid);
     }
     public function imgdelete($feedid, $username)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To delete a image of Buzz";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To delete a image of Buzz";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->imgdelete($feedid);
     }
     public function videoDelete($feedid, $username)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To delete a video of Buzz";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To delete a video of Buzz";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->videoDelete($feedid);
     }
     public function voteDelete($feedid, $username)
     {
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To delete a vote of Buzz";
-          return $userResponse;
-      }
+        $user = new UserController();
+        $userResponse = $user->fetchUserByUsername($username);
+        if ($userResponse["error"] == true) {
+            $userResponse["message"] = "Please SigIn To delete a vote of Buzz";
+            return $userResponse;
+        }
         $feedImp = new FeedImp();
         return $feedImp->voteDelete($feedid);
     }
@@ -278,11 +287,11 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Fetchvotesonfeedbyuser($feedid, $username);
     }
-    public function editFeed($username, $feed_id,$title, $description, $location)
+    public function editFeed($username, $feed_id, $title, $description, $location)
 
     {
         $feedImp = new FeedImp();
-        return $feedImp->editFeed($username, $feed_id,$title, $description, $location);
+        return $feedImp->editFeed($username, $feed_id, $title, $description, $location);
     }
     public function fetchFeedByRole($role)
 
