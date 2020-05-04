@@ -10,6 +10,7 @@ class ProfileService
         require_once dirname(__FILE__) . '/ProfileImp.php';
         require_once  './../User/UserController.php';
         require_once './../Profile/ProfileController.php';
+        require_once '../Auth/AuthController.php';
     }
     public function createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image)
     {
@@ -24,8 +25,17 @@ class ProfileService
         return $ProfileImp->createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image);
     }
     public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital){
-		$ProfileImp = new ProfileImp();
-        return $ProfileImp->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
+        $ProfileImp = new ProfileImp();
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response = $ProfileImp->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
+        }else{
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        
+        return $response;
 	}
     public function fetchProfileOfUser($username)
     {
