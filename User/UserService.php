@@ -22,35 +22,29 @@ class UserService
 
     $authController = new AuthController();
     $usercontroller = new UserController();
-    $profileController = new ProfileController();
     $feedController = new FeedController();
-    $response = $authController->authUser($username);
-    if ($response['error'] == false){
+    $response = array();
+
+    if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+
       $response = $userImp->loginUserWithUsername($username,  $password);
-      if ($response['error'] == false) {
-        $resp = $usercontroller->fetchaAllDetailOfUser($username);
-        if ($resp['error'] == false){
-          $response["user"] = $resp["user"];
-          $roleResp = $usercontroller->fetchUserByUsername($username);
-          if ($roleResp['error'] == false)
-          {
-            $role = $roleResp['user']['role'];
-            $feedResp = $feedController->fetchFeedByROle($role);
-            if ($feedResp['error'] == false){
-              $response['feed'] = $feedResp['feed'];
-            }
-            else{
-              $response['error'] = true;
-              $response['message'] = "error in feed fetching by role";
-            }
-          }
-          else{
-            $resppnse['error'] = true;
-            $response['message'] = "error in fetching the user by username";
-          }
+      if($response["error"] == false){
+        $newResponse = $usercontroller->fetchaAllDetailOfUser($username);
+        $response["details"] = array();
+        if($newResponse["error"] == false){
+          $response["details"] = $newResponse["details"];
+        }
+        $feedResp = $feedController->fetchFeedByRole($response["user"]["role"]);
+        if ($feedResp['error'] == false){
+          $response['feed'] = $feedResp['feed'];
         }
       }
+
+    }else{
+      $response["error"] = true;
+      $response["message"] = "User Not Found";
     }
+
     return $response;
   }
 
@@ -108,55 +102,64 @@ class UserService
   }
   public function fetchaAllDetailOfUser($username)
   {
-    $response = array();
-    $usercontroller = new UserController();
-    $temp = $usercontroller->fetchUserByUsername($username);
-    $response["user"] = array();
-    $response['user']['college'] = array();
-    $response['user']['socialMedia'] = array();
-    $response['user']['works'] = array();
-    $response['user']['city'] = array();
-    if ($temp['error'] == false) {
-      $response["user"]["first_name"] = $temp["user"]["first_name"];
-      $response["user"]["last_name"] = $temp["user"]["last_name"];
-      $response["user"]["email"] = $temp["user"]["email"];
-      $response["user"]["username"] = $temp["user"]["username"];
-    }
 
+    $authController = new AuthController();
     $profilecontroller = new ProfileController();
-    $temp = $profilecontroller->fetchProfileOfUser($username);
-    if ($temp['error'] == false) {
-      $response["user"]["profile"] = $temp["profile_detail"];
-    }
     $detailController = new UserdetailController();
-    $temp = $detailController->fetchUserDetail($username);
-    if ($temp['error'] == false) {
-      $response["user"]["details"] = $temp["userdetails"];
-    }
     $workcontroller = new UsersWorkController();
-    $temp = $workcontroller->fetchWorkByUsername($username);
-
-    if ($temp['error'] == false) {
-      $response['user']['works'] = $temp['works'];
-    }
     $placeController = new PlacesController();
-    $temp = $placeController->fetchPlacesOfUser($username);
-
-    if ($temp['error'] == false) {
-      $response['user']['city'] = $temp['places'];
-    }
     $userscollegeController = new UsersCollegeController();
-    $temp = $userscollegeController->fetchCollegeByUsername($username);
-
-    if ($temp['error'] == false) {
-      $response['user']['college'] = $temp['colleges'];
-    }
     $userssocialController = new UsersSocialController();
-    $temp = $userssocialController->fetchSocialDetailsByUsername($username);
 
-    if ($temp['error'] == false) {
-      $response['user']['socialMedia'] = $temp['social_accounts_details'];
+    $response = array();
+
+    if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+
+      $response["error"] = false;
+      $response["details"] = array();
+      $response['details']['college'] = array();
+      $response['details']['socialMedia'] = array();
+      $response['details']['works'] = array();
+      $response['details']['city'] = array();
+      $response["details"]["profile"] = array();
+
+      $temp = $profilecontroller->fetchProfileOfUser($username);
+      if ($temp['error'] == false) {
+        $response["details"]["profile"] = $temp["profile_detail"];
+      }
+      $temp = $detailController->fetchUserDetail($username);
+      if ($temp['error'] == false) {
+        $response["details"]["details"] = $temp["userdetails"];
+      }
+      $temp = $workcontroller->fetchWorkByUsername($username);
+
+      if ($temp['error'] == false) {
+        $response['details']['works'] = $temp['works'];
+      }
+      
+      $temp = $placeController->fetchPlacesOfUser($username);
+  
+      if ($temp['error'] == false) {
+        $response['details']['city'] = $temp['places'];
+      }
+      
+      $temp = $userscollegeController->fetchCollegeByUsername($username);
+  
+      if ($temp['error'] == false) {
+        $response['details']['college'] = $temp['colleges'];
+      }
+     
+      $temp = $userssocialController->fetchSocialDetailsByUsername($username);
+  
+      if ($temp['error'] == false) {
+        $response['details']['socialMedia'] = $temp['social_accounts_details'];
+      }
+
+    }else{
+      $response["error"] = true;
+      $response["message"] = "User Not Found";
     }
+
     return $response;
   }
 

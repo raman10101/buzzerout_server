@@ -284,10 +284,10 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->editFeed($username, $feed_id,$title, $description, $location);
     }
-    public function fetchFeedByROle($role)
+    public function fetchFeedByRole($role)
 
     {
         $feedImp = new FeedImp();
-        return $feedImp->fetchFeedByROle($role);
+        return $feedImp->fetchFeedByRole($role);
     }
 }

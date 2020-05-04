@@ -411,7 +411,7 @@ class FeedQuery
 		}
 		return $response;
 	}
-	public function fetchFeedByROle($role)
+	public function fetchFeedByRole($role)
 	{
 		$response = array();
 

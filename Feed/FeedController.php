@@ -115,9 +115,9 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->editFeed($username, $feed_id,$title, $description, $location);
 	}
-	public function fetchFeedByROle($role)
+	public function fetchFeedByRole($role)
 	{
 		$feedService = new FeedService();
-		return $feedService->fetchFeedByROle($role);
+		return $feedService->fetchFeedByRole($role);
 	}
 }
