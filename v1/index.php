@@ -428,7 +428,43 @@ $app->post('/follow/deleteAllFollow', function () use ($app) {
 
 
 // profile controller
-
+$app->post('/profile/updateProfile', function () use ($app) {
+    verifyRequiredParams((array('username','firstname')));
+    $username = $app->request->post('username');
+    $firstname = $app->request->post('fisrtname');
+    
+    $lastname = "";
+    if(isset($_POST["lastname"])){
+        $lastname = $_POST["lastname"];
+    }
+    $city = "";
+    if(isset($_POST["city"])){
+        $city = $_POST["city"];
+    }
+    $state = "";
+    if(isset($_POST["state"])){
+        $state = $_POST["state"];
+    }
+    $country = "";
+    if(isset($_POST["country"])){
+        $country = $_POST["country"];
+    }
+    $gender = "";
+    if(isset($_POST["gender"])){
+        $gender = $_POST["gender"];
+    }
+    $dob = "";
+    if(isset($_POST["dob"])){
+        $dob = $_POST["dob"];
+    }
+    $marital = "";
+    if(isset($_POST["marital"])){
+        $marital = $_POST["marital"];
+    }
+    $profileController = new ProfileController();
+    $response = $profileController->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
+    echoRespnse(200, $response);
+});
 $app->post('/profile/createProfile', function () use ($app) {
     verifyRequiredParams((array('username','address','mobile','gender','profile_image','timeline_image','dob')));
     $username = $app->request->post('username');

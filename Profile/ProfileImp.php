@@ -14,6 +14,10 @@ class ProfileImp
         $ProfileQuery = new ProfileQuery();
         return $ProfileQuery->createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image);
     }
+    public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital){
+		$ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
+	}
     public function createEmptyProfileOfUser($username)
     {
         $ProfileQuery = new ProfileQuery();
