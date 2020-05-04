@@ -16,7 +16,7 @@ class ProfileService
         //Check Username
         $user = new UserController();
         $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
+        if ($userResponse["error"] == true) {
             $userResponse["message"] = "Please SigIn first";
             return $userResponse;
         }
@@ -28,13 +28,13 @@ class ProfileService
         $ProfileImp = new ProfileImp();
         return $ProfileImp->fetchProfileOfUser($username);
     }
-    
+
     public function createEmptyProfileOfUser($username)
     {
         //Check Username
         $user = new UserController();
         $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
+        if ($userResponse["error"] == true) {
             $userResponse["message"] = "Please SigIn first";
             return $userResponse;
         }
@@ -46,64 +46,88 @@ class ProfileService
         //Check Username
         $user = new UserController();
         $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
+        if ($userResponse["error"] == true) {
             $userResponse["message"] = "Please SigIn first";
             return $userResponse;
         }
         $ProfileImp = new ProfileImp();
-        $profileController=new ProfileController();
+        $profileController = new ProfileController();
         $response = $profileController->fetchProfileOfUser($username);
         $resp = array();
-        if ($response['error'] == true){
+        if ($response['error'] == true) {
             $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
         $resp = $ProfileImp->updateMobileAddress($username, $mobile, $address);
-        if($resp["error"] == false){
+        if ($resp["error"] == false) {
             return $profileController->fetchProfileOfUser($username);
         }
-        return $resp; 
+        return $resp;
     }
 
-    public function updateDobGender($username, $dob, $uob,$gender)
+    public function updateDobGender($username, $dob, $uob, $gender)
     {
         //Check Username
         $user = new UserController();
         $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
+        if ($userResponse["error"] == true) {
             $userResponse["message"] = "Please SigIn first";
             return $userResponse;
         }
         $ProfileImp = new ProfileImp();
-        $profileController=new ProfileController();
+        $profileController = new ProfileController();
         $response = $profileController->fetchProfileOfUser($username);
         $resp = array();
-        if ($response['error'] == true){
+        if ($response['error'] == true) {
             $resp = $ProfileImp->createEmptyProfileOfUser($username);
         }
-        $resp = $ProfileImp->updateDobGender($username, $dob, $uob,$gender);
-        if($resp["error"] == false){
+        $resp = $ProfileImp->updateDobGender($username, $dob, $uob, $gender);
+        if ($resp["error"] == false) {
             return $profileController->fetchProfileOfUser($username);
         }
-        return $resp; 
+        return $resp;
     }
-    public function updateUserTimelineImage($username,$img)
+    public function updateUserTimelineImage($username, $img)
     {
+        $authController = new AuthController();
         $ProfileImp = new ProfileImp();
+        $user = new UserController();
         $profilecontroller = new ProfileController();
-        $response=$ProfileImp->updateUserTimelineImage($username,$img);
-        if($response['error']==false){
-            $response=$profilecontroller->fetchProfileOfUser($username);
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+                $userResponse = $user->fetchUserByUsername($username);
+                if ($userResponse["error"] == false) {
+                    $response = $ProfileImp->updateUserTimelineImage($username, $img);
+                    if ($response['error'] == false) {
+                        $response = $profilecontroller->fetchProfileOfUser($username);
+                    }
+                } else {
+                    $response['error'] = true;
+                    $response['msg'] = "user not found";
+                }
+            }
         }
+
+
         return $response;
     }
-    public function updateUserProfileImage($username,$img)
+    public function updateUserProfileImage($username, $img)
     {
+        $authController = new AuthController();
         $ProfileImp = new ProfileImp();
+        $user = new UserController();
         $profilecontroller = new ProfileController();
-        $response=$ProfileImp->updateUserProfileImage($username,$img);
-        if($response['error']==false){
-            $response=$profilecontroller->fetchProfileOfUser($username);
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == false) {
+                $response = $ProfileImp->updateUserProfileImage($username, $img);
+                if ($response['error'] == false) {
+                    $response = $profilecontroller->fetchProfileOfUser($username);
+                }
+            } else {
+                $response['error'] = true;
+                $response['msg'] = "user not found";
+            }
+            return $response;
         }
-        return $response;
     }
 }
