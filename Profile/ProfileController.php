@@ -13,6 +13,10 @@ class ProfileController
 		$ProfileService = new ProfileService();
 		return $ProfileService->createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image);
 	}
+	public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital){
+		$profileService = new ProfileService();
+		return $profileService->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
+	}
 	public function fetchProfileOfUser($username)
 	{
 		$ProfileService = new ProfileService();

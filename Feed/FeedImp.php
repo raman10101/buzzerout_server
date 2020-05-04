@@ -54,11 +54,10 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->clearAllFeed();
     }
-    public function     Uploadfeed($username, $title, $description, $location)
-
+    public function Uploadfeed($username, $title, $description, $location, $role)
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->Uploadfeed($username, $title, $description, $location);
+        return $feedQuery->Uploadfeed($username, $title, $description, $location, $role);
     }
     public function   Fetchallvideooffeed($feedid)
 
@@ -91,17 +90,17 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->voteDelete($feedid);
     }
-    public function Fetchvotesonfeedbyuser($feedid,$username)
+    public function Fetchvotesonfeedbyuser($feedid, $username)
 
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->Fetchvotesonfeedbyuser($feedid,$username);
+        return $feedQuery->Fetchvotesonfeedbyuser($feedid, $username);
     }
-    public function editFeed($username, $feed_id,$title, $description, $location)
+    public function editFeed($username, $feed_id, $title, $description, $location)
 
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->editFeed($username, $feed_id,$title, $description, $location);
+        return $feedQuery->editFeed($username, $feed_id, $title, $description, $location);
     }
     public function fetchFeedByRole($role)
 

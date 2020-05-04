@@ -28,19 +28,18 @@ class UserService
     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
 
       $response = $userImp->loginUserWithUsername($username,  $password);
-      if($response["error"] == false){
+      if ($response["error"] == false) {
         $newResponse = $usercontroller->fetchaAllDetailOfUser($username);
         $response["details"] = array();
-        if($newResponse["error"] == false){
+        if ($newResponse["error"] == false) {
           $response["details"] = $newResponse["details"];
         }
         $feedResp = $feedController->fetchFeedByRole($response["user"]["role"]);
-        if ($feedResp['error'] == false){
-          $response['feed'] = $feedResp['feed'];
-        }
+        $response['feed'] = $feedResp['feed'];
       }
 
-    }else{
+
+    } else {
       $response["error"] = true;
       $response["message"] = "User Not Found";
     }
@@ -66,10 +65,11 @@ class UserService
     $userImp = new UserImp();
     return $userImp->fetchUserByUsername($username);
   }
-  public function fetchUserByEmail($email){
-		$userImp = new UserImp();
-		return $userImp->fetchUserByEmail($email);
-	}
+  public function fetchUserByEmail($email)
+  {
+    $userImp = new UserImp();
+    return $userImp->fetchUserByEmail($email);
+  }
 
   public function fetchAllUsers()
   {
@@ -122,6 +122,7 @@ class UserService
       $response['details']['works'] = array();
       $response['details']['city'] = array();
       $response["details"]["profile"] = array();
+      $response["details"]["details"] = array();
 
       $temp = $profilecontroller->fetchProfileOfUser($username);
       if ($temp['error'] == false) {
@@ -136,26 +137,25 @@ class UserService
       if ($temp['error'] == false) {
         $response['details']['works'] = $temp['works'];
       }
-      
+
       $temp = $placeController->fetchPlacesOfUser($username);
-  
+
       if ($temp['error'] == false) {
         $response['details']['city'] = $temp['places'];
       }
-      
+
       $temp = $userscollegeController->fetchCollegeByUsername($username);
-  
+
       if ($temp['error'] == false) {
         $response['details']['college'] = $temp['colleges'];
       }
-     
+
       $temp = $userssocialController->fetchSocialDetailsByUsername($username);
-  
+
       if ($temp['error'] == false) {
         $response['details']['socialMedia'] = $temp['social_accounts_details'];
       }
-
-    }else{
+    } else {
       $response["error"] = true;
       $response["message"] = "User Not Found";
     }
@@ -163,9 +163,9 @@ class UserService
     return $response;
   }
 
-  public function forgotPassword($email){
-		$userImp = new UserImp();
-		return $userImp->forgotPassword($email);
-	}
+  public function forgotPassword($email)
+  {
+    $userImp = new UserImp();
+    return $userImp->forgotPassword($email);
+  }
 }
-?>

@@ -27,6 +27,18 @@ class ProfileQuery
 		}
 		return $response;
 	}
+	public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "update users_profile set first_name ='".$firstname."', last_name='".$lastname."', user_city='".$city."', user_state='".$state."', user_country='".$country."', user_gender='".$gender."',user_dob='".$dob."', user_marital='".$marital."'  where username = '".$username."' ");
+		if($stmt){
+			$response["error"] = false;
+			$response["message"] = "User Updated";
+		}else{
+			$response["error"] = true;
+			$response["message"] = "User Not Updated";
+		}
+		return $response;
+	}
 	public function createEmptyProfileOfUser($username)
 	{
 		$response = array();
