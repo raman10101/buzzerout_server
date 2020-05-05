@@ -164,7 +164,125 @@ $app->post('/user/forgotPassword', function () use ($app) {
 });
 
 
-// feed controller
+// Buzz Related API
+
+// Create Buzz
+$app->post('buzz/createBuzz',function() use($app){
+    verifyRequiredParams((array('username', 'title', 'description', 'location')));
+    $username = $app->request->post('username');
+    $title = $app->request->post('title');
+    $description = $app->request->post('description');
+    $location = $app->request->post('location');
+    $feedController = new FeedController();
+    $response = $feedController->createBuzz($username, $title, $description, $location);
+    echoRespnse(200, $response);
+});
+
+// Create Buzz Anonymously
+$app->post('buzz/createBuzzAnonymously',function() use($app){
+    verifyRequiredParams((array('username', 'title', 'description', 'location')));
+    $username = $app->request->post('username');
+    $title = $app->request->post('title');
+    $description = $app->request->post('description');
+    $location = $app->request->post('location');
+    $feedController = new FeedController();
+    $response = $feedController->createBuzzAnonymously($username, $title, $description, $location);
+    echoRespnse(200, $response);
+});
+
+// Upload Image To Buzz
+$app->post('/buzz/uploadImageToBuzz', function () use ($app) {
+    verifyRequiredParams((array('feed_id', 'img', 'username')));
+    $feed_id = $app->request->post('feed_id');
+    $username = $app->request->post('username');
+    $img = $app->request->post('img');
+    $feedController = new FeedController();
+    $response = $feedController->uploadImageToBuzz($feed_id, $img,$username);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/upvoteBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $feedid = $app->request->post('feed_id');
+
+    $feedController = new FeedController();
+    $response = $feedController->upvoteBuzz($username, $feedid, 1, 0);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/downvoteBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $feedid = $app->request->post('feed_id');
+
+    $feedController = new FeedController();
+    $response = $feedController->downvoteBuzz($username, $feedid, 0, 1);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/removeUpvoteBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $feedid = $app->request->post('feed_id');
+
+    $feedController = new FeedController();
+    $response = $feedController->removeUpvoteBuzz($username, $feedid, 0, 0);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/removeDownvoteBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $feedid = $app->request->post('feed_id');
+
+    $feedController = new FeedController();
+    $response = $feedController->removeDownvoteBuzz($username, $feedid, 0, 0);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/shareBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $feedid = $app->request->post('feed_id');
+    $description = "";
+    if(isset($_POST["description"])){
+        $description = $_POST["description"];
+    }
+    $feedController = new FeedController();
+    $response = $feedController->shareBuzz($username, $feedid, $description);
+    echoRespnse(200, $response);
+});
+
+$app->post('/buzz/hideBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $buzzid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->hideBuzz($username, $buzzid);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/saveBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $buzzid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->saveBuzz($username, $buzzid);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/followBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $buzzid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->followBuzz($username, $buzzid);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/unfollowBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $buzzid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->unfollowBuzz($username, $buzzid);
+    echoRespnse(200, $response);
+});
+
+
 
 
 // feed by location 
@@ -185,8 +303,7 @@ $app->post('/feed/fetchFeedByUsername', function () use ($app) {
     echoRespnse(200, $response);
 });
 
-
-// upload feed 
+// TO DELETE
 $app->post('/feed/uploadFeed', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location')));
     $username = $app->request->post('username');
@@ -307,6 +424,58 @@ $app->post('/feed/editFeed', function () use ($app) {
 
 
 
+//follow controller
+$app->post('/follow/newFollow', function () use ($app) {
+    verifyRequiredParams((array('followed_by',  'followes_to')));
+    $by = $app->request->post('followed_by');
+    $to = $app->request->post('followes_to');
+    $followController = new FollowController();
+    $response = $followController->newFollow($by, $to);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/fetchFollowing', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $followController = new FollowController();
+    $response = $followController->fetchFollowing($username);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/fetchFollowedBy', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $followController = new FollowController();
+    $response = $followController->fetchFollowedBy($username);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteFollowing', function () use ($app) {
+    verifyRequiredParams((array('username', 'user_to_deleted')));
+    $username = $app->request->post('username');
+    $to = $app->request->post('user_to_deleted');
+    $followController = new FollowController();
+    $response = $followController->deleteFollowing($username, $to);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteFollower', function () use ($app) {
+    verifyRequiredParams((array('username', 'follower_username')));
+    $username = $app->request->post('username');
+    $by = $app->request->post('follower_username');
+    $followController = new FollowController();
+    $response = $followController->deleteFollower($username, $by);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteUserConnections', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $followController = new FollowController();
+    $response = $followController->deleteUserConnections($username);
+    echoRespnse(200, $response);
+});
+$app->post('/follow/deleteAllFollow', function () use ($app) {
+    $followController = new FollowController();
+    $response = $followController->deleteAllFollow();
+    echoRespnse(200, $response);
+});
+
 
 
 // Comments Controller
@@ -374,57 +543,6 @@ $app->post('/comment/clearComment', function () use ($app) {
 
 
 
-//follow controller
-$app->post('/follow/newFollow', function () use ($app) {
-    verifyRequiredParams((array('followed_by',  'followes_to')));
-    $by = $app->request->post('followed_by');
-    $to = $app->request->post('followes_to');
-    $followController = new FollowController();
-    $response = $followController->newFollow($by, $to);
-    echoRespnse(200, $response);
-});
-$app->post('/follow/fetchFollowing', function () use ($app) {
-    verifyRequiredParams((array('username')));
-    $username = $app->request->post('username');
-    $followController = new FollowController();
-    $response = $followController->fetchFollowing($username);
-    echoRespnse(200, $response);
-});
-$app->post('/follow/fetchFollowedBy', function () use ($app) {
-    verifyRequiredParams((array('username')));
-    $username = $app->request->post('username');
-    $followController = new FollowController();
-    $response = $followController->fetchFollowedBy($username);
-    echoRespnse(200, $response);
-});
-$app->post('/follow/deleteFollowing', function () use ($app) {
-    verifyRequiredParams((array('username', 'user_to_deleted')));
-    $username = $app->request->post('username');
-    $to = $app->request->post('user_to_deleted');
-    $followController = new FollowController();
-    $response = $followController->deleteFollowing($username, $to);
-    echoRespnse(200, $response);
-});
-$app->post('/follow/deleteFollower', function () use ($app) {
-    verifyRequiredParams((array('username', 'follower_username')));
-    $username = $app->request->post('username');
-    $by = $app->request->post('follower_username');
-    $followController = new FollowController();
-    $response = $followController->deleteFollower($username, $by);
-    echoRespnse(200, $response);
-});
-$app->post('/follow/deleteUserConnections', function () use ($app) {
-    verifyRequiredParams((array('username')));
-    $username = $app->request->post('username');
-    $followController = new FollowController();
-    $response = $followController->deleteUserConnections($username);
-    echoRespnse(200, $response);
-});
-$app->post('/follow/deleteAllFollow', function () use ($app) {
-    $followController = new FollowController();
-    $response = $followController->deleteAllFollow();
-    echoRespnse(200, $response);
-});
 
 
 // profile controller

@@ -24,19 +24,20 @@ class ProfileService
         $ProfileImp = new ProfileImp();
         return $ProfileImp->createProfileOfUser($username, $user_address, $user_mobile, $user_gender, $user_dob, $user_profile_image, $user_timeline_image);
     }
-    public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital){
+    public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital)
+    {
         $ProfileImp = new ProfileImp();
         $authController = new AuthController();
         $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response = $ProfileImp->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
-        }else{
+        } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
         }
-        
+
         return $response;
-	}
+    }
     public function fetchProfileOfUser($username)
     {
         $ProfileImp = new ProfileImp();
@@ -106,19 +107,15 @@ class ProfileService
         $ProfileImp = new ProfileImp();
         $user = new UserController();
         $profilecontroller = new ProfileController();
+        $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-            if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-                $userResponse = $user->fetchUserByUsername($username);
-                if ($userResponse["error"] == false) {
-                    $response = $ProfileImp->updateUserTimelineImage($username, $img);
-                    if ($response['error'] == false) {
-                        $response = $profilecontroller->fetchProfileOfUser($username);
-                    }
-                } else {
-                    $response['error'] = true;
-                    $response['msg'] = "user not found";
-                }
+            $response = $ProfileImp->updateUserTimelineImage($username, $img);
+            if ($response['error'] == false) {
+                $response = $profilecontroller->fetchProfileOfUser($username);
             }
+        } else {
+            $response['error'] = true;
+            $response['msg'] = "user not found";
         }
 
 
@@ -128,20 +125,17 @@ class ProfileService
     {
         $authController = new AuthController();
         $ProfileImp = new ProfileImp();
-        $user = new UserController();
         $profilecontroller = new ProfileController();
+        $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-            $userResponse = $user->fetchUserByUsername($username);
-            if ($userResponse["error"] == false) {
-                $response = $ProfileImp->updateUserProfileImage($username, $img);
-                if ($response['error'] == false) {
-                    $response = $profilecontroller->fetchProfileOfUser($username);
-                }
-            } else {
-                $response['error'] = true;
-                $response['msg'] = "user not found";
+            $response = $ProfileImp->updateUserProfileImage($username, $img);
+            if ($response['error'] == false) {
+                $response = $profilecontroller->fetchProfileOfUser($username);
             }
-            return $response;
+        } else {
+            $response['error'] = true;
+            $response['msg'] = "user not found";
         }
+        return $response;
     }
 }

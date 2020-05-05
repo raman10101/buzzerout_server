@@ -11,6 +11,187 @@ class FeedService
         require_once  './../User/UserController.php';
         require_once '../Auth/AuthController.php';
     }
+    // New
+
+    public function createBuzz($username, $title, $description, $location)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $userController = new UserController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $userController->fetchUserByUsername($username);
+            if ($userResponse["error"] == false) {
+                $role = $userResponse["user"]["role"];
+                $response = $feedImp->createBuzz($username, $title, $description, $location, $role);
+            }
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+
+    public function createBuzzAnonymously($username, $title, $description, $location)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $userController = new UserController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $userController->fetchUserByUsername($username);
+            if ($userResponse["error"] == false) {
+                $role = $userResponse["user"]["role"];
+                $response = $feedImp->createBuzzAnonymously($username, $title, $description, $location, $role);
+            }
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+    public function uploadImageToBuzz($feed_id, $img, $username)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->$feedImp->uploadImageToBuzz($feed_id, $img);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+
+    public function upvoteBuzz($username, $feedid, $up, $down)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->$feedImp->voteBuzz($username, $feedid, $up, $down);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+    public function downvoteBuzz($username, $feedid, $up, $down)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->$feedImp->voteBuzz($username, $feedid, $up, $down);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+    public function removeUpvoteBuzz($username, $feedid, $up, $down)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->$feedImp->voteBuzz($username, $feedid, $up, $down);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+    public function removeDownvoteBuzz($username, $feedid, $up, $down)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->$feedImp->voteBuzz($username, $feedid, $up, $down);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+
+    public function shareBuzz($username, $feedid, $description){
+
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->shareBuzz($username, $feedid, $description);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+	}
+
+    public function hideBuzz($username, $buzzid){
+		$response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->hideBuzz($username, $buzzid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+	}
+	public function saveBuzz($username, $buzzid){
+		$response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->saveBuzz($username, $buzzid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+	}
+    public function followBuzz($username, $buzzid){
+		$response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->followBuzz($username, $buzzid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+    public function unfollowBuzz($username, $buzzid){
+		$response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->unfollowBuzz($username, $buzzid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+	}
+
+
+
+
+
+
+
+
+
+
+    // Old
+
     public function Fetchfeedbylocation($location)
     {
         $feedImp = new FeedImp();
@@ -129,18 +310,15 @@ class FeedService
         $user = new UserController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $userResponse = $user->fetchUserByUsername($username);
-            if($userResponse["error"] == false){
+            if ($userResponse["error"] == false) {
                 $role = $userResponse["user"]["role"];
-                $response = $feedImp->Uploadfeed($username, $title, $description, $location,$role);
+                $response = $feedImp->Uploadfeed($username, $title, $description, $location, $role);
             }
-            
-
-
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
         }
-       
+
         return $response;
     }
     public function feedDelete($feedid, $username)

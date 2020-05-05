@@ -12,6 +12,201 @@ class FeedQuery
 		$this->conn = $db->connect();
 	}
 
+	// New
+	public function createBuzz($username, $title, $description, $location, $role)
+	{
+		$response = array();
+		$feedid = uniqid($username);
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "' ) ");
+		if ($stmt) {
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
+			while ($row = mysqli_fetch_assoc($stmt2)) {
+				$response['feedid'] = $row['feed_id'];
+				$response['description'] = $row['description'];
+				$response['time'] = $row['timestamp'];
+				$response["error"] = false;
+				$response["message"] = "Feed Uploaded";
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not Inserted";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+	public function createBuzzAnonymously($username, $title, $description, $location, $role)
+	{
+		$response = array();
+		$feedid = uniqid($username);
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role , is_anonymous) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "',1 ) ");
+		if ($stmt) {
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
+			while ($row = mysqli_fetch_assoc($stmt2)) {
+				$response['feedid'] = $row['feed_id'];
+				$response['description'] = $row['description'];
+				$response['time'] = $row['timestamp'];
+				$response["error"] = false;
+				$response["message"] = "Feed Uploaded";
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not Inserted";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+
+	public function uploadImageToBuzz($feed_id, $img)
+	{
+		$response = array();
+		$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images ( image_url ) VALUES ('" . $img . "')");
+		if ($stmt) {
+			$stmt = mysqli_query($this->conn, "SELECT *  FROM  feed_images  WHERE image_url='" . $img . "'");
+			if (mysqli_num_rows($stmt) > 0) {
+				$row = mysqli_fetch_assoc($stmt);
+				$stmt = mysqli_query($this->conn, "INSERT INTO  feed_images_mapper ( feed_id ,  image_id ) VALUES ('" . $feed_id . "','" . $row["id"] . "') ");
+				if ($stmt) {
+					$response["error"] = false;
+					$response["message"] = "image uploaded";
+				} else {
+					$response["error"] = true;
+					$response["tag"] = "mapper no updated";
+					$response["message"] = mysqli_error($this->conn);
+				}
+			} else {
+				$response["error"] = true;
+				$response["tag"] = "cannot fetch the img_url";
+				$response["message"] = mysqli_error($this->conn);
+			}
+		} else {
+			$response["error"] = true;
+			$response["tag"] = "image_url no updated";
+			$response["message"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+
+	public function voteBuzz($username, $feedid, $up, $down)
+	{
+		$response = array();
+		$stmt = mysqli_query($this->conn, "SELECT * FROM feed_votes WHERE feed_id='" . $feedid . "' and username='" . $username . "'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$stmt = mysqli_query($this->conn, "UPDATE feed_votes SET upvotes='" . $up . "' , downvotes='" . $down . "' WHERE feed_id='" . $feedid . "' and username='" . $username . "'");
+			if ($stmt) {
+				$response["error"] = false;
+				$response["message"] = "vote updated";
+			} else {
+				$response["error"] = true;
+				$response["message"] = "error in updating vote";
+				$response["info"] = mysqli_error($this->conn);
+			}
+		} else {
+			$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
+			if ($stmt) {
+
+				$response["error"] = false;
+				if ($up == 1 && $down == 0) {
+					$response["message_feed"] = "Feed upvoted";
+				}
+				if ($up == 0 && $down == 1) {
+					$response["message_feed"] = "Feed downvoted";
+				}
+			} else {
+				$response["error"] = true;
+				$response["message"] = mysqli_error($this->conn);
+			}
+		}
+		return $response;
+	}
+
+	public function shareBuzz($username, $feedid, $description){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed_shared ( feed_id,username , description) VALUES ('" . $feedid . "','" . $username . "','".$description."' ) ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Feed Shared";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not Shared";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+	public function hideBuzz($username, $buzzid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "INSERT INTO buzz_hide ( buzz_id,username ) VALUES ('" . $buzzid . "','" . $username . "' ) ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz Hide";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz Not Hidden";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function saveBuzz($username, $buzzid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "INSERT INTO buzz_save ( buzz_id,username ) VALUES ('" . $buzzid . "','" . $username . "' ) ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz Saved";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz Not Saved";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function followBuzz($username, $buzzid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "INSERT INTO buzz_follow ( followed_to,followed_by ) VALUES ('" . $buzzid . "','" . $username . "' ) ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz Followed";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz Not Followed";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function unfollowBuzz($username, $buzzid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "Delete from buzz_follow where followed_by = '".$username."' and followed_to = '".$buzzid."'  ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz Unfollowed";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz Not Unfollowed";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// Old
+
+
+
+
+
 	public function Fetchfeedbylocation($location)
 	{
 		$response = array();
@@ -243,12 +438,12 @@ class FeedQuery
 		}
 		return $response;
 	}
-	public function  Uploadfeed($username, $title, $description, $location,$role)
+	public function  Uploadfeed($username, $title, $description, $location, $role)
 
 	{
 		$response = array();
 		$feedid = uniqid($username);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '".$role."' ) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "' ) ");
 		if ($stmt) {
 			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
 			while ($row = mysqli_fetch_assoc($stmt2)) {

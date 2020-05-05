@@ -9,6 +9,57 @@ class FeedImp
     }
 
 
+    // New
+
+    public function createBuzz($username, $title, $description, $location,$role){
+        $feedQuery = new FeedQuery();
+        return $feedQuery->createBuzz($username, $title, $description, $location, $role);
+    }
+
+    public function createBuzzAnonymously($username, $title, $description, $location, $role){
+        $feedQuery = new FeedQuery();
+        return $feedQuery->createBuzzAnonymously($username, $title, $description, $location, $role);
+    }
+    public function uploadImageToBuzz($feed_id, $img){
+        $feedQuery = new FeedQuery();
+        return $feedQuery->uploadImageToBuzz($feed_id, $img);
+    }
+
+    public function voteBuzz($username, $feedid, $up, $down)
+	{
+		$feedQuery = new FeedQuery();
+        return $feedQuery->voteBuzz($username, $feedid, $up, $down);
+	}
+	
+    public function shareBuzz($username, $feedid, $description){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->shareBuzz($username, $feedid, $description);
+	}
+    public function hideBuzz($username, $buzzid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->hideBuzz($username, $buzzid);
+	}
+	public function saveBuzz($username, $buzzid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->saveBuzz($username, $buzzid);
+    }
+    public function followBuzz($username, $buzzid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->followBuzz($username, $buzzid);
+    }
+    public function unfollowBuzz($username, $buzzid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->unfollowBuzz($username, $buzzid);
+	}
+
+
+
+
+
+
+
+    // Old
+
     public function Fetchfeedbylocation($location)
     {
         $feedQuery = new FeedQuery();

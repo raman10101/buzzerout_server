@@ -7,6 +7,79 @@ class FeedController
 	{
 		require_once dirname(__FILE__) . '/FeedService.php';
 	}
+
+	// New Buzz API
+	public function createBuzz($username, $title, $description, $location)
+	{
+		$feedService = new FeedService();
+		return $feedService->createBuzz($username, $title, $description, $location);
+	}
+	public function createBuzzAnonymously($username, $title, $description, $location)
+	{
+		$feedService = new FeedService();
+		return $feedService->createBuzzAnonymously($username, $title, $description, $location);
+	}
+
+	public function uploadImageToBuzz($feed_id, $img, $username)
+	{
+		$feedService = new FeedService();
+		return $feedService->uploadImageToBuzz($feed_id, $img, $username);
+	}
+	public function upvoteBuzz($username, $feedid, $up, $down)
+	{
+		$feedService = new FeedService();
+		return $feedService->upvoteBuzz($username, $feedid, $up, $down);
+	}
+	public function downvoteBuzz($username, $feedid, $up, $down)
+	{
+		$feedService = new FeedService();
+		return $feedService->downvoteBuzz($username, $feedid, $up, $down);
+	}
+	public function removeUpvoteBuzz($username, $feedid, $up, $down)
+	{
+		$feedService = new FeedService();
+		return $feedService->removeUpvoteBuzz($username, $feedid, $up, $down);
+	}
+	public function removeDownvoteBuzz($username, $feedid, $up, $down)
+	{
+		$feedService = new FeedService();
+		return $feedService->removeDownvoteBuzz($username, $feedid, $up, $down);
+	}
+	public function shareBuzz($username, $feedid, $description)
+	{
+		$feedService = new FeedService();
+		return $feedService->shareBuzz($username, $feedid, $description);
+	}
+	public function hideBuzz($username, $buzzid)
+	{
+		$feedService = new FeedService();
+		return $feedService->hideBuzz($username, $buzzid);
+	}
+	public function saveBuzz($username, $buzzid)
+	{
+		$feedService = new FeedService();
+		return $feedService->saveBuzz($username, $buzzid);
+	}
+	public function followBuzz($username, $buzzid)
+	{
+		$feedService = new FeedService();
+		return $feedService->followBuzz($username, $buzzid);
+	}
+	public function unfollowBuzz($username, $buzzid)
+	{
+		$feedService = new FeedService();
+		return $feedService->unfollowBuzz($username, $buzzid);
+	}
+
+
+
+
+
+
+
+
+
+
 	// Fethc Feed By Feedname
 	public function Fetchfeedbylocation($location)
 	{
@@ -105,15 +178,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->clearFeedByFeedId($feedid, $username);
 	}
-	public function Fetchvotesonfeedbyuser($feedid,$username)
+	public function Fetchvotesonfeedbyuser($feedid, $username)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchvotesonfeedbyuser($feedid,$username);
+		return $feedService->Fetchvotesonfeedbyuser($feedid, $username);
 	}
-	public function editFeed($username, $feed_id,$title, $description, $location)
+	public function editFeed($username, $feed_id, $title, $description, $location)
 	{
 		$feedService = new FeedService();
-		return $feedService->editFeed($username, $feed_id,$title, $description, $location);
+		return $feedService->editFeed($username, $feed_id, $title, $description, $location);
 	}
 	public function fetchFeedByRole($role)
 	{
