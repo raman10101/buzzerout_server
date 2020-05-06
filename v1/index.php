@@ -493,12 +493,12 @@ $app->post('/comment/addComment', function () use ($app) {
 });
 
 $app->post('/comment/editComment', function () use ($app) {
-    verifyRequiredParams((array('feed_id',  'user_id', 'text')));
-    $feed_id = $app->request->post('feed_id');
+    verifyRequiredParams((array('comment_id', 'user_id', 'text')));
     $user_id = $app->request->post('user_id');
+    $comment_id = $app->request->post('comment_id');
     $text = $app->request->post('text');
     $commentController = new CommentController();
-    $response = $commentController->editComment($feed_id,  $user_id, $text);
+    $response = $commentController->editComment($comment_id,  $user_id, $text);
     echoRespnse(200, $response);
 });
 

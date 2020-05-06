@@ -20,7 +20,7 @@ class CommentService{
 		return $commentImp->addComment($feed_id,  $user_id, $text);
     }
 
-    public function editComment($feed_id,  $user_id, $text){
+    public function editComment($comment_id,  $user_id, $text){
       //Check Username
       $user = new UserController();
       $userResponse = $user->fetchUserByUsername($user_id);
@@ -29,7 +29,7 @@ class CommentService{
           return $userResponse;
       }
       $commentImp = new CommentImp();
-    return $commentImp->editComment($feed_id,  $user_id, $text);
+    return $commentImp->editComment($comment_id,  $user_id, $text);
     }
     
     public function fetchCommentByFeed($feed_id){

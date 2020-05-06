@@ -35,10 +35,10 @@ class CommentQuery
 		return $response;
 	}
 
-	public function editComment($feed_id,  $user_id, $text)
+	public function editComment($comment_id, $user_id, $text)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "UPDATE comments SET text = '" . $text . "', modified = NOW() WHERE  feed_id = '" . $feed_id . "' AND user_id = '" . $user_id . "'");
+		$stmt = mysqli_query($this->conn, "UPDATE comments SET text = '" . $text . "', modified = NOW() WHERE  id = '" . $comment_id . "'");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment edited";

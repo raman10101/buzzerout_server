@@ -11,9 +11,9 @@ class CommentImp{
 		return $commentQuery->addComment($feed_id,  $user_id, $text);
     }
 
-    public function editComment($feed_id,  $user_id, $text){
+    public function editComment($comment_id,  $user_id, $text){
       $commentQuery = new CommentQuery();
-    return $commentQuery->editComment($feed_id,  $user_id, $text);
+    return $commentQuery->editComment($comment_id,  $user_id, $text);
     }
     
     public function fetchCommentByFeed($feed_id){
