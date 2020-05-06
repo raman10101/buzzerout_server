@@ -137,4 +137,23 @@ class FollowQuery
 		}
 		return $response;
 	}
+	public function fetchAllFollow()
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "select * from users_follow ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Entries Found";
+			$response["followers"] = array();
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["followers"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "No entries found";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }

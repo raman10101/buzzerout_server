@@ -71,4 +71,9 @@ class FollowService
         $followImp = new FollowImp();
         return $followImp->deleteAllFollow();
     }
+    public function fetchAllFollow()
+	{
+		$followImp = new FollowImp();
+		return $followImp->fetchAllFollow();
+	}
 }

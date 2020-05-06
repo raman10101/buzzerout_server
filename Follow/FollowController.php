@@ -45,4 +45,10 @@ class FollowController
 		$followService = new FollowService();
 		return $followService->deleteAllFollow();
 	}
+	
+	public function fetchAllFollow()
+	{
+		$followService = new FollowService();
+		return $followService->fetchAllFollow();
+	}
 }

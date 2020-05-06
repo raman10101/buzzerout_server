@@ -182,7 +182,7 @@ class RegisterQuery
         else
         {
 			$response["error"] = true;
-            $response["message"] = "No Address";
+            $response["message"] = "No users found";
             $response['info'] = mysqli_error($this->conn);
 		}
 		return $response;

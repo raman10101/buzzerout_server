@@ -44,4 +44,9 @@ class FollowImp
         $FollowQuery = new FollowQuery();
         return $FollowQuery->deleteAllFollow();
     }
+    public function fetchAllFollow()
+	{
+		$FollowQuery = new FollowQuery();
+		return $FollowQuery->fetchAllFollow();
+	}
 }

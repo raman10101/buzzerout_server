@@ -449,6 +449,11 @@ $app->post('/follow/fetchFollowedBy', function () use ($app) {
     $response = $followController->fetchFollowedBy($username);
     echoRespnse(200, $response);
 });
+$app->post('/follow/fetchAllFollow', function () use ($app) {
+    $followController = new FollowController();
+    $response = $followController->fetchAllFollow();
+    echoRespnse(200, $response);
+});
 $app->post('/follow/deleteFollowing', function () use ($app) {
     verifyRequiredParams((array('username', 'user_to_deleted')));
     $username = $app->request->post('username');
