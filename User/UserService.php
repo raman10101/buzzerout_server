@@ -36,6 +36,7 @@ class UserService
         }
         $feedResp = $feedController->fetchFeedByRole($response["user"]["role"]);
         $response['feed'] = $feedResp['feed'];
+        unset($response['user']['role']);
       }
 
 

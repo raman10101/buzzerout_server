@@ -5,31 +5,37 @@ class CommentService{
     function __construct(){
         require_once dirname(__FILE__) . '/CommentImp.php';
         require_once  './../User/UserController.php';
+        require_once '../Auth/AuthController.php';
     }
 	
     public function addComment($feed_id,  $user_id, $text){
 
       //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($user_id);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To add a comment";
-          return $userResponse;
-      }
+      $authController = new AuthController();
+      if ($authController->authenticateUsernameInUser($user_id)["error"] == false) {
         $commentImp = new CommentImp();
-		return $commentImp->addComment($feed_id,  $user_id, $text);
+        $response = $commentImp->addComment($feed_id,  $user_id, $text);
+      }
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+		return $response;
     }
 
     public function editComment($comment_id,  $user_id, $text){
+      
       //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($user_id);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To edit a comment";
-          return $userResponse;
+      $authController = new AuthController();
+      if ($authController->authenticateUsernameInUser($user_id)["error"] == false) {
+        $commentImp = new CommentImp();
+        $response = $commentImp->editComment($comment_id,  $user_id, $text);
       }
-      $commentImp = new CommentImp();
-    return $commentImp->editComment($comment_id,  $user_id, $text);
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+    return $response;
     }
     
     public function fetchCommentByFeed($feed_id){
@@ -43,16 +49,18 @@ class CommentService{
     }
     
     public function deleteComment($id, $username){
-      //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To delete a comment";
-          return $userResponse;
-      }
+     //Check Username
+     $authController = new AuthController();
+     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
       $commentImp = new CommentImp();
-      return $commentImp->deleteComment($id, $username);
+      $response =  $commentImp->deleteComment($id, $username);
       }
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+    return $response;
+    }
       
     public function deleteCommentByFeedId($feed_id){
       $commentImp = new CommentImp();
