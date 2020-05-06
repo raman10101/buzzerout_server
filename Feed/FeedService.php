@@ -52,12 +52,26 @@ class FeedService
         $response = array();
         $authController = new AuthController();
         $userController = new UserController();
+        $feedController = new FeedController();
         $feedImp = new FeedImp();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $userResponse = $userController->fetchUserByUsername($username);
             if ($userResponse["error"] == false) {
                 $role = $userResponse["user"]["role"];
                 $response = $feedImp->createBuzzAnonymously($username, $title, $description, $location, $role);
+                if ($response["error"] == false) {
+                    $feedResponse = $feedController->Fetchfeedinfo($response["buzzid"]);
+                    $response['comments'] = array();
+                    $response['images'] = array();
+                    $response['videos'] = array();
+                    $response['upvotes'] = array();
+                    $response['downvotes'] = array();
+                    $response['comments'] = $feedResponse['comments'];
+                    $response['images'] = $feedResponse['images'];
+                    $response['videos'] = $feedResponse['videos'];
+                    $response['upvotes'] = $feedResponse['upvotes'];
+                    $response['downvotes'] = $feedResponse['downvotes'];
+                }
             }
         } else {
             $response["error"] = true;
