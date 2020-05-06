@@ -16,7 +16,7 @@ class UserQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn,"select * from users where username='".$username."' and password ='".$password."' ");
+		$stmt = mysqli_query($this->conn,"select username, email,timestamp, role from users where username='".$username."' and password ='".$password."' ");
 		if(mysqli_num_rows($stmt) > 0){
 			$response["error"] = false;
 			$response["message"] = "User Found";
