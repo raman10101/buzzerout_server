@@ -19,17 +19,12 @@ class FeedQuery
 		$feedid = uniqid($username);
 		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "' ) ");
 		if ($stmt) {
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
-			while ($row = mysqli_fetch_assoc($stmt2)) {
-				$response['feedid'] = $row['feed_id'];
-				$response['description'] = $row['description'];
-				$response['time'] = $row['timestamp'];
-				$response["error"] = false;
-				$response["message"] = "Feed Uploaded";
-			}
+			$response["error"] = false;
+			$response["message"] = "Buzz Created";
+			$response["buzzid"] = $feedid;
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not Inserted";
+			$response["message"] = "Buzz Not Created";
 			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
@@ -197,10 +192,6 @@ class FeedQuery
 
 
 
-
-
-
-
 	// Old
 
 
@@ -253,7 +244,7 @@ class FeedQuery
 			$response["error"] = false;
 			$response["upvote_list"] = array();
 			$response["downvote_list"] = array();
-			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
+			$stmt = mysqli_query($this->conn, "select username,timestamp from feed_votes where feed_id='" . $feedid . "' and upvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["upvote_message"] = "upvotes Found";
 
@@ -264,7 +255,7 @@ class FeedQuery
 				$response["upvote_message"] = "upvote Not found";
 				$response["upvote_error_mess"] = mysqli_error($this->conn);
 			}
-			$stmt = mysqli_query($this->conn, "select username from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
+			$stmt = mysqli_query($this->conn, "select username,timestamp from feed_votes where feed_id='" . $feedid . "' and downvotes = 1 ");
 			if (mysqli_num_rows($stmt) > 0) {
 				$response["downvote_message"] = "downvote Found";
 

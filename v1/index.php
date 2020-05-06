@@ -167,7 +167,7 @@ $app->post('/user/forgotPassword', function () use ($app) {
 // Buzz Related API
 
 // Create Buzz
-$app->post('buzz/createBuzz',function() use($app){
+$app->post('/buzz/createBuzz',function() use($app){
     verifyRequiredParams((array('username', 'title', 'description', 'location')));
     $username = $app->request->post('username');
     $title = $app->request->post('title');
@@ -179,7 +179,7 @@ $app->post('buzz/createBuzz',function() use($app){
 });
 
 // Create Buzz Anonymously
-$app->post('buzz/createBuzzAnonymously',function() use($app){
+$app->post('/buzz/createBuzzAnonymously',function() use($app){
     verifyRequiredParams((array('username', 'title', 'description', 'location')));
     $username = $app->request->post('username');
     $title = $app->request->post('title');
@@ -281,6 +281,9 @@ $app->post('/buzz/unfollowBuzz', function () use ($app) {
     $response = $feedController->unfollowBuzz($username, $buzzid);
     echoRespnse(200, $response);
 });
+
+
+
 
 
 

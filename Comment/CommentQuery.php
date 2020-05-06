@@ -58,18 +58,19 @@ class CommentQuery
             $response["error"] = false;
             $response["message"] = "Comments found.";
 			$response["comments"] = array();
+			$result = array();
+
 			while($row = mysqli_fetch_assoc($stmt)){
-				$stmt2 = mysqli_query($this->conn, "select *  FROM users where id = '".$row['user_id']."'");
+				$result["timestamp"] = $row["timestamp"];
+				$result["text"] = $row["text"];
+				$stmt2 = mysqli_query($this->conn, "select *  FROM users_profile where username = '".$row['user_id']."'");
 				while($resp = mysqli_fetch_assoc($stmt2)){
-					$row['commentUser_first_name'] = $resp['first_name'];
-					$row['commentUser_last_name'] = $resp['last_name'];
-					$row['commentUser'] = $resp['username'];
-				// }
-				$stmt3 = mysqli_query($this->conn, "select *  FROM users_profile where username = '".$resp['username']."'");
-				while($resp = mysqli_fetch_assoc($stmt3)){
-					$row['commentImg'] = $resp['user_profile_image'];
-				}}
-				array_push($response["comments"],$row);
+					$result['first_name'] = $resp['first_name'];
+					$result['last_name'] = $resp['last_name'];
+					$result['username'] = $resp['username'];
+					$result['commentImg'] = $resp['user_profile_image'];
+				}
+				array_push($response["comments"],$result);
 			}
         }
         else
