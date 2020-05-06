@@ -78,7 +78,6 @@ $app->post('/register/activateRegisterUserLink', function () use ($app) {
     echoRespnse(200, $response);
 });
 
-
 $app->post('/register/allUsersToRegister', function () use ($app) {
     $registerController = new RegisterController();
     $response = $registerController->allUsersToRegister();

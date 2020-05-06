@@ -27,7 +27,7 @@ class FeedService
                 $role = $userResponse["user"]["role"];
                 $response = $feedImp->createBuzz($username, $title, $description, $location, $role);
                 if ($response["error"] == false) {
-                    $feedResponse = $feedController->Fetchfeedinfo($response["feedid"]);
+                    $feedResponse = $feedController->Fetchfeedinfo($response["buzzid"]);
                     $response['comments'] = array();
                     $response['images'] = array();
                     $response['videos'] = array();
