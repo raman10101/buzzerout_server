@@ -26,6 +26,11 @@ class UsersCollegeImp
         return $userscollegeQuery->fetchCollegeByUsername($username);
     }
     
+    public function fetchCollegeOfAllUsers($username)
+    {
+        $userscollegeQuery = new UsersCollegeQuery();
+        return $userscollegeQuery->fetchCollegeOfAllUsers($username);
+    }
     public function deleteCollegeDetailsById($id)
     {
         $userscollegeQuery = new UsersCollegeQuery();

@@ -66,6 +66,27 @@ class UsersWorkQuery
 		return $response;
 	}
 	
+	public function fetchWorkOfAllUsers($username)
+	{
+		$response = array();
+		$response["works"] = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM users_work ");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+			$response["message"] = "work details found.";
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["works"],$row);
+			}
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No work_details found.";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
 	public function deleteWorkDetailsById($id)
 	{
 		$response = array();

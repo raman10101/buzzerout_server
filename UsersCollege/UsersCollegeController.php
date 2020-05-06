@@ -20,6 +20,12 @@ class UsersCollegeController
 		return $userscollegeService->fetchCollegeByUsername($username);
 	}
 	
+	public function fetchCollegeOfAllUsers($username)
+	{
+		$userscollegeService = new UsersCollegeService();
+		return $userscollegeService->fetchCollegeOfAllUsers($username);
+	}
+
 	public function deleteCollegeDetailsById($id, $username)
 	{
 		$userscollegeService = new UsersCollegeService();

@@ -18,6 +18,12 @@ class UserdetailController
 		$UserdetailService = new UserdetailService();
 		return $UserdetailService->fetchUserDetail($username);
 	}
+	
+	public function fetchUserDetailOfAllUsers($username)
+	{
+		$UserdetailService = new UserdetailService();
+		return $UserdetailService->fetchUserDetailOfAllUsers($username);
+	}
 	public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
 	{
 		$UserdetailService = new UserdetailService();

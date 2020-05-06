@@ -43,6 +43,26 @@ class UserdetailQuery
 		}
 		return $response;
 	}
+	
+	public function fetchUserDetailOfAllUsers($username)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "SELECT * FROM  users_details ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Userdetail Found";
+			$response["userdetails"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["userdetails"],$row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Userdetail Not found";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
 	{
 		$response = array();

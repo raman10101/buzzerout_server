@@ -40,6 +40,12 @@ class UsersSocialService
         $userssocialImp = new UsersSocialImp();
         return $userssocialImp->fetchSocialDetailsByUsername($username);
     }
+    
+    public function fetchSocialDetailsOfAllUsers($username)
+    {
+        $userssocialImp = new UsersSocialImp();
+        return $userssocialImp->fetchSocialDetailsOfAllUsers($username);
+    }
 
     public function deleteSocialDetailsById($id, $username)
     {

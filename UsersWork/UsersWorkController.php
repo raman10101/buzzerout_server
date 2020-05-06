@@ -24,6 +24,12 @@ class UsersWorkController
 		return $usersworkService->fetchWorkByUsername($username);
 	}
 	
+	public function fetchWorkOfAllUsers($username)
+	{
+		$usersworkService = new UsersWorkService();
+		return $usersworkService->fetchWorkOfAllUsers($username);
+	}
+	
 	public function deleteWorkDetailsById($id, $username)
 	{
 		$usersworkService = new UsersWorkService();

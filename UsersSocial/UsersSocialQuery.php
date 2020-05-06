@@ -67,6 +67,27 @@ class UsersSocialQuery
 		return $response;
 	}
 	
+	public function fetchSocialDetailsOfAllUsers($username)
+	{
+		$response = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM users_social");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "social accounts found.";
+            $response["social_accounts_details"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["social_accounts_details"],$row);
+			}
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No social accounts found.";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
 	public function deleteSocialDetailsById($id)
 	{
 		$response = array();

@@ -20,6 +20,12 @@ class UsersSocialController
 		return $userssocialervice->fetchSocialDetailsByUsername($username);
 	}
 	
+	public function fetchSocialDetailsOfAllUsers($username)
+	{
+		$userssocialervice = new UsersSocialService();
+		return $userssocialervice->fetchSocialDetailsOfAllUsers($username);
+	}
+	
 	public function deleteSocialDetailsById($id,$username)
 	{
 		$userssocialervice = new UsersSocialService();

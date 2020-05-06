@@ -26,6 +26,12 @@ class UsersWorkImp
         return $usersworkQuery->fetchWorkByUsername($username);
     }
     
+    public function fetchWorkOfAllUsers($username)
+    {
+        $usersworkQuery = new UsersWorkQuery();
+        return $usersworkQuery->fetchWorkOfAllUsers($username);
+    }
+    
     public function deleteWorkDetailsById($id)
     {
         $usersworkQuery = new UsersWorkQuery();

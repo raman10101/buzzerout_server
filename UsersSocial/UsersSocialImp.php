@@ -27,6 +27,12 @@ class UsersSocialImp
         return $userssocialQuery->fetchSocialDetailsByUsername($username);
     }
     
+    public function fetchSocialDetailsOfAllUsers($username)
+    {
+        $userssocialQuery = new UsersSocialQuery();
+        return $userssocialQuery->fetchSocialDetailsOfAllUsers($username);
+    }
+
     public function deleteSocialDetailsById($id)
     {
         $userssocialQuery = new UsersSocialQuery();

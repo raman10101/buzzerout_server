@@ -33,6 +33,12 @@ class UserdetailService
         $UserdetailImp = new UserdetailImp();
         return $UserdetailImp->fetchUserDetail($username);
     }
+    
+    public function fetchUserDetailOfAllUsers($username)
+    {
+        $UserdetailImp = new UserdetailImp();
+        return $UserdetailImp->fetchUserDetailOfAllUsers($username);
+    }
     public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
     {
         //Check Username

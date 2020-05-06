@@ -55,6 +55,12 @@ class UsersCollegeService
         return $userscollegeImp->fetchCollegeByUsername($username);
     }
     
+    public function fetchCollegeOfAllUsers($username)
+    {
+        $userscollegeImp = new UsersCollegeImp();
+        return $userscollegeImp->fetchCollegeOfAllUsers($username);
+    }
+    
     public function deleteCollegeDetailsById($id, $username)
     {
         //Check Username

@@ -54,6 +54,12 @@ class UsersWorkService
         return $usersworkImp->fetchWorkByUsername($username);
     }
     
+    public function fetchWorkOfAllUsers($username)
+    {
+        $usersworkImp = new UsersWorkImp();
+        return $usersworkImp->fetchWorkOfAllUsers($username);
+    }
+
     public function deleteWorkDetailsById($id, $username)
     {
         //Check Username

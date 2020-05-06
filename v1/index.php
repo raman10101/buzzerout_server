@@ -684,6 +684,13 @@ $app->post('/detail/fetchUserDetail', function () use ($app) {
     $response = $detailController->fetchUserDetail($username);
     echoRespnse(200, $response);
 });
+$app->post('/detail/fetchUserDetailOfAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $detailController = new UserdetailController();
+    $response = $detailController->fetchUserDetailOfAllUsers($username);
+    echoRespnse(200, $response);
+});
 
 // places detail
 
@@ -716,6 +723,13 @@ $app->post('/usersWork/fetchWorkByUsername', function () use ($app) {
     $username = $app->request->post('username');
     $usersworkController = new UsersWorkController();
     $response = $usersworkController->fetchWorkByUsername($username);
+    echoRespnse(200, $response);
+});
+$app->post('/usersWork/fetchWorkOfAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $usersworkController = new UsersWorkController();
+    $response = $usersworkController->fetchWorkOfAllUsers($username);
     echoRespnse(200, $response);
 });
 
@@ -760,6 +774,13 @@ $app->post('/usersCollege/fetchCollegeByUsername', function () use ($app) {
     $response = $userscollegeController->fetchCollegeByUsername($username);
     echoRespnse(200, $response);
 });
+$app->post('/usersCollege/fetchCollegeOfAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->fetchCollegeOfAllUsers($username);
+    echoRespnse(200, $response);
+});
 
 $app->post('/usersCollege/deleteCollegeDetailsById', function () use ($app) {
     verifyRequiredParams((array('id', 'username')));
@@ -795,6 +816,14 @@ $app->post('/usersSocial/fetchSocialDetailsByUsername', function () use ($app) {
     $username = $app->request->post('username');
     $userssocialController = new UsersSocialController();
     $response = $userssocialController->fetchSocialDetailsByUsername($username);
+    echoRespnse(200, $response);
+});
+
+$app->post('/usersSocial/fetchSocialDetailsOfAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userssocialController = new UsersSocialController();
+    $response = $userssocialController->fetchSocialDetailsOfAllUsers($username);
     echoRespnse(200, $response);
 });
 $app->post('/usersSocial/deleteSocialDetailsById', function () use ($app) {
