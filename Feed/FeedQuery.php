@@ -38,7 +38,7 @@ class FeedQuery
 		if ($stmt) {
 			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
-				$response['feedid'] = $row['feed_id'];
+				$response['buzzid'] = $row['feed_id'];
 				$response['description'] = $row['description'];
 				$response['time'] = $row['timestamp'];
 				$response["error"] = false;
