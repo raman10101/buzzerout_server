@@ -28,6 +28,12 @@ class ProfileImp
         $ProfileQuery = new ProfileQuery();
         return $ProfileQuery->fetchProfileOfUser($username);
     }
+    
+    public function fetchProfileOfAllUsers($username)
+    {
+        $ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->fetchProfileOfAllUsers($username);
+    }
     public function updateMobileAddress($username, $mobile, $address)
     {
         $ProfileQuery = new ProfileQuery();

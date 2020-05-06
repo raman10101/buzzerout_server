@@ -619,6 +619,14 @@ $app->post('/profile/fetchProfileOfUser', function () use ($app) {
     $response = $profileController->fetchProfileOfUser($username);
     echoRespnse(200, $response);
 });
+$app->post('/profile/fetchProfileOfAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $profileController = new ProfileController();
+    $response = $profileController->fetchProfileOfAllUsers($username);
+    echoRespnse(200, $response);
+});
+
 $app->post('/profile/updateMobileAddress', function () use ($app) {
     verifyRequiredParams((array('username','mobile','address')));
     $username = $app->request->post('username');

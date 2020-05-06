@@ -73,6 +73,26 @@ class ProfileQuery
 		}
 		return $response;
 	}
+	
+	public function fetchProfileOfAllUsers($username)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "SELECT * FROM  users_profile ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Profile Fetched";
+			$response["profiles"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["profiles"],$row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Profiles Not found";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	public function updateMobileAddress($username, $mobile, $address)
 	{
 		$response = array();

@@ -22,6 +22,12 @@ class ProfileController
 		$ProfileService = new ProfileService();
 		return $ProfileService->fetchProfileOfUser($username);
 	}
+	
+	public function fetchProfileOfAllUsers($username)
+	{
+		$ProfileService = new ProfileService();
+		return $ProfileService->fetchProfileOfAllUsers($username);
+	}
 	public function updateMobileAddress($username, $mobile, $address)
 	{
 		$ProfileService = new ProfileService();

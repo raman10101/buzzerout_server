@@ -43,6 +43,12 @@ class ProfileService
         $ProfileImp = new ProfileImp();
         return $ProfileImp->fetchProfileOfUser($username);
     }
+    
+    public function fetchProfileOfAllUsers($username)
+    {
+        $ProfileImp = new ProfileImp();
+        return $ProfileImp->fetchProfileOfAllUsers($username);
+    }
 
     public function createEmptyProfileOfUser($username)
     {
