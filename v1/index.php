@@ -515,6 +515,15 @@ $app->post('/comment/fetchCommentByFeed', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/comment/fetchCommentByCommentId', function () use ($app) {
+    verifyRequiredParams((array('comment_id', 'username')));
+    $comment_id = $app->request->post('comment_id');
+    $username = $app->request->post('username');
+    $commentController = new CommentController();
+    $response = $commentController->fetchCommentByCommentId($comment_id, $username);
+    echoRespnse(200, $response);
+});
+
 $app->post('/comment/fetchAllComments', function () use ($app) {
     $commentController = new CommentController();
     $response = $commentController->fetchAllComments();

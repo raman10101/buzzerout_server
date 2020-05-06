@@ -21,6 +21,11 @@ class CommentController{
 		return $commentService->fetchCommentByFeed($feed_id);
 	}
 	
+	public function fetchCommentByCommentId($comment_id, $username){
+		$commentService = new CommentService();
+		return $commentService->fetchCommentByCommentId($comment_id, $username);
+	}
+	
 	public function fetchAllComments(){
 		$commentService = new CommentService();
 		return $commentService->fetchAllComments();

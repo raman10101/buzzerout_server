@@ -82,6 +82,25 @@ class CommentQuery
 		return $response;
 	}
 
+	public function fetchCommentByCommentId($comment_id, $username){
+		$response = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM comments where id = '".$comment_id."'");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "Comments found.";
+			$response["comments"] = array();
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response['comments'], $row);
+			}
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No comment found.";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	  }
 
 	public function fetchAllComments()
 	{

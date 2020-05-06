@@ -25,6 +25,10 @@ class CommentImp{
 		$commentQuery = new CommentQuery();
 		return $commentQuery->fetchAllComments();
     }
+    public function fetchCommentByCommentId($comment_id, $username){
+      $commentQuery = new CommentQuery();
+      return $commentQuery->fetchCommentByCommentId($comment_id, $username);
+    }
     
     public function deleteComment($id, $username){
       $commentQuery = new CommentQuery();

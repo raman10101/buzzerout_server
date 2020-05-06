@@ -43,6 +43,11 @@ class CommentService{
       return $commentImp->fetchCommentByFeed($feed_id);
       }
     
+    public function fetchCommentByCommentId($comment_id, $username){
+      $commentImp = new CommentImp();
+      return $commentImp->fetchCommentByCommentId($comment_id, $username);
+    }
+    
     public function fetchAllComments(){
 		$commentImp = new CommentImp();
 		return $commentImp->fetchAllComments();
