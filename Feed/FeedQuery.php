@@ -605,6 +605,10 @@ class FeedQuery
 		if ($stmt) {
 			$response["message"] = "feed edited";
 			$response["error"] = false;
+			$response["feed_id"] = $feed_id;
+			$response["username"] = $username;
+			$response["title"] = $title;
+			$response["descrption"] = $description;
 			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feed_id . "' and username='" . $username . "'");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
 				$response['feedid'] = $row['feed_id'];
