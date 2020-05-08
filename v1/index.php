@@ -530,12 +530,12 @@ $app->post('/comment/fetchAllComments', function () use ($app) {
     echoRespnse(200, $response);
 });
 
-$app->post('/comment/deleteComment', function () use ($app) {
-    verifyRequiredParams((array('id,', 'userame')));
+$app->post('/comment/deleteCommentById', function () use ($app) {
+    verifyRequiredParams((array('id,', 'username')));
     $username = $app->request->post('username');
     $id = $app->request->post('id');
     $commentController = new CommentController();
-    $response = $commentController->deleteComment($id, $username);
+    $response = $commentController->deleteCommentById($id, $username);
     echoRespnse(200, $response);
 });
 

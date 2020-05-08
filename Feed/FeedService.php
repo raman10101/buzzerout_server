@@ -315,7 +315,6 @@ class FeedService
                     $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
                 }
                 $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]['feedid'] = $feedid;
 
                 $resp = $feedController->Fetchfeedinfo($feedid);
                 $response["Feed"][$i]['comments'] = array();

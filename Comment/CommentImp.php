@@ -30,9 +30,9 @@ class CommentImp{
       return $commentQuery->fetchCommentByCommentId($comment_id, $username);
     }
     
-    public function deleteComment($id, $username){
+    public function deleteCommentById($id, $username){
       $commentQuery = new CommentQuery();
-      return $commentQuery->deleteComment($id, $username);
+      return $commentQuery->deleteCommentById($id, $username);
     }
     
     public function deleteCommentByFeedId($feed_id){

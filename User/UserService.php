@@ -38,8 +38,6 @@ class UserService
         $response['feed'] = $feedResp['feed'];
         unset($response['user']['role']);
       }
-
-
     } else {
       $response["error"] = true;
       $response["message"] = "User Not Found";
@@ -123,7 +121,7 @@ class UserService
       $response['details']['works'] = array();
       $response['details']['city'] = array();
       $response["details"]["profile"] = array();
-      $response["details"]["details"] = array();
+      $response["details"]["user_details"] = array();
 
       $temp = $profilecontroller->fetchProfileOfUser($username);
       if ($temp['error'] == false) {
@@ -131,7 +129,7 @@ class UserService
       }
       $temp = $detailController->fetchUserDetail($username);
       if ($temp['error'] == false) {
-        $response["details"]["details"] = $temp["userdetails"];
+        $response["details"]["user_details"] = $temp["userdetails"];
       }
       $temp = $workcontroller->fetchWorkByUsername($username);
 

@@ -31,9 +31,9 @@ class CommentController{
 		return $commentService->fetchAllComments();
 	}
 	
-	public function deleteComment($id, $username){
+	public function deleteCommentById($id, $username){
 		$commentService = new CommentService();
-		return $commentService->deleteComment($id, $username);
+		return $commentService->deleteCommentById($id, $username);
 	}
 	
 	public function deleteCommentByFeedId($feed_id){

@@ -601,20 +601,19 @@ class FeedQuery
 
 	{
 		$response = array();
-		$feedid = uniqid($username);
-		$stmt = mysqli_query($this->conn, "update feed set title ='" . $title . "',  description='" . $description . "' ,  location='" . $location . "' where feed_id='" . $feed_id . "' and username='" . $username . "'");
+		$stmt = mysqli_query($this->conn, "UPDATE feed set title ='" . $title . "',  description='" . $description . "' ,  location='" . $location . "' where feed_id='" . $feed_id . "'");
 		if ($stmt) {
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' and username='" . $username . "'");
+			$response["message"] = "feed edited";
+			$response["error"] = false;
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feed_id . "' and username='" . $username . "'");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
 				$response['feedid'] = $row['feed_id'];
 				$response['description'] = $row['description'];
 				$response['time'] = $row['timestamp'];
-				$response["error"] = false;
-				$response["message"] = "feed uploded";
 			}
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not inserted";
+			$response["message"] = "Feed Not edited";
 			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;

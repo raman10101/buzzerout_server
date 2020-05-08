@@ -53,12 +53,12 @@ class CommentService{
 		return $commentImp->fetchAllComments();
     }
     
-    public function deleteComment($id, $username){
+    public function deleteCommentById($id, $username){
      //Check Username
      $authController = new AuthController();
      if ($authController->authenticateUsernameInUser($username)["error"] == false) {
       $commentImp = new CommentImp();
-      $response =  $commentImp->deleteComment($id, $username);
+      $response =  $commentImp->deleteCommentById($id, $username);
       }
       else{
         $response["error"] = true;

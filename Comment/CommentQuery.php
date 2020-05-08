@@ -21,7 +21,7 @@ class CommentQuery
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
 			$response['comments'] = array();
-			$stmt2 = mysqli_query($this->conn, "select *  FROM comments where feed_id ='".$feed_id."' and user_id='".$user_id."' ");
+			$stmt2 = mysqli_query($this->conn, "select *  FROM comments where comment_id='".$comment_id."' ");
 			if (mysqli_num_rows($stmt2) > 0) {
 				while ($row = mysqli_fetch_assoc($stmt2)) {
 					array_push($response["comments"], $row);
@@ -38,10 +38,17 @@ class CommentQuery
 	public function editComment($comment_id, $user_id, $text)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "UPDATE comments SET text = '" . $text . "', modified = NOW() WHERE  id = '" . $comment_id . "'");
+		$stmt = mysqli_query($this->conn, "UPDATE comments SET text = '" . $text . "', modified = NOW() WHERE  comment_id = '" . $comment_id . "'");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment edited";
+			$response['comments'] = array();
+			$stmt2 = mysqli_query($this->conn, "select *  FROM comments where comment_id='".$comment_id."'");
+			if (mysqli_num_rows($stmt2) > 0) {
+				while ($row = mysqli_fetch_assoc($stmt2)) {
+					array_push($response["comments"], $row);
+				}
+			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not edited";
@@ -121,7 +128,7 @@ class CommentQuery
 		return $response;
 	}
 
-	public function deleteComment($id, $username)
+	public function deleteCommentById($id, $username)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "DELETE FROM comments where id = '" . $id . "'");
@@ -139,7 +146,7 @@ class CommentQuery
 	public function deleteCommentByFeedId($feed_id)
 	{
 		$response = array();
-		$stmt = mysqli_query($this->conn, "DELETE FROM comments where fedd_id = '" . $feed_id . "'");
+		$stmt = mysqli_query($this->conn, "DELETE FROM comments where feed_id = '" . $feed_id . "'");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comments deleted.";
