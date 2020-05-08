@@ -21,7 +21,12 @@ class FeedQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Buzz Created";
-			$response["buzzid"] = $feedid;
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
+			while ($row = mysqli_fetch_assoc($stmt2)) {
+				$response['buzzid'] = $row['feed_id'];
+				$response['description'] = $row['description'];
+				$response['time'] = $row['timestamp'];
+			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Buzz Not Created";
@@ -91,27 +96,44 @@ class FeedQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$stmt = mysqli_query($this->conn, "UPDATE feed_votes SET upvotes='" . $up . "' , downvotes='" . $down . "' WHERE feed_id='" . $feedid . "' and username='" . $username . "'");
 			if ($stmt) {
-				$response["error"] = false;
-				$response["message"] = "vote updated";
+				$response['message'] = "vote updated";
+				$response['upvotes'] = array();
+				$response['downvotes'] = array();
+				$stmt = mysqli_query($this->conn, "SELECT username, timestamp FROM feed_votes WHERE feed_id='" . $feedid . "' and upvotes = 1");
+				while ($row = mysqli_fetch_assoc($stmt)) {
+					array_push($response["upvotes"], $row);
+				}
+				$stmt = mysqli_query($this->conn, "SELECT username, timestamp FROM feed_votes WHERE feed_id='" . $feedid . "'and downvotes = 1");
+				while ($row = mysqli_fetch_assoc($stmt)) {
+					array_push($response["downvotes"], $row);
+				}
 			} else {
 				$response["error"] = true;
 				$response["message"] = "error in updating vote";
+				$response['upvotes'] = array();
+				$response['downvotes'] = array();
 				$response["info"] = mysqli_error($this->conn);
 			}
 		} else {
 			$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
 			if ($stmt) {
-
-				$response["error"] = false;
-				if ($up == 1 && $down == 0) {
-					$response["message_feed"] = "Feed upvoted";
+				$response['message'] = "vote updated";
+				$response['upvotes'] = array();
+				$response['downvotes'] = array();
+				$stmt = mysqli_query($this->conn, "SELECT username, timestamp FROM feed_votes WHERE feed_id='" . $feedid . "' and upvotes = 1");
+				while ($row = mysqli_fetch_assoc($stmt)) {
+					array_push($response["upvotes"], $row);
 				}
-				if ($up == 0 && $down == 1) {
-					$response["message_feed"] = "Feed downvoted";
+				$stmt = mysqli_query($this->conn, "SELECT username, timestamp FROM feed_votes WHERE feed_id='" . $feedid . "'and downvotes = 1");
+				while ($row = mysqli_fetch_assoc($stmt)) {
+					array_push($response["downvotes"], $row);
 				}
 			} else {
 				$response["error"] = true;
-				$response["message"] = mysqli_error($this->conn);
+				$response["message"] = "error in updating vote";
+				$response['upvotes'] = array();
+				$response['downvotes'] = array();
+				$response["info"] = mysqli_error($this->conn);
 			}
 		}
 		return $response;

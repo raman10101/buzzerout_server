@@ -15,8 +15,8 @@ class CommentQuery
 	public function addComment($feed_id,  $user_id, $text)
 	{
 		$response = array();
-
-		$stmt = mysqli_query($this->conn, "insert into comments (feed_id,user_id,text,timestamp) values('" . $feed_id . "','" . $user_id . "','" . $text . "',NOW())");
+		$comment_id = uniqid($feed_id.$user_id);
+		$stmt = mysqli_query($this->conn, "insert into comments (comment_id, feed_id,user_id,text,timestamp) values('" . $comment_id . "','" . $feed_id . "','" . $user_id . "','" . $text . "',NOW())");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
