@@ -12,6 +12,7 @@ class UsersCollegeService
     }
     public function addCollege($username,  $college_name, $college_place)
     {
+        $resp = array();
         //Check Username
         $authController = new AuthController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
@@ -31,6 +32,7 @@ class UsersCollegeService
     }
     
     public function editCollege($username,  $college_name, $college_place,$college_id){
+        $resp = array();
         //Check Username
         $authController = new AuthController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
@@ -51,33 +53,65 @@ class UsersCollegeService
 
     public function fetchCollegeByUsername($username)
     {
-        $userscollegeImp = new UsersCollegeImp();
-        return $userscollegeImp->fetchCollegeByUsername($username);
+        $resp = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userscollegeImp = new UsersCollegeImp();
+            $resp =  $userscollegeImp->fetchCollegeByUsername($username);
+        }
+        else{
+            $resp["error"] = true;
+            $resp["message"] = "User Not Found";
+        }
+        return $resp;
     }
     
     public function fetchCollegeOfAllUsers($username)
     {
-        $userscollegeImp = new UsersCollegeImp();
-        return $userscollegeImp->fetchCollegeOfAllUsers($username);
+        $resp = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userscollegeImp = new UsersCollegeImp();
+            $resp = $userscollegeImp->fetchCollegeOfAllUsers($username);
+        }
+        else{
+            $resp["error"] = true;
+            $resp["message"] = "User Not Found";
+        }
+        return $resp;
     }
     
     public function fetchCollegeById($username, $college_id)
     {
-        $userscollegeImp = new UsersCollegeImp();
-        return $userscollegeImp->fetchCollegeById($username, $college_id);
+        $resp = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userscollegeImp = new UsersCollegeImp();
+            $resp = $userscollegeImp->fetchCollegeById($username, $college_id);
+        }
+        else{
+            $resp["error"] = true;
+            $resp["message"] = "User Not Found";
+        }
+        return $resp;
     }
     
     public function deleteCollegeDetailsById($id, $username)
     {
+        $resp = array();
         //Check Username
-        $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
-            $userResponse["message"] = "Please SigIn first";
-            return $userResponse;
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userscollegeImp = new UsersCollegeImp();
+            $resp = $userscollegeImp->deleteCollegeDetailsById($id);
         }
-        $userscollegeImp = new UsersCollegeImp();
-        return $userscollegeImp->deleteCollegeDetailsById($id);
+        else{
+            $resp["error"] = true;
+            $resp["message"] = "User Not Found";
+        }
+        return $resp;
     }
-
 }

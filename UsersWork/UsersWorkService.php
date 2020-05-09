@@ -50,27 +50,50 @@ class UsersWorkService
     
     public function fetchWorkByUsername($username)
     {
-        $usersworkImp = new UsersWorkImp();
-        return $usersworkImp->fetchWorkByUsername($username);
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $usersworkImp = new UsersWorkImp();
+            $response = $usersworkImp->fetchWorkByUsername($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
     }
     
     public function fetchWorkOfAllUsers($username)
     {
-        $usersworkImp = new UsersWorkImp();
-        return $usersworkImp->fetchWorkOfAllUsers($username);
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $usersworkImp = new UsersWorkImp();
+            $response = $usersworkImp->fetchWorkOfAllUsers($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
     }
 
     public function deleteWorkDetailsById($id, $username)
     {
+        $response = array();
         //Check Username
-        $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
-            $userResponse["message"] = "Please SigIn first";
-            return $userResponse;
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $usersworkImp = new UsersWorkImp();
+            $response = $usersworkImp->deleteWorkDetailsById($id);
         }
-        $usersworkImp = new UsersWorkImp();
-        return $usersworkImp->deleteWorkDetailsById($id);
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
     }
 
 }

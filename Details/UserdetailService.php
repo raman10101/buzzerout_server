@@ -9,59 +9,84 @@ class UserdetailService
     {
         require_once dirname(__FILE__) . '/UserdetailImp.php';
         require_once  './../User/UserController.php';
+        require_once '../Auth/AuthController.php';
     }
     public function createUserDetail($username, $about_you, $other_name, $fav_quote)
     {
+        $response = array();
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To enter details";
-          return $userResponse;
-      }
-        $UserdetailImp = new UserdetailImp();
-        $UserDetailController=new UserdetailController();
-        $resp = $UserdetailImp->createUserDetail($username, $about_you, $other_name, $fav_quote);
-        if($resp["error"] == false){
-            $respController = $UserDetailController->fetchUserDetail($username);
-            $resp["userdetails"] = $respController["userdetails"];
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $UserdetailImp = new UserdetailImp();
+            $UserDetailController=new UserdetailController();
+            $response = $UserdetailImp->createUserDetail($username, $about_you, $other_name, $fav_quote);
+            if($response["error"] == false){
+                $respController = $UserDetailController->fetchUserDetail($username);
+                $response["userdetails"] = $respController["userdetails"];
+            }
         }
-        return $resp;
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
     }
     public function fetchUserDetail($username)
     {
-        $UserdetailImp = new UserdetailImp();
-        return $UserdetailImp->fetchUserDetail($username);
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $UserdetailImp = new UserdetailImp();
+            $response = $UserdetailImp->fetchUserDetail($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response;  
     }
     
     public function fetchUserDetailOfAllUsers($username)
     {
-        $UserdetailImp = new UserdetailImp();
-        return $UserdetailImp->fetchUserDetailOfAllUsers($username);
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $UserdetailImp = new UserdetailImp();
+            $response = $UserdetailImp->fetchUserDetailOfAllUsers($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
     }
+
     public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
     {
+        $response = array();
         //Check Username
-      $user = new UserController();
-      $userResponse = $user->fetchUserByUsername($username);
-      if($userResponse["error"] == true){
-          $userResponse["message"] = "Please SigIn To update details";
-          return $userResponse;
-      }
-        $UserdetailImp = new UserdetailImp();
-        $UserDetailController=new UserdetailController();
-        $userDetailFetchResp = $UserDetailController->fetchUserDetail($username);
-        if($userDetailFetchResp["error"] == false){
-            $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
-            if($response["error"]==false){
-                $respController = $UserDetailController->fetchUserDetail($username);
-                $response["userdetails"] = $respController["userdetails"];
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $UserdetailImp = new UserdetailImp();
+            $UserDetailController =new UserdetailController();
+            $userDetailFetchResp = $UserDetailController->fetchUserDetail($username);
+            if($userDetailFetchResp["error"] == false){
+                $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
+                if($response["error"]==false){
+                    $respController = $UserDetailController->fetchUserDetail($username);
+                    $response["userdetails"] = $respController["userdetails"];
+                }
             }
-        }else{
-            return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+            else{
+                return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+            }
         }
-        
-        return $response;
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
     }
 
 }

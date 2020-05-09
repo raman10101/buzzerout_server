@@ -28,7 +28,8 @@ class UsersSocialService
             } else {
                 $response = $userssocialImp->addSocialDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
             }
-        }else {
+        }
+        else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
           }
@@ -37,26 +38,49 @@ class UsersSocialService
 
     public function fetchSocialDetailsByUsername($username)
     {
-        $userssocialImp = new UsersSocialImp();
-        return $userssocialImp->fetchSocialDetailsByUsername($username);
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userssocialImp = new UsersSocialImp();
+            $response = $userssocialImp->fetchSocialDetailsByUsername($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response;
     }
     
     public function fetchSocialDetailsOfAllUsers($username)
     {
-        $userssocialImp = new UsersSocialImp();
-        return $userssocialImp->fetchSocialDetailsOfAllUsers($username);
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userssocialImp = new UsersSocialImp();
+            $response = $userssocialImp->fetchSocialDetailsOfAllUsers($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response;  
     }
 
     public function deleteSocialDetailsById($id, $username)
     {
+        $response = array();
         //Check Username
-        $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if($userResponse["error"] == true){
-            $userResponse["message"] = "Please SigIn first";
-            return $userResponse;
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userssocialImp = new UsersSocialImp();
+            $response = $userssocialImp->deleteSocialDetailsById($id);
         }
-        $userssocialImp = new UsersSocialImp();
-        return $userssocialImp->deleteSocialDetailsById($id);
-    }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response;
+        }
 }
