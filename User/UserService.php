@@ -70,7 +70,7 @@ class UserService
     }
     return $response;
   }
-
+  
   public function fetchUserByUsername($username)
   {
     $userImp = new UserImp();

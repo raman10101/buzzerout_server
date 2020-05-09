@@ -385,6 +385,15 @@ $app->post('/feed/clearFeedByLocation', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/feed/clearFeedByFeedId', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $feed_id = $app->request->post('feed_id');
+    $username = $app->request->post('username');
+    $feedController = new FeedController();
+    $response = $feedController->clearFeedByFeedId($feed_id, $username);
+    echoRespnse(200, $response);
+});
+
 
 $app->post('/feed/clearFeedByUsername', function () use ($app) {
     verifyRequiredParams((array('username')));
