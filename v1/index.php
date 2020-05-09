@@ -420,7 +420,7 @@ $app->post('/feed/editFeed', function () use ($app) {
     $description = $app->request->post('description');
     $location = $app->request->post('location');
     $feedController = new FeedController();
-    $response = $feedController->editFeed($feed_id, $username, $title, $description, $location);
+    $response = $feedController->editFeed($username, $feed_id, $title, $description, $location);
     echoRespnse(200, $response);
 });
 
