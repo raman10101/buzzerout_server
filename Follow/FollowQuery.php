@@ -39,9 +39,9 @@ class FollowQuery
 			$response["error"] = false;
 			$response["message"] = "Follow Found";
 			$response["count"] = mysqli_num_rows($stmt);
-			$response["list_of_following"] = array();
+			$response["following"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["list_of_following"], $row);
+				array_push($response["following"], $row['followed_to']);
 			}
 		} else {
 			$response["error"] = true;
@@ -59,9 +59,9 @@ class FollowQuery
 			$response["error"] = false;
 			$response["message"] = "Follow Found";
 			$response["count"] = mysqli_num_rows($stmt);
-			$response["list_of_followers"] = array();
+			$response["followers"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["list_of_followers"], $row);
+				array_push($response["followers"], $row['followed_by']);
 			}
 		} else {
 			$response["error"] = true;
