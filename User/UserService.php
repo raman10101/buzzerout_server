@@ -24,6 +24,7 @@ class UserService
     $authController = new AuthController();
     $usercontroller = new UserController();
     $feedController = new FeedController();
+    $followController = new FollowController();
     $response = array();
 
     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
@@ -38,6 +39,16 @@ class UserService
         $feedResp = $feedController->fetchFeedByRole($response["user"]["role"]);
         $response['feed'] = $feedResp['feed'];
         unset($response['user']['role']);
+        $response['followers'] = array();
+        $response['following'] = array();
+        $followingResp = $followController->fetchFollowing($username);
+        if($followingResp['error'] == false){
+          $response['following'] = $followingResp['following'];
+        }
+        $followerResp = $followController->fetchFollowedBy($username);
+        if($followerResp['error'] == false){
+          $response['followers'] = $followingResp['followers'];
+        }
       }
     } else {
       $response["error"] = true;
@@ -110,7 +121,6 @@ class UserService
     $placeController = new PlacesController();
     $userscollegeController = new UsersCollegeController();
     $userssocialController = new UsersSocialController();
-    $followController = new FollowController();
 
     $response = array();
 
@@ -124,9 +134,6 @@ class UserService
       $response['details']['city'] = array();
       $response["details"]["profile"] = array();
       $response["details"]["user_details"] = array();
-
-      $response['followers'] = array();
-      $response['following'] = array();
 
       $temp = $profilecontroller->fetchProfileOfUser($username);
       if ($temp['error'] == false) {
@@ -158,16 +165,6 @@ class UserService
 
       if ($temp['error'] == false) {
         $response['details']['socialMedia'] = $temp['social_accounts_details'];
-      }
-
-      $temp = $followController->fetchFollowing($username);
-      if ($temp['error'] == false) {
-        $response['following'] = $temp['following'];
-      }
-
-      $temp = $followController->fetchFollowedBy($username);
-      if ($temp['error'] == false) {
-        $response['followers'] = $temp['followers'];
       }
 
     } else {
