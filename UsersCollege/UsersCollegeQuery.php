@@ -65,6 +65,27 @@ class UsersCollegeQuery
 		}
 		return $response;
 	}
+
+	public function fetchCollegeById($username, $college_id)
+	{
+		$response = array();
+		$response["colleges"] = array();
+        $stmt = mysqli_query($this->conn, "select *  FROM users_college where id = '".$college_id."'");
+		if(mysqli_num_rows($stmt) > 0){  
+            $response["error"] = false;
+            $response["message"] = "college found.";
+			while($row = mysqli_fetch_assoc($stmt)){
+				array_push($response["colleges"],$row);
+			}
+        }
+        else
+        {
+			$response["error"] = true;
+            $response["message"] = "No college found.";
+            $response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 	
 	public function fetchCollegeOfAllUsers($username)
 	{

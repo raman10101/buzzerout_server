@@ -113,7 +113,7 @@ class UserService
     $response = array();
 
     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-
+    
       $response["error"] = false;
       $response["details"] = array();
       $response['details']['college'] = array();
@@ -136,7 +136,7 @@ class UserService
       if ($temp['error'] == false) {
         $response['details']['works'] = $temp['works'];
       }
-
+  
       $temp = $placeController->fetchPlacesOfUser($username);
 
       if ($temp['error'] == false) {

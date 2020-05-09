@@ -38,7 +38,7 @@ class UsersCollegeService
             $usersCollegeController = new UsersCollegeController();
             $resp=  $userscollegeImp->editCollege($username,  $college_name, $college_place,$college_id);
             if($resp["error"] == false ){
-                $respController = $usersCollegeController->fetchCollegeByUsername($username);
+                $respController = $usersCollegeController->fetchCollegeById($username, $college_id);
                 $resp["colleges"] = $respController["colleges"];
             }
         }
@@ -59,6 +59,12 @@ class UsersCollegeService
     {
         $userscollegeImp = new UsersCollegeImp();
         return $userscollegeImp->fetchCollegeOfAllUsers($username);
+    }
+    
+    public function fetchCollegeById($username, $college_id)
+    {
+        $userscollegeImp = new UsersCollegeImp();
+        return $userscollegeImp->fetchCollegeById($username, $college_id);
     }
     
     public function deleteCollegeDetailsById($id, $username)

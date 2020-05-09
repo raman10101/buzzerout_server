@@ -119,7 +119,7 @@ class UserQuery
 	}
 	public function updateFirstLastName($username, $first_name, $last_name){
 		$response = array();
-		$stmt = mysqli_query($this->conn,"update users set first_name = '".$first_name."', last_name = '".$last_name."' where username = '".$username."'  ");
+		$stmt = mysqli_query($this->conn,"update users_profile set first_name = '".$first_name."', last_name = '".$last_name."' where username = '".$username."'  ");
 		if($stmt){  
             $response["error"] = false;
             $response["message"] = "Updated Successfully.";

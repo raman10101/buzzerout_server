@@ -290,8 +290,8 @@ class FeedQuery
 			}
 		} else {
 			$response["error"] = true;
-			$response["downvote_message"] = "no votes found";
-			$response["downvote_error_mess"] = mysqli_error($this->conn);
+			$response['message'] = "no votes found";
+			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;
 	}
@@ -598,7 +598,6 @@ class FeedQuery
 		return $response;
 	}
 	public function  editFeed($username, $feed_id, $title, $description, $location)
-
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "UPDATE feed set title ='" . $title . "',  description='" . $description . "' ,  location='" . $location . "' where feed_id='" . $feed_id . "'");

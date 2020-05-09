@@ -531,7 +531,7 @@ $app->post('/comment/fetchAllComments', function () use ($app) {
 });
 
 $app->post('/comment/deleteCommentById', function () use ($app) {
-    verifyRequiredParams((array('id,', 'username')));
+    verifyRequiredParams((array('id', 'username')));
     $username = $app->request->post('username');
     $id = $app->request->post('id');
     $commentController = new CommentController();
@@ -774,6 +774,16 @@ $app->post('/usersCollege/fetchCollegeByUsername', function () use ($app) {
     $response = $userscollegeController->fetchCollegeByUsername($username);
     echoRespnse(200, $response);
 });
+
+$app->post('/usersCollege/fetchCollegeById', function () use ($app) {
+    verifyRequiredParams((array('username', 'id')));
+    $username = $app->request->post('username');
+    $college_id = $app->request->post('id');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->fetchCollegeById($username, $college_id);
+    echoRespnse(200, $response);
+});
+
 $app->post('/usersCollege/fetchCollegeOfAllUsers', function () use ($app) {
     verifyRequiredParams((array('username')));
     $username = $app->request->post('username');
