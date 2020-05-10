@@ -21,7 +21,7 @@ class CommentQuery
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
 			$response['comments'] = array();
-			$stmt2 = mysqli_query($this->conn, "select *  FROM comments ");
+			$stmt2 = mysqli_query($this->conn, "select *  FROM comments where feed_id='".$feed_id."'");
 			if (mysqli_num_rows($stmt2) > 0) {
 				while ($row = mysqli_fetch_assoc($stmt2)) {
 					array_push($response["comments"], $row);
