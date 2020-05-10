@@ -25,8 +25,14 @@ class UsersSocialService
             $response = $usersSocialController->fetchSocialDetailsByUsername($username);
             if ($response["error"] == false) {
                 $response = $userssocialImp->updateSocialDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
+                if($response["error"] = false){
+                    $response["social_accounts_details"] = $usersSocialController->fetchSocialDetailsByUsername($username)["social_accounts_Details"];
+                }
             } else {
                 $response = $userssocialImp->addSocialDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
+                if($response["error"] = false){
+                    $response["social_accounts_details"] = $usersSocialController->fetchSocialDetailsByUsername($username)["social_accounts_Details"];
+                }
             }
         }
         else {
