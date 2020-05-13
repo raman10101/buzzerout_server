@@ -184,7 +184,6 @@ class UserQuery
 		if($stmt){
 			$response["error"] = false;
 			$response["message"] = "Password updated Successfully";
-			$response["user"] = mysqli_fetch_assoc($stmt);
 		}else{
 			$response["error"] = true;
 			$response["message"] = "Password not updated";
