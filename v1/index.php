@@ -584,7 +584,7 @@ $app->post('/comment/clearComment', function () use ($app) {
 $app->post('/profile/updateProfile', function () use ($app) {
     verifyRequiredParams((array('username','firstname')));
     $username = $app->request->post('username');
-    $firstname = $app->request->post('fisrtname');
+    $firstname = $app->request->post('firstname');
     
     $lastname = "";
     if(isset($_POST["lastname"])){
