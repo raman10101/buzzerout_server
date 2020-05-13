@@ -51,5 +51,10 @@ class UserImp
   public function forgotPassword($email){
 		$userQuery = new UserQuery();
 		return $userQuery->forgotPassword($email);
-	}
+  }
+  
+  public function resetPassword($username, $old_password, $new_password){
+		$userQuery = new UserQuery();
+		return $userQuery->resetPassword($username, $old_password, $new_password);
+  }
 }

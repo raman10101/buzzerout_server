@@ -23,7 +23,7 @@ class UserQuery
 			$response["user"] = mysqli_fetch_assoc($stmt);
 		}else{
 			$response["error"] = true;
-			$response["message"] = "User Not found";
+			$response["message"] = "Wrond credentials";
 		}
 		return $response;
 	}
@@ -173,6 +173,22 @@ class UserQuery
 			$response["error"] = true;
 			$response["message"] = 'Something Went Wrong.';
 			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function resetPassword($username, $old_password, $new_password)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn,"update users set password = '".$new_password."' where username = '".$username."'  ");
+		if($stmt){
+			$response["error"] = false;
+			$response["message"] = "Password updated Successfully";
+			$response["user"] = mysqli_fetch_assoc($stmt);
+		}else{
+			$response["error"] = true;
+			$response["message"] = "Password not updated";
+			$response['info'] = mysqli_error($this->conn);
 		}
 		return $response;
 	}

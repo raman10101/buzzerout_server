@@ -180,4 +180,33 @@ class UserService
     $userImp = new UserImp();
     return $userImp->forgotPassword($email);
   }
+  
+  public function resetPassword($username, $old_password, $new_password)
+  {
+    $authController = new AuthController();
+    $userImp = new UserImp();
+    $userController = new UserController();
+    $response = array();
+    if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+      $response = $userController->fetchUserByUsername($username);
+      if($response['error'] == false){
+        if($response['user']['password'] == $old_password){
+          $response =  $userImp->resetPassword($username, $old_password, $new_password);
+        }
+        else{
+          $response['error'] = true;
+          $response['message'] = "old password is wrong.";
+        }
+      }
+      else{
+        $response['error'] = true;
+        $response['message'] = "User not found";
+      }
+    }
+    else {
+      $response["error"] = true;
+      $response["message"] = "User Not Found";
+    }
+    return $response;
+  }
 }

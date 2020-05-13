@@ -154,6 +154,16 @@ $app->post('/user/clearUser', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/user/resetPassword', function () use ($app) {
+    verifyRequiredParams((array('username', 'old_password', 'new_password')));
+    $username = $app->request->post('username');
+    $old_password = $app->request->post('old_password');
+    $new_password = $app->request->post('new_password');
+    $userController = new UserController();
+    $response = $userController->resetPassword($username, $old_password, $new_password);
+    echoRespnse(200, $response);
+});
+
 $app->post('/user/forgotPassword', function () use ($app) {
     verifyRequiredParams((array('email')));
     $email = $app->request->post('email');

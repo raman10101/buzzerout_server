@@ -46,6 +46,11 @@ class UserController{
 		$userService = new UserService();
 		return $userService->forgotPassword($email);
 	}
+	
+	public function resetPassword($username, $old_password, $new_password){
+		$userService = new UserService();
+		return $userService->resetPassword($username, $old_password, $new_password);
+	}
 }
 
 ?>
