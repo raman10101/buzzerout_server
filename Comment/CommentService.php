@@ -14,7 +14,11 @@ class CommentService{
       $authController = new AuthController();
       if ($authController->authenticateUsernameInUser($user_id)["error"] == false) {
         $commentImp = new CommentImp();
+        $commentController = new CommentController();
         $response = $commentImp->addComment($feed_id,  $user_id, $text);
+        if($response['error'] == false){
+          $response['comments'] = $commentController->fetchCommentByFeed($feed_id)['comments'];
+        }
       }
       else{
         $response["error"] = true;
@@ -29,7 +33,26 @@ class CommentService{
       $authController = new AuthController();
       if ($authController->authenticateUsernameInUser($user_id)["error"] == false) {
         $commentImp = new CommentImp();
+        $commentController = new CommentController();
         $response = $commentImp->editComment($comment_id,  $user_id, $text);
+        if($response['error'] == false){
+          $commentResp = $commentController->fetchCommentByCommentId($comment_id, $user_id);
+          if($commentResp['error'] == false){
+            $feed_id = $commentResp['comments'][0]['feed_id'];
+            $resp = $commentController->fetchCommentByFeed($feed_id);
+            if($resp['error'] == false){
+              $response['comments'] = $resp['comments'];
+            }
+            else{
+              $response['error'] = true;
+              $response['message'] = "error in fetching the comment";
+            }
+          }
+          else{
+            $response['error'] = true;
+            $response['message'] = "error in fetching the comment";
+          }
+        }
       }
       else{
         $response["error"] = true;

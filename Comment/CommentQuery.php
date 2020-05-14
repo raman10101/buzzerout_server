@@ -20,13 +20,6 @@ class CommentQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
-			$response['comments'] = array();
-			$stmt2 = mysqli_query($this->conn, "select *  FROM comments where feed_id='".$feed_id."' order by timestamp DESC");
-			if (mysqli_num_rows($stmt2) > 0) {
-				while ($row = mysqli_fetch_assoc($stmt2)) {
-					array_push($response["comments"], $row);
-				}
-			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not added";
@@ -42,13 +35,6 @@ class CommentQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment edited";
-			$response['comments'] = array();
-			$stmt2 = mysqli_query($this->conn, "select *  FROM comments order by timestamp DESC");
-			if (mysqli_num_rows($stmt2) > 0) {
-				while ($row = mysqli_fetch_assoc($stmt2)) {
-					array_push($response["comments"], $row);
-				}
-			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not edited";
@@ -60,7 +46,7 @@ class CommentQuery
 	public function fetchCommentByFeed($feed_id)
 	{
 		$response = array();
-        $stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '".$feed_id."'");
+        $stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '".$feed_id."' order by timestamp DESC");
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "Comments found.";
@@ -70,6 +56,7 @@ class CommentQuery
 			while($row = mysqli_fetch_assoc($stmt)){
 				$result["timestamp"] = $row["timestamp"];
 				$result["text"] = $row["text"];
+				$result['comment_id'] = $row['comment_id'];
 				$stmt2 = mysqli_query($this->conn, "select *  FROM users_profile where username = '".$row['user_id']."'");
 				while($resp = mysqli_fetch_assoc($stmt2)){
 					$result['first_name'] = $resp['first_name'];
@@ -91,7 +78,7 @@ class CommentQuery
 
 	public function fetchCommentByCommentId($comment_id, $username){
 		$response = array();
-        $stmt = mysqli_query($this->conn, "select *  FROM comments where id = '".$comment_id."'");
+        $stmt = mysqli_query($this->conn, "select *  FROM comments where comment_id = '".$comment_id."'");
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "Comments found.";
