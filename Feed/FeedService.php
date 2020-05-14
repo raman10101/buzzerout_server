@@ -252,6 +252,7 @@ class FeedService
         }
         return $response;
     }
+
     public function Fetchvotesonfeed($feedid)
     {
         $feedImp = new FeedImp();
@@ -270,6 +271,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedimage($feed_id, $img);
     }
+
     public function Uploadfeedvideo($feedid, $video, $username)
     {
         //Check Username
@@ -282,6 +284,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Uploadfeedvideo($feedid, $video);
     }
+
     public function Feedupvote($username, $feedid, $up, $down)
     {
         //Check Username
@@ -294,11 +297,13 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->Feedupvote($username, $feedid, $up, $down);
     }
+
     public function Fetchallimageoffeed($feedid)
     {
         $feedImp = new FeedImp();
         return $feedImp->Fetchallimageoffeed($feedid);
     }
+
     public function fetchAllFeed()
     {
         $feedImp = new FeedImp();
@@ -331,11 +336,13 @@ class FeedService
         }
         return $response;
     }
+
     public function clearAllFeed()
     {
         $feedImp = new FeedImp();
         return $feedImp->clearAllFeed();
     }
+
     public function Uploadfeed($username, $title, $description, $location)
     {
         $feedImp = new FeedImp();
@@ -354,6 +361,7 @@ class FeedService
 
         return $response;
     }
+
     public function feedDelete($feedid, $username)
     {
         //Check Username
@@ -366,6 +374,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->feedDelete($feedid);
     }
+
     public function imgdelete($feedid, $username)
     {
         //Check Username
@@ -378,6 +387,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->imgdelete($feedid);
     }
+
     public function videoDelete($feedid, $username)
     {
         //Check Username
@@ -390,6 +400,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->videoDelete($feedid);
     }
+
     public function voteDelete($feedid, $username)
     {
         //Check Username
@@ -402,6 +413,7 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->voteDelete($feedid);
     }
+
     public function clearFeedByFeedId($feedid, $username)
     {
         $feedController = new FeedController();
@@ -504,8 +516,8 @@ class FeedService
         $feedImp = new FeedImp();
         return $feedImp->editFeed($username, $feed_id, $title, $description, $location);
     }
+    
     public function fetchFeedByRole($role)
-
     {
         $feedImp = new FeedImp();
         return $feedImp->fetchFeedByRole($role);

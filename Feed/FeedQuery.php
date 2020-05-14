@@ -21,7 +21,7 @@ class FeedQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Buzz Created";
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp ASC");
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp DESC");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
 				$response['buzzid'] = $row['feed_id'];
 				$response['description'] = $row['description'];
@@ -41,7 +41,7 @@ class FeedQuery
 		$feedid = uniqid($username);
 		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role , is_anonymous) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "',1 ) ");
 		if ($stmt) {
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp ASC");
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp DESC");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
 				$response['buzzid'] = $row['feed_id'];
 				$response['description'] = $row['description'];
@@ -166,6 +166,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function saveBuzz($username, $buzzid){
 		$response = array();
 		$stmt = mysqli_query($this->conn, "INSERT INTO buzz_save ( buzz_id,username ) VALUES ('" . $buzzid . "','" . $username . "' ) ");
@@ -179,6 +180,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function followBuzz($username, $buzzid){
 		$response = array();
 		$stmt = mysqli_query($this->conn, "INSERT INTO buzz_follow ( followed_to,followed_by ) VALUES ('" . $buzzid . "','" . $username . "' ) ");
@@ -192,6 +194,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function unfollowBuzz($username, $buzzid){
 		$response = array();
 		$stmt = mysqli_query($this->conn, "Delete from buzz_follow where followed_by = '".$username."' and followed_to = '".$buzzid."'  ");
@@ -325,6 +328,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function Uploadfeedvideo($feedid, $video)
 	{
 		$response = array();
@@ -338,6 +342,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function Feedupvote($username, $feedid, $up, $down)
 	{
 		$response = array();
@@ -370,6 +375,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function Fetchallimageoffeed($feedid)
 	{
 		$response = array();
@@ -392,11 +398,12 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function fetchAllFeed()
 	{
 		$response = array();
 		$response["Feed"] = array();
-		$stmt = mysqli_query($this->conn, "select * from feed ");
+		$stmt = mysqli_query($this->conn, "select * from feed order by timestamp DESC");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			while ($row = mysqli_fetch_assoc($stmt)) {
@@ -409,6 +416,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+
 	public function clearAllFeed()
 	{
 		$response = array();
@@ -451,6 +459,7 @@ class FeedQuery
 		}
 		return $response;
 	}
+	
 	public function  Uploadfeed($username, $title, $description, $location, $role)
 
 	{
