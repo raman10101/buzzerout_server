@@ -7,6 +7,8 @@ class FollowService
     {
         require_once dirname(__FILE__) . '/FollowImp.php';
         require_once  './../User/UserController.php';
+        require_once  './../Follow/FollowController.php';
+        require_once  './../Profile/ProfileController.php';
     }
     public function fetchFollowing($username)
     {
@@ -22,8 +24,44 @@ class FollowService
             $userResponse["message"] = "Please SigIn first";
             return $userResponse;
         }
+
         $followImp = new FollowImp();
-        return $followImp->newFollow($by, $to);
+        $followController = new FollowController();
+        $profileController = new ProfileController();
+
+        $response = array();
+        // check if an user is already follwed.
+        $resp = $followingResp = $followController->fetchFollowing($by);
+        if (in_array($to, $resp['following'])){
+            $response['error'] = true;
+            $response['message'] = "the user is already followed";
+        }
+        else{
+            $response =  $followImp->newFollow($by, $to);
+            if ($response['error'] == false){
+                $response['following'] = array();
+                $followingResp = $followController->fetchFollowing($by);
+                if($followingResp['error'] == false){
+                    for ($i = 0; $i < count($followingResp['following']); $i++) {
+                        $response['following'][$i] = array();
+                        $response['following'][$i]["name"] = $followingResp['following'][$i];
+                        $resp = $profileController->fetchProfileOfUser($by);
+                        if ($resp['error'] == false){
+                            $response['following'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+                        }
+                    }
+                }
+                else{
+                    $response['error'] = true;
+                    $response['message'] = "error in fetching the following";
+                }
+            }
+            else{
+                $response['error'] = true;
+                $response['message'] = 'error in following the user';
+            }
+        }
+        return $response;
     }
     public function fetchFollowedBy($username)
     {
@@ -34,13 +72,43 @@ class FollowService
     {
         //Check Username
         $user = new UserController();
+        $followImp = new FollowImp();
+        $followController = new FollowController();
+        $profileController = new ProfileController();
         $userResponse = $user->fetchUserByUsername($username);
         if($userResponse["error"] == true){
             $userResponse["message"] = "Please SigIn first";
             return $userResponse;
         }
-        $followImp = new FollowImp();
-        return $followImp->deleteFollowing($username, $to);
+        $response = array();
+        // check if an user is already follwed.
+        $resp = $followingResp = $followController->fetchFollowing($username);
+        if (! in_array($to, $resp['following'])){
+            $response['error'] = true;
+            $response['message'] = "You do not follow the user, Invalid operation";
+        }
+        else{
+            $response =  $followImp->deleteFollowing($username, $to);
+            if ($response['error'] == false){
+                $response['following'] = array();
+                $followingResp = $followController->fetchFollowing($username);
+                if($followingResp['error'] == false){
+                    for ($i = 0; $i < count($followingResp['following']); $i++) {
+                        $response['following'][$i] = array();
+                        $response['following'][$i]["name"] = $followingResp['following'][$i];
+                        $resp = $profileController->fetchProfileOfUser($username);
+                        if ($resp['error'] == false){
+                            $response['following'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+                        }
+                    }
+                }
+                else{
+                    $response['error'] = true;
+                    $response['message'] = "error in fetching the following";
+                }
+            }
+        }
+        return $response;
     }
     public function deleteFollower($username, $by)
     {

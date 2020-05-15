@@ -15,6 +15,7 @@ class UserService
     require_once '../UsersSocial/UsersSocialController.php';
     require_once '../Details/UserdetailController.php';
     require_once '../Follow/FollowController.php';
+    require_once '../Profile/ProfileController.php';
   }
 
   public function loginUserWithUsername($username,  $password)
@@ -25,6 +26,7 @@ class UserService
     $usercontroller = new UserController();
     $feedController = new FeedController();
     $followController = new FollowController();
+    $profileController = new ProfileController();
     $response = array();
 
     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
@@ -43,18 +45,31 @@ class UserService
         $response['following'] = array();
         $followingResp = $followController->fetchFollowing($username);
         if($followingResp['error'] == false){
-          $response['following'] = $followingResp['following'];
+          for ($i = 0; $i < count($followingResp['following']); $i++) {
+            $response['following'][$i] = array();
+            $response['following'][$i]["name"] = $followingResp['following'][$i];
+            $resp = $profileController->fetchProfileOfUser($username);
+            if ($resp['error'] == false){
+              $response['following'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+            }
+          }
         }
         $followerResp = $followController->fetchFollowedBy($username);
         if($followerResp['error'] == false){
-          $response['followers'] = $followingResp['followers'];
+          for ($i = 0; $i < count($followerResp['followers']); $i++) {
+            $response['followers'][$i] = array();
+            $response['followers'][$i]["name"] = $followerResp['followers'][$i];
+            $resp = $profileController->fetchProfileOfUser($username);
+            if ($resp['error'] == false){
+              $response['followers'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+            }
+          }
         }
       }
     } else {
       $response["error"] = true;
       $response["message"] = "User Not Found";
     }
-
     return $response;
   }
 
