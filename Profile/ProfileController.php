@@ -53,4 +53,10 @@ class ProfileController
         $ProfileService = new ProfileService();
 		return $ProfileService->updateUserTimelineImage($username,$img);
 	}
+	
+	public function updateUserWebsiteLink($username, $phone_no, $social_link, $website_url)
+    {
+        $ProfileService = new ProfileService();
+		return $ProfileService->updateUserWebsiteLink($username, $phone_no, $social_link, $website_url);
+	}
 }

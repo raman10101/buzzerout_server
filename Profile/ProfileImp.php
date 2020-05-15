@@ -54,4 +54,9 @@ class ProfileImp
         $ProfileQuery = new ProfileQuery();
         return $ProfileQuery->updateUserProfileImage($username,$img);
     }
+    public function updateUserWebsiteLink($username, $phone_no, $social_link, $website_url)
+    {
+        $ProfileQuery = new ProfileQuery();
+        return $ProfileQuery->updateUserWebsiteLink($username, $phone_no, $social_link, $website_url);
+    }
 }

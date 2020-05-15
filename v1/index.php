@@ -686,6 +686,17 @@ $app->post('/profile/updateUserTimelineImage', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/profile/updateUserWebsiteLink', function () use ($app) {
+    verifyRequiredParams((array('username','phone_no', 'social_link', 'website_url')));
+    $username = $app->request->post('username');
+    $phone_no = $app->request->post('phone_no');
+    $social_link = $app->request->post('social_link');
+    $website_url = $app->request->post('website_url');
+    $profileController = new ProfileController();
+    $response = $profileController->updateUserWebsiteLink($username, $phone_no, $social_link, $website_url);
+    echoRespnse(200, $response);
+});
+
 //detial conrtoller
 
 $app->post('/detail/updateUserDetails', function () use ($app) {

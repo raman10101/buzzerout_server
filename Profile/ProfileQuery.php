@@ -100,7 +100,7 @@ class ProfileQuery
 		$stmt = mysqli_query($this->conn, "update users_profile set user_mobile='" . $mobile . "' , user_address='" . $address . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"] = "Profile update";
+			$response["message"] = "Profile updated";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Profile Not update";
@@ -122,7 +122,7 @@ class ProfileQuery
 		$stmt = mysqli_query($this->conn, "update users_profile set user_dob='" . $date . "' , user_gender='" . $gender . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"] = "Profile update";
+			$response["message"] = "Profile updated";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Profile Not update";
@@ -137,7 +137,7 @@ class ProfileQuery
 		$stmt = mysqli_query($this->conn, "update users_profile set  user_profile_image='" . $img . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"] = "Profile update";
+			$response["message"] = "Profile updated";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Profile Not update";
@@ -152,7 +152,23 @@ class ProfileQuery
 		$stmt = mysqli_query($this->conn, "update users_profile set  user_timeline_image='" . $img . "' WHERE username = '" . $username . "' ");
 		if ($stmt) {
 			$response["error"] = false;
-			$response["message"] = "Profile update";
+			$response["message"] = "Profile updated";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Profile Not update";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
+	public function updateUserWebsiteLink($username, $phone_no, $social_link, $website_url)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "update users_profile set  user_mobile ='" . $phone_no . "', user_website = '".$website_url."', user_social_link = '".$social_link."' WHERE username = '" . $username . "' ");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Profile updated";
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Profile Not update";

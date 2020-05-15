@@ -144,4 +144,20 @@ class ProfileService
         }
         return $response;
     }
+    
+    public function updateUserWebsiteLink($username, $phone_no, $social_link, $website_url)
+    {
+        $authController = new AuthController();
+        $ProfileImp = new ProfileImp();
+        $profilecontroller = new ProfileController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response = $ProfileImp->updateUserWebsiteLink($username, $phone_no, $social_link, $website_url);
+        } 
+        else {
+            $response['error'] = true;
+            $response['msg'] = "user not found";
+        }
+        return $response;
+    }
 }
