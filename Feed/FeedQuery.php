@@ -17,7 +17,7 @@ class FeedQuery
 	{
 		$response = array();
 		$feedid = uniqid($username);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "' ) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "', New Post ,'" . $description . "','" . $location . "',  '" . $role . "' ) ");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Buzz Created";

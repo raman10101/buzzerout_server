@@ -372,9 +372,6 @@ class FeedService
                         if (in_array($user, $resp['following'])){
                             $response["Feed"][$i]['title'] = "Shared Buzz";
                         }
-                        else{
-                            $response["Feed"][$i]['title'] = "New Buzz";
-                        }
                     }
                 }
             }
