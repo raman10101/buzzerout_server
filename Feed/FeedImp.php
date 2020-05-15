@@ -95,10 +95,10 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->Fetchallimageoffeed($feedid);
     }
-    public function fetchAllFeed()
+    public function fetchAllFeed($username)
     {
         $feedQuery = new FeedQuery();
-        return $feedQuery->fetchAllFeed();
+        return $feedQuery->fetchAllFeed($username);
     }
     public function clearAllFeed()
     {

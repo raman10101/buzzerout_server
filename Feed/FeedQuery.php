@@ -141,7 +141,7 @@ class FeedQuery
 
 	public function shareBuzz($username, $feedid, $description){
 		$response = array();
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed_shared ( feed_id,username , description) VALUES ('" . $feedid . "','" . $username . "','".$description."' ) ");
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed_shared ( feed_id,username, description) VALUES ('" . $feedid . "','" . $username . "','".$description."' ) ");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Feed Shared";
@@ -399,7 +399,7 @@ class FeedQuery
 		return $response;
 	}
 
-	public function fetchAllFeed()
+	public function fetchAllFeed($username)
 	{
 		$response = array();
 		$response["Feed"] = array();

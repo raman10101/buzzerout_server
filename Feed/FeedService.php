@@ -11,6 +11,7 @@ class FeedService
         require_once  './../Feed/FeedController.php';
         require_once  './../User/UserController.php';
         require_once '../Auth/AuthController.php';
+        require_once '../Follow/FollowController.php';
     }
     // New
 
@@ -304,35 +305,83 @@ class FeedService
         return $feedImp->Fetchallimageoffeed($feedid);
     }
 
-    public function fetchAllFeed()
+    // public function fetchAllFeed()
+    // {
+    //     $feedImp = new FeedImp();
+    //     $feedController = new FeedController;
+    //     $response = $feedImp->fetchAllFeed();
+
+    //     if ($response["error"] == false) {
+    //         for ($i = 0; $i < count($response["Feed"]); $i++) {
+
+    //             $username = $response["Feed"][$i]["username"];
+    //             $profileController = new ProfileController();
+    //             $profileResponse = $profileController->fetchProfileOfUser($username);
+    //             if ($profileResponse["error"] == false) {
+    //                 $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+    //             }
+    //             $feedid = $response["Feed"][$i]["feed_id"];
+
+    //             $resp = $feedController->Fetchfeedinfo($feedid);
+    //             $response["Feed"][$i]['comments'] = array();
+    //             $response["Feed"][$i]['images'] = array();
+    //             $response["Feed"][$i]['videos'] = array();
+    //             $response["Feed"][$i]['upvotes'] = array();
+    //             $response["Feed"][$i]['downvotes'] = array();
+    //             $response["Feed"][$i]['comments'] = $resp['comments'];
+    //             $response["Feed"][$i]['images'] = $resp['images'];
+    //             $response["Feed"][$i]['videos'] = $resp['videos'];
+    //             $response["Feed"][$i]['upvotes'] = $resp['upvotes'];
+    //             $response["Feed"][$i]['downvotes'] = $resp['downvotes'];
+    //         }
+    //     }
+    //     return $response;
+    // }
+    public function fetchAllFeed($username)
     {
+        $authController = new AuthController();
         $feedImp = new FeedImp();
         $feedController = new FeedController;
-        $response = $feedImp->fetchAllFeed();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response = $feedImp->fetchAllFeed($username);
+            if ($response["error"] == false) {
+                for ($i = 0; $i < count($response["Feed"]); $i++) {
+                    $user = $response["Feed"][$i]["username"];
+                    $profileController = new ProfileController();
+                    $profileResponse = $profileController->fetchProfileOfUser($user);
+                    if ($profileResponse["error"] == false) {
+                        $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+                    }
+                    $feedid = $response["Feed"][$i]["feed_id"];
 
-        if ($response["error"] == false) {
-            for ($i = 0; $i < count($response["Feed"]); $i++) {
+                    $resp = $feedController->Fetchfeedinfo($feedid);
+                    $response["Feed"][$i]['comments'] = array();
+                    $response["Feed"][$i]['images'] = array();
+                    $response["Feed"][$i]['videos'] = array();
+                    $response["Feed"][$i]['upvotes'] = array();
+                    $response["Feed"][$i]['downvotes'] = array();
+                    $response["Feed"][$i]['comments'] = $resp['comments'];
+                    $response["Feed"][$i]['images'] = $resp['images'];
+                    $response["Feed"][$i]['videos'] = $resp['videos'];
+                    $response["Feed"][$i]['upvotes'] = $resp['upvotes'];
+                    $response["Feed"][$i]['downvotes'] = $resp['downvotes'];
 
-                $username = $response["Feed"][$i]["username"];
-                $profileController = new ProfileController();
-                $profileResponse = $profileController->fetchProfileOfUser($username);
-                if ($profileResponse["error"] == false) {
-                    $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+                    $followController = new FollowController();
+                    $resp = $followController->fetchFollowing($username);
+                    if ($resp['error'] == false){
+                        if (in_array($user, $resp['following'])){
+                            $response["Feed"][$i]['title'] = "Shared Buzz";
+                        }
+                        else{
+                            $response["Feed"][$i]['title'] = "New Buzz";
+                        }
+                    }
                 }
-                $feedid = $response["Feed"][$i]["feed_id"];
-
-                $resp = $feedController->Fetchfeedinfo($feedid);
-                $response["Feed"][$i]['comments'] = array();
-                $response["Feed"][$i]['images'] = array();
-                $response["Feed"][$i]['videos'] = array();
-                $response["Feed"][$i]['upvotes'] = array();
-                $response["Feed"][$i]['downvotes'] = array();
-                $response["Feed"][$i]['comments'] = $resp['comments'];
-                $response["Feed"][$i]['images'] = $resp['images'];
-                $response["Feed"][$i]['videos'] = $resp['videos'];
-                $response["Feed"][$i]['upvotes'] = $resp['upvotes'];
-                $response["Feed"][$i]['downvotes'] = $resp['downvotes'];
             }
+        }
+        else{
+            $response['error'] = true;
+            $response['message'] = "user not found";
         }
         return $response;
     }

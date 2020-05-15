@@ -33,13 +33,12 @@ class FollowQuery
 	public function fetchFollowing($username)
 	{
 		$response = array();
-
+		$response["following"] = array();
 		$stmt = mysqli_query($this->conn, "select followed_to from users_follow where followed_by='" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Follow Found";
 			$response["count"] = mysqli_num_rows($stmt);
-			$response["following"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				array_push($response["following"], $row['followed_to']);
 			}
@@ -53,13 +52,13 @@ class FollowQuery
 	public function fetchFollowedBy($username)
 	{
 		$response = array();
+		$response["followers"] = array();
 
 		$stmt = mysqli_query($this->conn, "select followed_by from users_follow where followed_to='" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Follow Found";
 			$response["count"] = mysqli_num_rows($stmt);
-			$response["followers"] = array();
 			while ($row = mysqli_fetch_assoc($stmt)) {
 				array_push($response["followers"], $row['followed_by']);
 			}

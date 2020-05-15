@@ -377,7 +377,9 @@ $app->post('/feed/fetchVotesOnFeed', function () use ($app) {
 
 $app->post('/feed/fetchAllFeed', function () use ($app) {
     $feedController = new FeedController();
-    $response = $feedController->fetchAllFeed();
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $response = $feedController->fetchAllFeed($username);
     echoRespnse(200, $response);
 });
 

@@ -118,10 +118,10 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Feedupvote($username, $feedid, $up, $down);
 	}
-	public function fetchAllFeed()
+	public function fetchAllFeed($username)
 	{
 		$feedService = new FeedService();
-		return $feedService->fetchAllFeed();
+		return $feedService->fetchAllFeed($username);
 	}
 	public function clearAllFeed()
 	{
