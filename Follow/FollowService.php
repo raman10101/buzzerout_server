@@ -41,7 +41,7 @@ class FollowService
             if ($response['error'] == false){
                 $response['following'] = array();
                 $followingResp = $followController->fetchFollowing($by);
-                if($followingResp['error'] == false){
+                if(count($followingResp['following'])>0){
                     for ($i = 0; $i < count($followingResp['following']); $i++) {
                         $response['following'][$i] = array();
                         $response['following'][$i]["name"] = $followingResp['following'][$i];
@@ -52,8 +52,8 @@ class FollowService
                     }
                 }
                 else{
-                    $response['error'] = true;
-                    $response['message'] = "error in fetching the following";
+                    $response['error'] = false;
+                    $response['message'] = "no following found";
                 }
             }
             else{
@@ -92,7 +92,7 @@ class FollowService
             if ($response['error'] == false){
                 $response['following'] = array();
                 $followingResp = $followController->fetchFollowing($username);
-                if($followingResp['error'] == false){
+                if(count($followingResp['following']) > 0){
                     for ($i = 0; $i < count($followingResp['following']); $i++) {
                         $response['following'][$i] = array();
                         $response['following'][$i]["name"] = $followingResp['following'][$i];
@@ -103,8 +103,8 @@ class FollowService
                     }
                 }
                 else{
-                    $response['error'] = true;
-                    $response['message'] = "error in fetching the following";
+                    $response['error'] = false;
+                    $response['message'] = "no following found";
                 }
             }
         }
