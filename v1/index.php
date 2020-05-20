@@ -315,6 +315,16 @@ $app->post('/feed/fetchFeedByUsername', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+
+
+$app->post('/feed/fetchCollectionByuser', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $feedController = new FeedController();
+    $response = $feedController->fetchCollectionByuser($username);
+    echoRespnse(200, $response);
+});
+
 // TO DELETE
 $app->post('/feed/uploadFeed', function () use ($app) {
     verifyRequiredParams((array('username', 'title', 'description', 'location')));
