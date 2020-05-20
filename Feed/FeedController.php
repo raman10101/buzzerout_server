@@ -70,8 +70,21 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->unfollowBuzz($username, $buzzid);
 	}
-
-
+	public function fetchHideBuzz($username)
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchHideBuzz($username);
+	}
+	public function fetchSaveBuzz($username)
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchSaveBuzz($username);
+	}
+	public function fetchShareBuzz($username)
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchShareBuzz($username);
+	}
 
 
 
@@ -193,4 +206,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->fetchFeedByRole($role);
 	}
+	public function fetchFeedById($feedid)
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchFeedById($feedid);
+	}
+	public function fetchCollectionByuser($username)
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchCollectionByuser($username);
+	}
+	
 }

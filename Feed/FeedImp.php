@@ -159,4 +159,20 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->fetchFeedByRole($role);
     }
+    public function fetchSaveBuzz($username){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->fetchSaveBuzz($username);
+    }
+    public function fetchHideBuzz($username){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->fetchHideBuzz($username);
+    }
+    public function fetchShareBuzz($username){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->fetchShareBuzz($username);
+    }
+    public function fetchFeedById($feedid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->fetchFeedById($feedid);
+    }
 }

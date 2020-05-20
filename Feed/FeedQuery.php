@@ -648,4 +648,73 @@ class FeedQuery
 		}
 		return $response;
 	}
+	public function fetchSaveBuzz($username){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "select * from buzz_save where username='".$username."'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["save_buzz"]=array();
+			$response["error"] = false;
+			$response["message"] = "Saved Buzz found";
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["save_buzz"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Saved Buzz Not Found";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function fetchHideBuzz($username){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "select * from buzz_hide where username='".$username."'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["hide_buzz"]=array();
+			$response["error"] = false;
+			$response["message"] = "hide Buzz found";
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["hide_buzz"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "hide Buzz Not Found";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function fetchShareBuzz($username){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "select * from feed_shared where username='".$username."'");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["shared_buzz"]=array();
+			$response["error"] = false;
+			$response["message"] = "shared Buzz found";
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["shared_buzz"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "shared Buzz Not Found";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	public function fetchFeedById($feedid)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			$response["message"] = "Feed Found";
+			$response["Feed"] = array();
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["Feed"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not found";
+		}
+		return $response;
+	}
 }
