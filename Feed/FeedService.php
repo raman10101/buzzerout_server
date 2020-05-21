@@ -665,8 +665,8 @@ class FeedService
             $response["shared_buzz"]=array();
             $response["save_buzz"]=array();
             array_push($response["hide_buzz"], $feedController->fetchHideBuzz($username)["hide_buzz"]);
-            array_push($response["shared_buzz"], $feedController->fetchSaveBuzz($username)["shared_buzz"]);
-            array_push($response["save_buzz"], $feedController->fetchShareBuzz($username)["save_buzz"]);
+            array_push($response["shared_buzz"], $feedController->fetchShareBuzz($username)["shared_buzz"]);
+            array_push($response["save_buzz"], $feedController->fetchSaveBuzz($username)["save_buzz"]);
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
