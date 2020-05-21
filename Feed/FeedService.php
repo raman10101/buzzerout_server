@@ -621,7 +621,7 @@ class FeedService
             if ($response["error"] == false) {
                 $feedController = new FeedController();
                 for ($i = 0; $i < count($response["shared_buzz"]); $i++) {
-                    $feedid = $response["shared_buzz"][$i]["buzz_id"];
+                    $feedid = $response["shared_buzz"][$i]["feed_id"];
                     array_push($response["shared_buzz"][$i], $feedController->fetchFeedById($feedid)["Feed"]);
                 }
             }else {
