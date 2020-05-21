@@ -315,6 +315,13 @@ $app->post('/feed/fetchFeedByUsername', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/feed/fetchFeedById', function () use ($app) {
+    verifyRequiredParams((array('feed_id')));
+    $username = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->fetchFeedById($username);
+    echoRespnse(200, $response);
+});
 
 
 $app->post('/feed/fetchCollectionByuser', function () use ($app) {

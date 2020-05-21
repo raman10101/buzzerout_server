@@ -650,9 +650,9 @@ class FeedQuery
 	}
 	public function fetchSaveBuzz($username){
 		$response = array();
+		$response["save_buzz"]=array();
 		$stmt = mysqli_query($this->conn, "select * from buzz_save where username='".$username."'");
 		if (mysqli_num_rows($stmt) > 0) {
-			$response["save_buzz"]=array();
 			$response["error"] = false;
 			$response["message"] = "Saved Buzz found";
 			while ($row = mysqli_fetch_assoc($stmt)) {
@@ -668,8 +668,8 @@ class FeedQuery
 	public function fetchHideBuzz($username){
 		$response = array();
 		$stmt = mysqli_query($this->conn, "select * from buzz_hide where username='".$username."'");
+		$response["hide_buzz"]=array();
 		if (mysqli_num_rows($stmt) > 0) {
-			$response["hide_buzz"]=array();
 			$response["error"] = false;
 			$response["message"] = "hide Buzz found";
 			while ($row = mysqli_fetch_assoc($stmt)) {
@@ -684,9 +684,9 @@ class FeedQuery
 	}
 	public function fetchShareBuzz($username){
 		$response = array();
+		$response["shared_buzz"]=array();
 		$stmt = mysqli_query($this->conn, "select * from feed_shared where username='".$username."'");
 		if (mysqli_num_rows($stmt) > 0) {
-			$response["shared_buzz"]=array();
 			$response["error"] = false;
 			$response["message"] = "shared Buzz found";
 			while ($row = mysqli_fetch_assoc($stmt)) {
@@ -707,10 +707,10 @@ class FeedQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
-			$response["Feed"] = array();
-			while ($row = mysqli_fetch_assoc($stmt)) {
-				array_push($response["Feed"], $row);
-			}
+			$response["Feed"] = mysqli_fetch_assoc($stmt);
+			// while ($row = mysqli_fetch_assoc($stmt)) {
+			// 	array_push($response["Feed"], $row);
+			// }
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
