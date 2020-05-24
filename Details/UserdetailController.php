@@ -29,5 +29,9 @@ class UserdetailController
 		$UserdetailService = new UserdetailService();
 		return $UserdetailService->updateUserDetails($username, $about_you, $other_name, $fav_quote);
 	}
-
+	public function clearDetailTable($username)
+	{
+		$UserdetailService = new UserdetailService();
+		return $UserdetailService->clearDetailTable($username);
+	}
 }

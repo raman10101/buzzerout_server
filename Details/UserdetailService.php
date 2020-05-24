@@ -88,5 +88,19 @@ class UserdetailService
           }
         return $response; 
     }
-
+    public function clearDetailTable($username)
+    {
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $UserdetailImp = new UserdetailImp();
+            $response = $UserdetailImp->clearDetailTable($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
+    }
 }

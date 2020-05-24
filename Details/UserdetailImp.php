@@ -30,4 +30,9 @@ class UserdetailImp
         $UserdetailQuery = new UserdetailQuery();
         return $UserdetailQuery->updateUserDetails($username, $about_you, $other_name, $fav_quote);
     }
+    public function clearDetailTable($username)
+    {
+        $UserdetailQuery = new UserdetailQuery();
+        return $UserdetailQuery->clearDetailTable($username);
+    }
 }

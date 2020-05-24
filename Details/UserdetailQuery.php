@@ -78,5 +78,20 @@ class UserdetailQuery
 		}
 		return $response;
 	}
+	public function clearDetailTable($username)
+	{
+		$response = array();
 
+		$stmt = mysqli_query($this->conn, "TRUNCATE TABLE  users_details");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Userdetail deleted";
+
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Userdetail Not found";
+			$response["info"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 }

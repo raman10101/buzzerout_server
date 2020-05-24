@@ -28,7 +28,7 @@ class FeedService
                 $role = $userResponse["user"]["role"];
                 $response = $feedImp->createBuzz($username, $title, $description, $location, $role);
                 if ($response["error"] == false) {
-                    $feedResponse = $feedController->Fetchfeedinfo($response["buzzid"]);
+                    $feedResponse = $feedController->Fetchfeedinfo($username,$response["buzzid"]);
                     $response['comments'] = array();
                     $response['images'] = array();
                     $response['videos'] = array();
@@ -61,7 +61,7 @@ class FeedService
                 $role = $userResponse["user"]["role"];
                 $response = $feedImp->createBuzzAnonymously($username, $title, $description, $location, $role);
                 if ($response["error"] == false) {
-                    $feedResponse = $feedController->Fetchfeedinfo($response["buzzid"]);
+                    $feedResponse = $feedController->Fetchfeedinfo($username,$response["buzzid"]);
                     $response['comments'] = array();
                     $response['images'] = array();
                     $response['videos'] = array();
@@ -227,82 +227,132 @@ class FeedService
 
     // Old
 
-    public function Fetchfeedbylocation($location)
+    public function Fetchfeedbylocation($username, $location)
     {
         $feedImp = new FeedImp();
+        $authController = new AuthController();
         $feedController = new FeedController;
-        $response = $feedImp->Fetchfeedbylocation($location);
-        if ($response["false"]) {
-            for ($i = 0; $i < count($response["Feed"]); $i++) {
-                $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid, "false");
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response = $feedImp->Fetchfeedbylocation($location);
+            if ($response["false"]) {
+                for ($i = 0; $i < count($response["Feed"]); $i++) {
+                    $feedid = $response["Feed"][$i]["feed_id"];
+                    $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid, "false");
+                }
             }
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
         return $response;
     }
     public function Fetchfeedbyusername($username)
     {
         $feedImp = new FeedImp();
+        $authController = new AuthController();
         $feedController = new FeedController;
         $response = $feedImp->Fetchfeedbyusername($username);
-        if ($response["error"] == false) {
-            for ($i = 0; $i < count($response["Feed"]); $i++) {
-                $feedid = $response["Feed"][$i]["feed_id"];
-                $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid, $username);
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            if ($response["error"] == false) {
+                for ($i = 0; $i < count($response["Feed"]); $i++) {
+                    $feedid = $response["Feed"][$i]["feed_id"];
+                    $response["Feed"][$i]["detail"] = $feedController->Fetchfeedinfo($feedid, $username);
+                }
             }
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
         return $response;
     }
 
-    public function Fetchvotesonfeed($feedid)
+    public function Fetchvotesonfeed($username, $feedid)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchvotesonfeed($feedid);
+        $authController = new AuthController();
+
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response = $feedImp->Fetchvotesonfeed($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
     }
 
     public function Uploadfeedimage($feed_id, $img, $username)
     {
         //Check Username
+        $response = array();
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To upload a image";
-            return $userResponse;
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To upload a image";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->Uploadfeedimage($feed_id, $img);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
-        $feedImp = new FeedImp();
-        return $feedImp->Uploadfeedimage($feed_id, $img);
+        return $response;
     }
 
     public function Uploadfeedvideo($feedid, $video, $username)
     {
         //Check Username
+        $response = array();
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To upload a video";
-            return $userResponse;
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To upload a video";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->Uploadfeedvideo($feedid, $video);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
-        $feedImp = new FeedImp();
-        return $feedImp->Uploadfeedvideo($feedid, $video);
     }
 
     public function Feedupvote($username, $feedid, $up, $down)
     {
         //Check Username
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To upvote a Buzz";
-            return $userResponse;
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To upvote a Buzz";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->Feedupvote($username, $feedid, $up, $down);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
-        $feedImp = new FeedImp();
-        return $feedImp->Feedupvote($username, $feedid, $up, $down);
     }
 
-    public function Fetchallimageoffeed($feedid)
+    public function Fetchallimageoffeed($username, $feedid)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchallimageoffeed($feedid);
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            return $feedImp->Fetchallimageoffeed($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
+        }
     }
 
     // public function fetchAllFeed()
@@ -354,7 +404,7 @@ class FeedService
                     }
                     $feedid = $response["Feed"][$i]["feed_id"];
 
-                    $resp = $feedController->Fetchfeedinfo($feedid);
+                    $resp = $feedController->Fetchfeedinfo($username,$feedid);
                     $response["Feed"][$i]['comments'] = array();
                     $response["Feed"][$i]['images'] = array();
                     $response["Feed"][$i]['videos'] = array();
@@ -382,10 +432,18 @@ class FeedService
         return $response;
     }
 
-    public function clearAllFeed()
+    public function clearAllFeed($username)
     {
         $feedImp = new FeedImp();
-        return $feedImp->clearAllFeed();
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            return $feedImp->clearAllFeed();
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
+        }
     }
 
     public function Uploadfeed($username, $title, $description, $location)
@@ -411,84 +469,128 @@ class FeedService
     {
         //Check Username
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To delete a Buzz";
-            return $userResponse;
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To delete a Buzz";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->feedDelete($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
         }
-        $feedImp = new FeedImp();
-        return $feedImp->feedDelete($feedid);
     }
 
     public function imgdelete($feedid, $username)
     {
         //Check Username
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To delete a image of Buzz";
-            return $userResponse;
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To delete a image of Buzz";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->imgdelete($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
         }
-        $feedImp = new FeedImp();
-        return $feedImp->imgdelete($feedid);
     }
 
     public function videoDelete($feedid, $username)
     {
         //Check Username
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To delete a video of Buzz";
-            return $userResponse;
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To delete a video of Buzz";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->videoDelete($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
         }
-        $feedImp = new FeedImp();
-        return $feedImp->videoDelete($feedid);
     }
 
     public function voteDelete($feedid, $username)
     {
         //Check Username
         $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($username);
-        if ($userResponse["error"] == true) {
-            $userResponse["message"] = "Please SigIn To delete a vote of Buzz";
-            return $userResponse;
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userResponse = $user->fetchUserByUsername($username);
+            if ($userResponse["error"] == true) {
+                $userResponse["message"] = "Please SigIn To delete a vote of Buzz";
+                return $userResponse;
+            }
+            $feedImp = new FeedImp();
+            return $feedImp->voteDelete($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
         }
-        $feedImp = new FeedImp();
-        return $feedImp->voteDelete($feedid);
     }
 
     public function clearFeedByFeedId($feedid, $username)
     {
         $feedController = new FeedController();
+        $authController = new AuthController();
         $response = array();
-        $response["feed_delete"] = $feedController->feedDelete($feedid, $username);
-        $response["feed_image_delete"] = $feedController->imgdelete($feedid, $username);
-        $response["feed_video_delete"] = $feedController->videoDelete($feedid, $username);
-        $response["feed_vote_delete"] = $feedController->voteDelete($feedid, $username);
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response["feed_delete"] = $feedController->feedDelete($feedid, $username);
+            $response["feed_image_delete"] = $feedController->imgdelete($feedid, $username);
+            $response["feed_video_delete"] = $feedController->videoDelete($feedid, $username);
+            $response["feed_vote_delete"] = $feedController->voteDelete($feedid, $username);
 
-        $commentController = new CommentController();
-        $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($feedid);
+            $commentController = new CommentController();
+            $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
         return $response;
     }
 
 
 
 
-    public function clearFeedByLocation($location)
+    public function clearFeedByLocation($username, $location)
     {
         $feedImp = new FeedImp();
         $feedController = new FeedController();
+        $authController = new AuthController();
         $response = array();
-        $temp = $feedImp->Fetchfeedbylocation($location);
-        if ($temp["error"] == false) {
-            for ($i = 0; $i < count($temp["Feed"]); $i++) {
-                # code...
-                $feedid = $temp["Feed"][$i]["feed_id"];
-                $response[$feedid] = array();
-                $response[$feedid] = $feedController->clearFeedByFeedId($feedid, "false");
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $temp = $feedImp->Fetchfeedbylocation($location);
+            if ($temp["error"] == false) {
+                for ($i = 0; $i < count($temp["Feed"]); $i++) {
+                    # code...
+                    $feedid = $temp["Feed"][$i]["feed_id"];
+                    $response[$feedid] = array();
+                    $response[$feedid] = $feedController->clearFeedByFeedId($feedid, "false");
+                }
             }
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
         return $response;
     }
@@ -496,40 +598,56 @@ class FeedService
     {
         $feedImp = new FeedImp();
         $feedController = new FeedController();
+        $authController = new AuthController();
         $response = array();
-        $temp = $feedImp->Fetchfeedbyusername($username);
-        if ($temp["error"] == false) {
-            for ($i = 0; $i < count($temp["Feed"]); $i++) {
-                # code...
-                $feedid = $temp["Feed"][$i]["feed_id"];
-                $response[$feedid] = array();
-                $response[$feedid] = $feedController->clearFeedByFeedId($feedid, $username);
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $temp = $feedImp->Fetchfeedbyusername($username);
+            if ($temp["error"] == false) {
+                for ($i = 0; $i < count($temp["Feed"]); $i++) {
+                    # code...
+                    $feedid = $temp["Feed"][$i]["feed_id"];
+                    $response[$feedid] = array();
+                    $response[$feedid] = $feedController->clearFeedByFeedId($feedid, $username);
+                }
             }
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
         return $response;
     }
-    public function Fetchallvideooffeed($feedid)
+    public function Fetchallvideooffeed($username, $feedid)
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchallvideooffeed($feedid);
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            return $feedImp->Fetchallvideooffeed($feedid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
+        }
     }
-    public function Fetchfeedinfo($feedid)
+    public function Fetchfeedinfo($username,$feedid)
     {
         $feedController = new FeedController();
+        $authController = new AuthController();
         $response = array();
-        $temp = $feedController->Fetchallimageoffeed($feedid);
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+        $temp = $feedController->Fetchallimageoffeed($username,$feedid);
         if ($temp["error"] == false) {
             $response["images"] = $temp["image_link"];
         } else {
             $response['images'] = array();
         }
-        $temp = $feedController->Fetchallvideooffeed($feedid);
+        $temp = $feedController->Fetchallvideooffeed($username,$feedid);
         if ($temp["error"] == false) {
             $response["videos"] = $temp["video_link"];
         } else {
             $response['videos'] = array();
         }
-        $temp = $feedController->Fetchvotesonfeed($feedid);
+        $temp = $feedController->Fetchvotesonfeed($username,$feedid);
         if ($temp["error"] == false) {
             $response["upvotes"] = $temp["upvote_list"];
             $response["downvotes"] = $temp["downvote_list"];
@@ -546,26 +664,55 @@ class FeedService
             $response['comments'] = array();
         }
 
-        $response["info"] = "all info provided";
+        $response["info"] = "all info provided";}
+        else{
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
         return $response;
     }
     public function Fetchvotesonfeedbyuser($feedid, $username)
 
     {
         $feedImp = new FeedImp();
-        return $feedImp->Fetchvotesonfeedbyuser($feedid, $username);
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+        return $feedImp->Fetchvotesonfeedbyuser($feedid, $username);}
+        else{
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
+        }
     }
     public function editFeed($username, $feed_id, $title, $description, $location)
 
     {
         $feedImp = new FeedImp();
-        return $feedImp->editFeed($username, $feed_id, $title, $description, $location);
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+        return $feedImp->editFeed($username, $feed_id, $title, $description, $location);}
+        else{
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
+        }
+
     }
 
-    public function fetchFeedByRole($role)
+    public function fetchFeedByRole($username,$role)
     {
         $feedImp = new FeedImp();
-        return $feedImp->fetchFeedByRole($role);
+        $authController = new AuthController();
+        $response = array();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+        return $feedImp->fetchFeedByRole($role);}
+        else{
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+            return $response;
+        }
     }
     public function fetchSaveBuzz($username)
     {
@@ -578,7 +725,7 @@ class FeedService
                 $feedController = new FeedController();
                 for ($i = 0; $i < count($response["save_buzz"]); $i++) {
                     $feedid = $response["save_buzz"][$i]["buzz_id"];
-                    array_push($response["save_buzz"][$i], $feedController->fetchFeedById($feedid)["Feed"]);
+                    array_push($response["save_buzz"][$i], $feedController->fetchFeedById($username,$feedid)["Feed"]);
                 }
             } else {
                 $response["save_buzz"] = array();
@@ -600,7 +747,7 @@ class FeedService
                 $feedController = new FeedController();
                 for ($i = 0; $i < count($response["hide_buzz"]); $i++) {
                     $feedid = $response["hide_buzz"][$i]["buzz_id"];
-                    array_push($response["hide_buzz"][$i], $feedController->fetchFeedById($feedid)["Feed"]);
+                    array_push($response["hide_buzz"][$i], $feedController->fetchFeedById($username,$feedid)["Feed"]);
                 }
             } else {
                 $response["hide_buzz"] = array();
@@ -622,10 +769,10 @@ class FeedService
                 $feedController = new FeedController();
                 for ($i = 0; $i < count($response["shared_buzz"]); $i++) {
                     $feedid = $response["shared_buzz"][$i]["feed_id"];
-                    array_push($response["shared_buzz"][$i], $feedController->fetchFeedById($feedid)["Feed"]);
+                    array_push($response["shared_buzz"][$i], $feedController->fetchFeedById($username,$feedid)["Feed"]);
                 }
-            }else {
-                $response["shared_buzz"]=array();
+            } else {
+                $response["shared_buzz"] = array();
             }
         } else {
             $response["error"] = true;
@@ -633,14 +780,16 @@ class FeedService
         }
         return $response;
     }
-    public function fetchFeedById($feedid)
+    public function fetchFeedById($username,$feedid)
     {
         $response = array();
         $feedImp = new FeedImp();
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
         $response = $feedImp->fetchFeedById($feedid);
         if ($response["error"] == false) {
             $feedController = new FeedController;
-            $resp = $feedController->Fetchfeedinfo($feedid);
+            $resp = $feedController->Fetchfeedinfo($username,$feedid);
             $response["Feed"]['comments'] = array();
             $response["Feed"]['images'] = array();
             $response["Feed"]['videos'] = array();
@@ -651,6 +800,10 @@ class FeedService
             $response["Feed"]['videos'] = $resp['videos'];
             $response["Feed"]['upvotes'] = $resp['upvotes'];
             $response["Feed"]['downvotes'] = $resp['downvotes'];
+        }}
+        else{
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
         }
         return $response;
     }
@@ -661,9 +814,9 @@ class FeedService
         $feedImp = new FeedImp();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $feedController = new FeedController();
-            $response["hide_buzz"]=array();
-            $response["shared_buzz"]=array();
-            $response["save_buzz"]=array();
+            $response["hide_buzz"] = array();
+            $response["shared_buzz"] = array();
+            $response["save_buzz"] = array();
             array_push($response["hide_buzz"], $feedController->fetchHideBuzz($username)["hide_buzz"]);
             array_push($response["shared_buzz"], $feedController->fetchShareBuzz($username)["shared_buzz"]);
             array_push($response["save_buzz"], $feedController->fetchSaveBuzz($username)["save_buzz"]);
