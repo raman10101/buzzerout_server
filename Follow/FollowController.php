@@ -10,10 +10,10 @@ class FollowController
 
 
 	// Fethc Follow By Followname
-	public function newFollow($by, $to)
+	public function newFollow($username,$by, $to)
 	{
 		$followService = new FollowService();
-		return $followService->newFollow($by, $to);
+		return $followService->newFollow($username,$by, $to);
 	}
 	public function fetchFollowing($username)
 	{
@@ -40,15 +40,15 @@ class FollowController
 		$followService = new FollowService();
 		return $followService->deleteUserConnections($username);
 	}
-	public function deleteAllFollow()
+	public function deleteAllFollow($username)
 	{
 		$followService = new FollowService();
-		return $followService->deleteAllFollow();
+		return $followService->deleteAllFollow($username);
 	}
 	
-	public function fetchAllFollow()
+	public function fetchAllFollow($username)
 	{
 		$followService = new FollowService();
-		return $followService->fetchAllFollow();
+		return $followService->fetchAllFollow($username);
 	}
 }

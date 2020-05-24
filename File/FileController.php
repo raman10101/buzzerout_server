@@ -10,9 +10,9 @@ class FileController{
 		$fileQuery = new FileService();
 		return $fileQuery->uploafFile($product,$application,$from,$to,$message,$file, $username);
 	} 
-    function clearFiles(){
+    function clearFiles($username){
         $fileQuery = new FileService();
-		return $fileQuery->clearFiles(); 
+		return $fileQuery->clearFiles($username); 
     }
 
 }
