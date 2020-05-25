@@ -94,10 +94,10 @@ class FeedController
 
 
 	// Fethc Feed By Feedname
-	public function Fetchfeedbylocation($location)
+	public function Fetchfeedbylocation($username,$location)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchfeedbylocation($location);
+		return $feedService->Fetchfeedbylocation($username,$location);
 	}
 	// fetch feed by username
 	public function Fetchfeedbyusername($username)
@@ -105,15 +105,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Fetchfeedbyusername($username);
 	}
-	public function Fetchvotesonfeed($feedid)
+	public function Fetchvotesonfeed($username,$feedid)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchvotesonfeed($feedid);
+		return $feedService->Fetchvotesonfeed($username,$feedid);
 	}
-	public function Fetchallimageoffeed($feedid)
+	public function Fetchallimageoffeed($username,$feedid)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchallimageoffeed($feedid);
+		return $feedService->Fetchallimageoffeed($username,$feedid);
 	}
 	// Fetch Feed By Email
 	public function Uploadfeedimage($feed_id, $img, $username)
@@ -136,15 +136,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->fetchAllFeed($username);
 	}
-	public function clearAllFeed()
+	public function clearAllFeed($username)
 	{
 		$feedService = new FeedService();
-		return $feedService->clearAllFeed();
+		return $feedService->clearAllFeed($username);
 	}
-	public function clearFeedByLocation($location)
+	public function clearFeedByLocation($username,$location)
 	{
 		$feedService = new FeedService();
-		return $feedService->clearFeedByLocation($location);
+		return $feedService->clearFeedByLocation($username,$location);
 	}
 	public function Uploadfeed($username, $title, $description, $location)
 	{
@@ -156,15 +156,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->clearFeedByusername($username);
 	}
-	public function Fetchallvideooffeed($feedid)
+	public function Fetchallvideooffeed($username,$feedid)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchallvideooffeed($feedid);
+		return $feedService->Fetchallvideooffeed($username,$feedid);
 	}
-	public function Fetchfeedinfo($feedid)
+	public function Fetchfeedinfo($username,$feedid)
 	{
 		$feedService = new FeedService();
-		return $feedService->Fetchfeedinfo($feedid);
+		return $feedService->Fetchfeedinfo($username,$feedid);
 	}
 	public function feedDelete($feedid, $username)
 	{
@@ -201,15 +201,15 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->editFeed($username, $feed_id, $title, $description, $location);
 	}
-	public function fetchFeedByRole($role)
+	public function fetchFeedByRole($username,$role)
 	{
 		$feedService = new FeedService();
-		return $feedService->fetchFeedByRole($role);
+		return $feedService->fetchFeedByRole($username,$role);
 	}
-	public function fetchFeedById($feedid)
+	public function fetchFeedById($username,$feedid)
 	{
 		$feedService = new FeedService();
-		return $feedService->fetchFeedById($feedid);
+		return $feedService->fetchFeedById($username,$feedid);
 	}
 	public function fetchCollectionByuser($username)
 	{
