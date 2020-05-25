@@ -36,4 +36,9 @@ class UsersWorkController
 		return $usersworkService->deleteWorkDetailsById($id, $username);
 	}
 
+	public function clearUsersWork($username){
+		$usersworkService = new UsersWorkService();
+		return $usersworkService->clearUsersWork($username);
+	}
+
 }

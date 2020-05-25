@@ -10,26 +10,31 @@ class UsersSocialController
 
 	public function addSocialAccountDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube)
 	{
-		$userssocialervice = new UsersSocialService();
-		return $userssocialervice->addSocialAccountDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
+		$usersSocialService = new UsersSocialService();
+		return $usersSocialService->addSocialAccountDetails($username,  $user_facebook, $user_twitter, $user_google_plus, $user_instagram, $user_youtube);
 	}
 	
 	public function fetchSocialDetailsByUsername($username)
 	{
-		$userssocialervice = new UsersSocialService();
-		return $userssocialervice->fetchSocialDetailsByUsername($username);
+		$usersSocialService = new UsersSocialService();
+		return $usersSocialService->fetchSocialDetailsByUsername($username);
 	}
 	
 	public function fetchSocialDetailsOfAllUsers($username)
 	{
-		$userssocialervice = new UsersSocialService();
-		return $userssocialervice->fetchSocialDetailsOfAllUsers($username);
+		$usersSocialService = new UsersSocialService();
+		return $usersSocialService->fetchSocialDetailsOfAllUsers($username);
 	}
 	
 	public function deleteSocialDetailsById($id,$username)
 	{
-		$userssocialervice = new UsersSocialService();
-		return $userssocialervice->deleteSocialDetailsById($id, $username);
+		$usersSocialService = new UsersSocialService();
+		return $usersSocialService->deleteSocialDetailsById($id, $username);
+	}
+
+	public function clearUsersSocial($username){
+		$usersSocialService = new UsersSocialService();
+		return $usersSocialService->clearUsersSocial($username);
 	}
 
 }

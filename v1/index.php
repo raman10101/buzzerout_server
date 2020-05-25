@@ -127,10 +127,11 @@ $app->post('/user/fetchUserByUsername', function () use ($app) {
 });
 
 $app->post('/user/fetchUserByEmail', function () use ($app) {
-    verifyRequiredParams((array('email')));
+    verifyRequiredParams((array('email', 'username')));
     $email = $app->request->post('email');
+    $username = $app->request->post('username');
     $userController = new UserController();
-    $response = $userController->fetchUserByEmail($email);
+    $response = $userController->fetchUserByEmail($username, $email);
     echoRespnse(200, $response);
 });
 $app->post('/user/updateFirstLastName', function () use ($app) {
@@ -143,14 +144,18 @@ $app->post('/user/updateFirstLastName', function () use ($app) {
     echoRespnse(200, $response);
 });
 $app->post('/user/fetchAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
     $userController = new UserController();
-    $response = $userController->fetchAllUsers();
+    $response = $userController->fetchAllUsers($username);
     echoRespnse(200, $response);
 });
 
 $app->post('/user/clearUser', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
     $userController = new UserController();
-    $response = $userController->clearUser();
+    $response = $userController->clearUser($username);
     echoRespnse(200, $response);
 });
 
@@ -165,10 +170,11 @@ $app->post('/user/resetPassword', function () use ($app) {
 });
 
 $app->post('/user/forgotPassword', function () use ($app) {
-    verifyRequiredParams((array('email')));
+    verifyRequiredParams((array('email', 'username')));
     $email = $app->request->post('email');
+    $username = $app->request->post('username');
     $userController = new UserController();
-    $response = $userController->forgotPassword($email);
+    $response = $userController->forgotPassword($username, $email);
     echoRespnse(200, $response);
 });
 
@@ -526,30 +532,31 @@ $app->post('/follow/deleteAllFollow', function () use ($app) {
 // Comments Controller
 
 $app->post('/comment/addComment', function () use ($app) {
-    verifyRequiredParams((array('feed_id',  'user_id', 'text')));
+    verifyRequiredParams((array('feed_id',  'username', 'text')));
     $feed_id = $app->request->post('feed_id');
-    $user_id = $app->request->post('user_id');
+    $username = $app->request->post('username');
     $text = $app->request->post('text');
     $commentController = new CommentController();
-    $response = $commentController->addComment($feed_id,  $user_id, $text);
+    $response = $commentController->addComment($feed_id,  $username, $text);
     echoRespnse(200, $response);
 });
 
 $app->post('/comment/editComment', function () use ($app) {
-    verifyRequiredParams((array('comment_id', 'user_id', 'text')));
-    $user_id = $app->request->post('user_id');
+    verifyRequiredParams((array('comment_id', 'username', 'text')));
+    $username = $app->request->post('username');
     $comment_id = $app->request->post('comment_id');
     $text = $app->request->post('text');
     $commentController = new CommentController();
-    $response = $commentController->editComment($comment_id,  $user_id, $text);
+    $response = $commentController->editComment($comment_id,  $username, $text);
     echoRespnse(200, $response);
 });
 
 $app->post('/comment/fetchCommentByFeed', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
+    verifyRequiredParams((array('feed_id', 'username')));
     $feed_id = $app->request->post('feed_id');
+    $username = $app->request->post('username');
     $commentController = new CommentController();
-    $response = $commentController->fetchCommentByFeed($feed_id);
+    $response = $commentController->fetchCommentByFeed($username, $feed_id);
     echoRespnse(200, $response);
 });
 
@@ -563,8 +570,10 @@ $app->post('/comment/fetchCommentByCommentId', function () use ($app) {
 });
 
 $app->post('/comment/fetchAllComments', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
     $commentController = new CommentController();
-    $response = $commentController->fetchAllComments();
+    $response = $commentController->fetchAllComments($username);
     echoRespnse(200, $response);
 });
 
@@ -578,16 +587,19 @@ $app->post('/comment/deleteCommentById', function () use ($app) {
 });
 
 $app->post('/comment/deleteCommentByFeedId', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
+    verifyRequiredParams((array('feed_id', 'username')));
     $feed_id = $app->request->post('feed_id');
+    $username = $app->request->post('username');
     $commentController = new CommentController();
-    $response = $commentController->deleteCommentByFeedId($feed_id);
+    $response = $commentController->deleteCommentByFeedId($username, $feed_id);
     echoRespnse(200, $response);
 });
 
 $app->post('/comment/clearComment', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
     $commentController = new CommentController();
-    $response = $commentController->clearComment();
+    $response = $commentController->clearComment($username);
     echoRespnse(200, $response);
 });
 
@@ -791,6 +803,14 @@ $app->post('/usersWork/deleteWorkDetailsById', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/usersWork/clearUsersWork', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $usersworkController = new UsersWorkController();
+    $response = $usersworkController->clearUsersWork($username);
+    echoRespnse(200, $response);
+});
+
 
 // UsersCollege Controller
 
@@ -851,6 +871,13 @@ $app->post('/usersCollege/deleteCollegeDetailsById', function () use ($app) {
 });
 
 
+$app->post('/usersCollege/clearUsersCollege', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userscollegeController = new UsersCollegeController();
+    $response = $userscollegeController->clearUsersCollege($username);
+    echoRespnse(200, $response);
+});
 
 
 
@@ -894,6 +921,13 @@ $app->post('/usersSocial/deleteSocialDetailsById', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/usersSocial/clearUsersSocial', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
+    $userssocialController = new UsersSocialController();
+    $response = $userssocialController->clearUsersSocial($username);
+    echoRespnse(200, $response);
+});
 
 // User Places
 

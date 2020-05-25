@@ -26,21 +26,21 @@ class UserImp
     return $userQuery->fetchUserByUsername($username);
   }
 
-  public function fetchUserByEmail($email){
+  public function fetchUserByEmail($username, $email){
 		$userQuery = new UserQuery();
-		return $userQuery->fetchUserByEmail($email);
+		return $userQuery->fetchUserByEmail($username, $email);
 	}
 
-  public function fetchAllUsers()
+  public function fetchAllUsers($username)
   {
     $userQuery = new UserQuery();
-    return $userQuery->fetchAllUsers();
+    return $userQuery->fetchAllUsers($username);
   }
 
-  public function clearUser()
+  public function clearUser($username)
   {
     $userQuery = new UserQuery();
-    return $userQuery->clearUser();
+    return $userQuery->clearUser($username);
   }
 
   public function updateFirstLastName($username, $first_name, $last_name)
@@ -48,9 +48,9 @@ class UserImp
     $userQuery = new UserQuery();
     return $userQuery->updateFirstLastName($username, $first_name, $last_name);
   }
-  public function forgotPassword($email){
+  public function forgotPassword($username, $email){
 		$userQuery = new UserQuery();
-		return $userQuery->forgotPassword($email);
+		return $userQuery->forgotPassword($username, $email);
   }
   
   public function resetPassword($username, $old_password, $new_password){

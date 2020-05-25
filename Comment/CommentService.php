@@ -8,16 +8,16 @@ class CommentService{
         require_once '../Auth/AuthController.php';
     }
 	
-    public function addComment($feed_id,  $user_id, $text){
-
+    public function addComment($feed_id,  $username, $text){
+      $response = array();
       //Check Username
       $authController = new AuthController();
-      if ($authController->authenticateUsernameInUser($user_id)["error"] == false) {
+      if ($authController->authenticateUsernameInUser($username)["error"] == false) {
         $commentImp = new CommentImp();
         $commentController = new CommentController();
-        $response = $commentImp->addComment($feed_id,  $user_id, $text);
+        $response = $commentImp->addComment($feed_id,  $username, $text);
         if($response['error'] == false){
-          $response['comments'] = $commentController->fetchCommentByFeed($feed_id)['comments'];
+          $response['comments'] = $commentController->fetchCommentByFeed($username, $feed_id)['comments'];
         }
       }
       else{
@@ -27,19 +27,19 @@ class CommentService{
 		return $response;
     }
 
-    public function editComment($comment_id,  $user_id, $text){
-      
+    public function editComment($comment_id,  $username, $text){
+      $response = array();
       //Check Username
       $authController = new AuthController();
-      if ($authController->authenticateUsernameInUser($user_id)["error"] == false) {
+      if ($authController->authenticateUsernameInUser($username)["error"] == false) {
         $commentImp = new CommentImp();
         $commentController = new CommentController();
-        $response = $commentImp->editComment($comment_id,  $user_id, $text);
+        $response = $commentImp->editComment($comment_id,  $username, $text);
         if($response['error'] == false){
-          $commentResp = $commentController->fetchCommentByCommentId($comment_id, $user_id);
+          $commentResp = $commentController->fetchCommentByCommentId($comment_id, $username);
           if($commentResp['error'] == false){
             $feed_id = $commentResp['comments'][0]['feed_id'];
-            $resp = $commentController->fetchCommentByFeed($feed_id);
+            $resp = $commentController->fetchCommentByFeed($username, $feed_id);
             if($resp['error'] == false){
               $response['comments'] = $resp['comments'];
             }
@@ -61,22 +61,53 @@ class CommentService{
     return $response;
     }
     
-    public function fetchCommentByFeed($feed_id){
+    public function fetchCommentByFeed($username, $feed_id){
+      $response = array();
+      //Check Username
+     $authController = new AuthController();
+     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
       $commentImp = new CommentImp();
-      return $commentImp->fetchCommentByFeed($feed_id);
+      $response =  $commentImp->fetchCommentByFeed($username, $feed_id);
+      }
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+      return $response;
       }
     
     public function fetchCommentByCommentId($comment_id, $username){
+      $response = array();
+      //Check Username
+     $authController = new AuthController();
+     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
       $commentImp = new CommentImp();
-      return $commentImp->fetchCommentByCommentId($comment_id, $username);
+      $response =  $commentImp->fetchCommentByCommentId($comment_id, $username);
+      }
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+      return $response;
     }
     
-    public function fetchAllComments(){
-		$commentImp = new CommentImp();
-		return $commentImp->fetchAllComments();
+    public function fetchAllComments($username){
+      $response = array();
+       //Check Username
+     $authController = new AuthController();
+     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+      $commentImp = new CommentImp();
+      $response =  $commentImp->fetchAllComments($username);
+      }
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+      return $response;
     }
     
     public function deleteCommentById($id, $username){
+      $response = array();
      //Check Username
      $authController = new AuthController();
      if ($authController->authenticateUsernameInUser($username)["error"] == false) {
@@ -87,19 +118,38 @@ class CommentService{
         $response["error"] = true;
         $response["message"] = "User Not Found";
       }
-    return $response;
+      return $response;
     }
       
-    public function deleteCommentByFeedId($feed_id){
+    public function deleteCommentByFeedId($username, $feed_id){
+      $response = array();
+      //Check Username
+     $authController = new AuthController();
+     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
       $commentImp = new CommentImp();
-      return $commentImp->deleteCommentByFeedId($feed_id);
+      $response =  $commentImp->deleteCommentByFeedId($username, $feed_id);
       }
-    
-    public function clearComment(){
-        $commentImp = new CommentImp();
-		return $commentImp->clearComment();
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+      return $response;
     }
-
+    
+    public function clearComment($username){
+      $response = array();
+       //Check Username
+     $authController = new AuthController();
+     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+      $commentImp = new CommentImp();
+      $response =  $commentImp->clearComment($username);
+      }
+      else{
+        $response["error"] = true;
+        $response["message"] = "User Not Found";
+      }
+      return $response;
+    }
 }
 
 ?>

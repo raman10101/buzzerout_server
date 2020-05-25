@@ -34,3 +34,5 @@ class RegisterController
 		return $registerService->clearRegister();
 	}
 }
+
+?>

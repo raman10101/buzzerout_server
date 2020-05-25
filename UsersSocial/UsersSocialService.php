@@ -88,5 +88,21 @@ class UsersSocialService
             $response["message"] = "User Not Found";
           }
         return $response;
+    }
+
+    public function clearUsersSocial($username){
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userssocialImp = new UsersSocialImp();
+            $response =  $userssocialImp->clearUsersSocial($username);
         }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response;
+	}
+    
 }

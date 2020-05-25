@@ -96,4 +96,19 @@ class UsersWorkService
         return $response; 
     }
 
+    public function clearUsersWork($username){
+        $response = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $usersworkImp = new UsersWorkImp();
+            $response = $usersworkImp->clearUsersWork($username);
+        }
+        else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+          }
+        return $response; 
+	}
+
 }

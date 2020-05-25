@@ -6,19 +6,19 @@ class CommentController{
         require_once dirname(__FILE__) . '/CommentService.php';
     }
 
-	public function addComment($feed_id,  $user_id, $text){
+	public function addComment($feed_id,  $username, $text){
 		$commentService = new CommentService();
-		return $commentService->addComment($feed_id,  $user_id, $text);
+		return $commentService->addComment($feed_id,  $username, $text);
 	}
 
-	public function editComment($comment_id,  $user_id, $text){
+	public function editComment($comment_id,  $username, $text){
 		$commentService = new CommentService();
-		return $commentService->editComment($comment_id,  $user_id, $text);
+		return $commentService->editComment($comment_id,  $username, $text);
 	}
 	
-	public function fetchCommentByFeed($feed_id){
+	public function fetchCommentByFeed($username, $feed_id){
 		$commentService = new CommentService();
-		return $commentService->fetchCommentByFeed($feed_id);
+		return $commentService->fetchCommentByFeed($username, $feed_id);
 	}
 	
 	public function fetchCommentByCommentId($comment_id, $username){
@@ -26,9 +26,9 @@ class CommentController{
 		return $commentService->fetchCommentByCommentId($comment_id, $username);
 	}
 	
-	public function fetchAllComments(){
+	public function fetchAllComments($username){
 		$commentService = new CommentService();
-		return $commentService->fetchAllComments();
+		return $commentService->fetchAllComments($username);
 	}
 	
 	public function deleteCommentById($id, $username){
@@ -36,14 +36,14 @@ class CommentController{
 		return $commentService->deleteCommentById($id, $username);
 	}
 	
-	public function deleteCommentByFeedId($feed_id){
+	public function deleteCommentByFeedId($username, $feed_id){
 		$commentService = new CommentService();
-		return $commentService->deleteCommentByFeedId($feed_id);
+		return $commentService->deleteCommentByFeedId($username, $feed_id);
 	}
 	
-	public function clearComment(){
+	public function clearComment($username){
 		$commentService = new CommentService();
-		return $commentService->clearComment();
+		return $commentService->clearComment($username);
 	}
 	
 }

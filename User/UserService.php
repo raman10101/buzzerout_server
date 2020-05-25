@@ -91,22 +91,22 @@ class UserService
     $userImp = new UserImp();
     return $userImp->fetchUserByUsername($username);
   }
-  public function fetchUserByEmail($email)
+  public function fetchUserByEmail($username, $email)
   {
     $userImp = new UserImp();
-    return $userImp->fetchUserByEmail($email);
+    return $userImp->fetchUserByEmail($username, $email);
   }
 
-  public function fetchAllUsers()
+  public function fetchAllUsers($username)
   {
     $userImp = new UserImp();
-    return $userImp->fetchAllUsers();
+    return $userImp->fetchAllUsers($username);
   }
 
-  public function clearUser()
+  public function clearUser($username)
   {
     $userImp = new UserImp();
-    return $userImp->clearUser();
+    return $userImp->clearUser($username);
   }
 
 
@@ -190,10 +190,10 @@ class UserService
     return $response;
   }
 
-  public function forgotPassword($email)
+  public function forgotPassword($username, $email)
   {
     $userImp = new UserImp();
-    return $userImp->forgotPassword($email);
+    return $userImp->forgotPassword($username, $email);
   }
   
   public function resetPassword($username, $old_password, $new_password)
@@ -225,3 +225,4 @@ class UserService
     return $response;
   }
 }
+?>

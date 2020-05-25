@@ -38,5 +38,10 @@ class UsersSocialImp
         $userssocialQuery = new UsersSocialQuery();
         return $userssocialQuery->deleteSocialDetailsById($id);
     }
+
+    public function clearUsersSocial($username){
+		$userssocialQuery = new UsersSocialQuery();
+		return $userssocialQuery->clearUsersSocial($username);
+	}
     
 }

@@ -6,24 +6,24 @@ class CommentImp{
         require_once dirname(__FILE__) . '/CommentQuery.php';
     }
 
-    public function addComment($feed_id,  $user_id, $text){
+    public function addComment($feed_id,  $username, $text){
         $commentQuery = new CommentQuery();
-		return $commentQuery->addComment($feed_id,  $user_id, $text);
+		return $commentQuery->addComment($feed_id,  $username, $text);
     }
 
-    public function editComment($comment_id,  $user_id, $text){
+    public function editComment($comment_id,  $username, $text){
       $commentQuery = new CommentQuery();
-    return $commentQuery->editComment($comment_id,  $user_id, $text);
+    return $commentQuery->editComment($comment_id,  $username, $text);
     }
     
-    public function fetchCommentByFeed($feed_id){
+    public function fetchCommentByFeed($username, $feed_id){
       $commentQuery = new CommentQuery();
-    return $commentQuery->fetchCommentByFeed($feed_id);
+    return $commentQuery->fetchCommentByFeed($username, $feed_id);
     }
     
-    public function fetchAllComments(){
+    public function fetchAllComments($username){
 		$commentQuery = new CommentQuery();
-		return $commentQuery->fetchAllComments();
+		return $commentQuery->fetchAllComments($username);
     }
     public function fetchCommentByCommentId($comment_id, $username){
       $commentQuery = new CommentQuery();
@@ -35,14 +35,14 @@ class CommentImp{
       return $commentQuery->deleteCommentById($id, $username);
     }
     
-    public function deleteCommentByFeedId($feed_id){
+    public function deleteCommentByFeedId($username, $feed_id){
       $commentQuery = new CommentQuery();
-    return $commentQuery->deleteCommentByFeedId($feed_id);
+    return $commentQuery->deleteCommentByFeedId($username, $feed_id);
     }
 
-    public function clearComment(){
+    public function clearComment($username){
         $commentQuery = new CommentQuery();
-		return $commentQuery->clearComment();
+		return $commentQuery->clearComment($username);
     }
 
 }

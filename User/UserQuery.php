@@ -61,7 +61,7 @@ class UserQuery
 		return $response;
 	}
 
-	public function fetchUserByEmail($email)
+	public function fetchUserByEmail($username, $email)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn,"select * from users where email='".$email."'");
@@ -80,7 +80,7 @@ class UserQuery
 		return $response;
 	}
 	
-	public function fetchAllUsers()
+	public function fetchAllUsers($username)
 	{
 		$response = array();
         $stmt = mysqli_query($this->conn, "select *  FROM users ");
@@ -101,7 +101,7 @@ class UserQuery
 		return $response;
 	}
 	
-	public function clearUser()
+	public function clearUser($username)
 	{
 		$response = array();
         $stmt = mysqli_query($this->conn, "DELETE FROM users;");
@@ -133,7 +133,7 @@ class UserQuery
 		return $response;
 	}
 
-	public function forgotPassword($email)
+	public function forgotPassword($username, $email)
 	{
 		$response = array();
 		$link = "http://buzzerout.com/user-forgot-password.php";
@@ -192,3 +192,4 @@ class UserQuery
 		return $response;
 	}
 }
+?>

@@ -114,4 +114,19 @@ class UsersCollegeService
         }
         return $resp;
     }
+
+    public function clearUsersCollege($username){
+        $resp = array();
+        //Check Username
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $userscollegeImp = new UsersCollegeImp();
+            $resp = $userscollegeImp->clearUsersCollege($username);
+        }
+        else{
+            $resp["error"] = true;
+            $resp["message"] = "User Not Found";
+        }
+        return $resp;
+	}
 }

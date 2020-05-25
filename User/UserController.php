@@ -20,31 +20,35 @@ class UserController{
 		$userService = new UserService();
 		return $userService->fetchUserByUsername($username);
 	}
-	public function fetchUserByEmail($email){
+
+	public function fetchUserByEmail($username, $email){
 		$userService = new UserService();
-		return $userService->fetchUserByEmail($email);
+		return $userService->fetchUserByEmail($username,$email);
 	}
 
-	public function fetchAllUsers(){
+	public function fetchAllUsers($username){
 		$userService = new UserService();
-		return $userService->fetchAllUsers();
+		return $userService->fetchAllUsers($username);
 	}
 	
-	public function clearUser(){
+	public function clearUser($username){
 		$userService = new UserService();
-		return $userService->clearUser();
+		return $userService->clearUser($username);
 	}
+
 	public function updateFirstLastName($username,$first_name,$last_name){
 		$userService = new UserService();
 		return $userService->updateFirstLastName($username,$first_name,$last_name);
 	}
+
 	public function fetchaAllDetailOfUser($username){
 		$userService = new UserService();
 		return $userService->fetchaAllDetailOfUser($username);
 	}
-	public function forgotPassword($email){
+
+	public function forgotPassword($username, $email){
 		$userService = new UserService();
-		return $userService->forgotPassword($email);
+		return $userService->forgotPassword($username, $email);
 	}
 	
 	public function resetPassword($username, $old_password, $new_password){

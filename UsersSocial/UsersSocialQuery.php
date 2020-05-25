@@ -105,4 +105,18 @@ class UsersSocialQuery
 		return $response;
 	}
 
+	public function clearUsersSocial($username){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "DELETE FROM users_social;");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "All cleared.";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "clearing not succesfull";
+			$response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
 }

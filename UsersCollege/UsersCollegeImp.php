@@ -42,5 +42,10 @@ class UsersCollegeImp
         $userscollegeQuery = new UsersCollegeQuery();
         return $userscollegeQuery->deleteCollegeDetailsById($id);
     }
+
+    public function clearUsersCollege($username){
+		$userscollegeQuery = new UsersCollegeQuery();
+		return $userscollegeQuery->clearUsersCollege($username);
+	}
     
 }

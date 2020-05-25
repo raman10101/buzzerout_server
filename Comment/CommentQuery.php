@@ -12,11 +12,11 @@ class CommentQuery
 		$this->conn = $db->connect();
 	}
 
-	public function addComment($feed_id,  $user_id, $text)
+	public function addComment($feed_id,  $username, $text)
 	{
 		$response = array();
-		$comment_id = uniqid($feed_id.$user_id);
-		$stmt = mysqli_query($this->conn, "insert into comments (comment_id, feed_id,user_id,text,timestamp) values('" . $comment_id . "','" . $feed_id . "','" . $user_id . "','" . $text . "',NOW())");
+		$comment_id = uniqid($feed_id.$username);
+		$stmt = mysqli_query($this->conn, "insert into comments (comment_id, feed_id,user_id,text,timestamp) values('" . $comment_id . "','" . $feed_id . "','" . $username . "','" . $text . "',NOW())");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
@@ -28,7 +28,7 @@ class CommentQuery
 		return $response;
 	}
 
-	public function editComment($comment_id, $user_id, $text)
+	public function editComment($comment_id, $username, $text)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "UPDATE comments SET text = '" . $text . "', modified = NOW() WHERE  comment_id = '" . $comment_id . "'");
@@ -43,7 +43,7 @@ class CommentQuery
 		return $response;
 	}
 
-	public function fetchCommentByFeed($feed_id)
+	public function fetchCommentByFeed($username, $feed_id)
 	{
 		$response = array();
         $stmt = mysqli_query($this->conn, "select *  FROM comments where feed_id = '".$feed_id."' order by timestamp DESC");
@@ -96,7 +96,7 @@ class CommentQuery
 		return $response;
 	  }
 
-	public function fetchAllComments()
+	public function fetchAllComments($username)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "select *  FROM comments ");
@@ -130,7 +130,7 @@ class CommentQuery
 		return $response;
 	}
 
-	public function deleteCommentByFeedId($feed_id)
+	public function deleteCommentByFeedId($username, $feed_id)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "DELETE FROM comments where feed_id = '" . $feed_id . "'");
@@ -145,7 +145,7 @@ class CommentQuery
 		return $response;
 	}
 
-	public function clearComment()
+	public function clearComment($username)
 	{
 		$response = array();
 		$stmt = mysqli_query($this->conn, "DELETE FROM comments;");

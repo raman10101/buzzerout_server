@@ -37,5 +37,10 @@ class UsersWorkImp
         $usersworkQuery = new UsersWorkQuery();
         return $usersworkQuery->deleteWorkDetailsById($id);
     }
+
+    public function clearUsersWork($username){
+		$usersworkQuery = new UsersWorkQuery();
+		return $usersworkQuery->clearUsersWork($username);
+	}
     
 }

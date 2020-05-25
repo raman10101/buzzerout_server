@@ -125,4 +125,18 @@ class UsersCollegeQuery
 		return $response;
 	}
 
+	public function clearUsersCollege($username){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "DELETE FROM users_college;");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "All cleared.";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "clearing not succesfull";
+			$response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+
 }
