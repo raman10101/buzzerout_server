@@ -299,10 +299,11 @@ $app->post('/buzz/unfollowBuzz', function () use ($app) {
 
 // feed by location 
 $app->post('/feed/fetchFeedByLocation', function () use ($app) {
-    verifyRequiredParams((array('location')));
+    verifyRequiredParams((array('username','location')));
     $location = $app->request->post('location');
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->Fetchfeedbylocation($location);
+    $response = $feedController->Fetchfeedbylocation($username,$location);
     echoRespnse(200, $response);
 });
 
@@ -316,10 +317,11 @@ $app->post('/feed/fetchFeedByUsername', function () use ($app) {
 });
 
 $app->post('/feed/fetchFeedById', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
-    $username = $app->request->post('feed_id');
+    verifyRequiredParams((array('username','feed_id')));
+    $feed_id = $app->request->post('feed_id');
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->fetchFeedById($username);
+    $response = $feedController->fetchFeedById($username,$feed_id);
     echoRespnse(200, $response);
 });
 
@@ -384,11 +386,11 @@ $app->post('/feed/feedDownvote', function () use ($app) {
 
 
 $app->post('/feed/fetchVotesOnFeed', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
+    verifyRequiredParams((array('username','feed_id')));
     $feedid = $app->request->post('feed_id');
-
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->Fetchvotesonfeed($feedid);
+    $response = $feedController->Fetchvotesonfeed($username,$feedid);
     echoRespnse(200, $response);
 });
 
@@ -401,16 +403,19 @@ $app->post('/feed/fetchAllFeed', function () use ($app) {
 });
 
 $app->post('/feed/clearAllFeed', function () use ($app) {
+    verifyRequiredParams((array('username')));
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->clearAllFeed();
+    $response = $feedController->clearAllFeed($username);
     echoRespnse(200, $response);
 });
 
 $app->post('/feed/clearFeedByLocation', function () use ($app) {
-    verifyRequiredParams((array('location')));
+    verifyRequiredParams((array('username','location')));
     $location = $app->request->post('location');
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->clearFeedByLocation($location);
+    $response = $feedController->clearFeedByLocation($username,$location);
     echoRespnse(200, $response);
 });
 
@@ -434,19 +439,21 @@ $app->post('/feed/clearFeedByUsername', function () use ($app) {
 
 
 $app->post('/feed/fetchAllVideoOfFeed', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
+    verifyRequiredParams((array('username','feed_id')));
     $feedid = $app->request->post('feed_id');
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->Fetchallvideooffeed($feedid);
+    $response = $feedController->Fetchallvideooffeed($username,$feedid);
     echoRespnse(200, $response);
 });
 
 
 $app->post('/feed/fetchAllImageOfFeed', function () use ($app) {
-    verifyRequiredParams((array('feed_id')));
+    verifyRequiredParams((array('username','feed_id')));
     $feedid = $app->request->post('feed_id');
+    $username = $app->request->post('username');
     $feedController = new FeedController();
-    $response = $feedController->Fetchallimageoffeed($feedid);
+    $response = $feedController->Fetchallimageoffeed($username,$feedid);
     echoRespnse(200, $response);
 });
 
