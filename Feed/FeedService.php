@@ -566,7 +566,7 @@ class FeedService
             $response["feed_vote_delete"] = $feedController->voteDelete($feedid, $username);
 
             $commentController = new CommentController();
-            $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($feedid);
+            $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($username,$feedid);
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -665,7 +665,7 @@ class FeedService
             }
 
             $commentController = new CommentController();
-            $temp = $commentController->fetchCommentByFeed($feedid);
+            $temp = $commentController->fetchCommentByFeed($username,$feedid);
             if ($temp["error"] == false) {
                 $response["comments"] = $temp["comments"];
             } else {
