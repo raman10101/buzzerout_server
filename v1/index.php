@@ -408,6 +408,12 @@ $app->post('/feed/fetchAllFeed', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/feed/fetchAllFeedWithoutUser', function () use ($app) {
+    $feedController = new FeedController();
+    $response = $feedController->fetchAllFeedWithoutUser();
+    echoRespnse(200, $response);
+});
+
 $app->post('/feed/clearAllFeed', function () use ($app) {
     verifyRequiredParams((array('username')));
     $username = $app->request->post('username');

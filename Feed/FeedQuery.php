@@ -416,6 +416,24 @@ class FeedQuery
 		}
 		return $response;
 	}
+	
+	public function fetchAllFeedWithoutUser()
+	{
+		$response = array();
+		$response["Feed"] = array();
+		$stmt = mysqli_query($this->conn, "select * from feed order by timestamp DESC");
+		if (mysqli_num_rows($stmt) > 0) {
+			$response["error"] = false;
+			while ($row = mysqli_fetch_assoc($stmt)) {
+				array_push($response["Feed"], $row);
+			}
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Feed Not found";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
 
 	public function clearAllFeed()
 	{

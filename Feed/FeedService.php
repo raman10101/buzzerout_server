@@ -436,6 +436,35 @@ class FeedService
         return $response;
     }
 
+    public function fetchAllFeedWithoutUser()
+    {
+        $feedImp = new FeedImp();
+        $response = $feedImp->fetchAllFeedWithoutUser();
+        for ($i = 0; $i < count($response["Feed"]); $i++) {
+            $user = $response["Feed"][$i]["username"];
+            $profileController = new ProfileController();
+            $feedController = new FeedController;
+            $profileResponse = $profileController->fetchProfileOfUser($user);
+            if ($profileResponse["error"] == false) {
+                $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+            }
+            $feedid = $response["Feed"][$i]["feed_id"];
+
+            $resp = $feedController->Fetchfeedinfo($user,$feedid);
+            $response["Feed"][$i]['comments'] = array();
+            $response["Feed"][$i]['images'] = array();
+            $response["Feed"][$i]['videos'] = array();
+            $response["Feed"][$i]['upvotes'] = array();
+            $response["Feed"][$i]['downvotes'] = array();
+            $response["Feed"][$i]['comments'] = $resp['comments'];
+            $response["Feed"][$i]['images'] = $resp['images'];
+            $response["Feed"][$i]['videos'] = $resp['videos'];
+            $response["Feed"][$i]['upvotes'] = $resp['upvotes'];
+            $response["Feed"][$i]['downvotes'] = $resp['downvotes'];
+        }
+        return $response;
+    }
+
     public function clearAllFeed($username)
     {
         $feedImp = new FeedImp();

@@ -136,6 +136,12 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->fetchAllFeed($username);
 	}
+
+	public function fetchAllFeedWithoutUser()
+	{
+		$feedService = new FeedService();
+		return $feedService->fetchAllFeedWithoutUser();
+	}	
 	public function clearAllFeed($username)
 	{
 		$feedService = new FeedService();

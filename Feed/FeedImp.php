@@ -100,6 +100,13 @@ class FeedImp
         $feedQuery = new FeedQuery();
         return $feedQuery->fetchAllFeed($username);
     }
+    
+    public function fetchAllFeedWithoutUser()
+    {
+        $feedQuery = new FeedQuery();
+        return $feedQuery->fetchAllFeedWithoutUser();
+    }
+
     public function clearAllFeed()
     {
         $feedQuery = new FeedQuery();

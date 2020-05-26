@@ -38,7 +38,7 @@ class UserService
         if ($newResponse["error"] == false) {
           $response["details"] = $newResponse["details"];
         }
-        $feedResp = $feedController->fetchFeedByRole($response["user"]["role"]);
+        $feedResp = $feedController->fetchFeedByRole($username, $response["user"]["role"]);
         $response['feed'] = $feedResp['feed'];
         unset($response['user']['role']);
         $response['followers'] = array();
@@ -48,7 +48,7 @@ class UserService
           for ($i = 0; $i < count($followingResp['following']); $i++) {
             $response['following'][$i] = array();
             $response['following'][$i]["name"] = $followingResp['following'][$i];
-            $resp = $profileController->fetchProfileOfUser($username);
+            $resp = $profileController->fetchProfileOfUser($followingResp['following'][$i]);
             if ($resp['error'] == false){
               $response['following'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
             }
@@ -59,7 +59,7 @@ class UserService
           for ($i = 0; $i < count($followerResp['followers']); $i++) {
             $response['followers'][$i] = array();
             $response['followers'][$i]["name"] = $followerResp['followers'][$i];
-            $resp = $profileController->fetchProfileOfUser($username);
+            $resp = $profileController->fetchProfileOfUser($followerResp['followers'][$i]);
             if ($resp['error'] == false){
               $response['followers'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
             }
