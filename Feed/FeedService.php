@@ -840,7 +840,7 @@ class FeedService
             }
         } else {
             $response["error"] = true;
-            $response["message"] = "User Not Found";
+            $response["message"] = "Feeds Not Found";
         }
         return $response;
     }
@@ -857,9 +857,11 @@ class FeedService
             $response["hide_buzz"] = $feedController->fetchHideBuzz($username)["hide_buzz"];
             $response["shared_buzz"] = $feedController->fetchShareBuzz($username)["shared_buzz"];
             $response["save_buzz"] = $feedController->fetchSaveBuzz($username)["save_buzz"];
+            $response["error"] = false;
+            $response["message"] = "Feeds Found";
         } else {
             $response["error"] = true;
-            $response["message"] = "User Not Found";
+            $response["message"] = "Feeds Not Found";
         }
         return $response;
     }
