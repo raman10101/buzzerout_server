@@ -39,6 +39,7 @@ class CommentService{
           $commentResp = $commentController->fetchCommentByCommentId($comment_id, $username);
           if($commentResp['error'] == false){
             $feed_id = $commentResp['comments'][0]['feed_id'];
+            $response["feed_id"] = $feed_id;
             $resp = $commentController->fetchCommentByFeed($username, $feed_id);
             if($resp['error'] == false){
               $response['comments'] = $resp['comments'];

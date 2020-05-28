@@ -20,6 +20,7 @@ class CommentQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
+
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not added";
@@ -35,6 +36,7 @@ class CommentQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment edited";
+			$response["comment"] = mysqli_affected_rows($this->conn);
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Comment not edited";
