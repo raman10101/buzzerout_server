@@ -9,6 +9,9 @@ class NewUpdatesImp
     }
 
 
-
+    function fetchAllUpdates(){
+		$newUpdatesQuery = new NewUpdatesQuery();
+		return $newUpdatesQuery->fetchAllUpdates();
+	}
 
 }

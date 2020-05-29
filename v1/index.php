@@ -17,6 +17,7 @@ require_once '../UsersCollege/UsersCollegeController.php';
 require_once '../UsersWork/UsersWorkController.php';
 require_once '../Details/UserdetailController.php';
 require_once '../Places/PlacesController.php';
+require_once '../NewUpdates/NewUpdatesController.php';
 require_once '../Auth/AuthController.php';
 require '../libs/Slim/Slim.php';
 
@@ -970,6 +971,24 @@ $app->post('/places/fetchPlacesOfUser', function () use ($app) {
     $response = $placeController->fetchPlacesOfUser($username);
     echoRespnse(200, $response);
 });
+
+/**
+ * New Updates
+ */
+$app->post('/updates/fetchAllUpdates',function() use($app){
+    $newUpdatesController = new NewUpdatesController();
+    $response = $newUpdatesController->fetchAllUpdates();
+    echoRespnse(200, $response);
+});
+
+
+
+
+
+
+
+
+
 /**
  * Verifying required params posted or not
  */

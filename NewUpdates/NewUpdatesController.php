@@ -9,7 +9,10 @@ class NewUpdatesController
 	}
 
 
-	
+	function fetchAllUpdates(){
+		$newUpdatesService = new NewUpdatesService();
+		return $newUpdatesService->fetchAllUpdates();
+	}
 
 	
 }
