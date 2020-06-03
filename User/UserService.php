@@ -41,6 +41,12 @@ class UserService
         $feedResp = $feedController->fetchFeedByRole($username, $response["user"]["role"]);
         $response['feed'] = $feedResp['feed'];
         unset($response['user']['role']);
+        $resp = $feedController->fetchCollectionByuser($username);
+        if ($resp['error'] == false){
+          $response['hide_buzz'] = $resp['hide_buzz'];
+          $response['shared_buzz'] = $resp['shared_buzz'];
+          $response['save_buzz'] = $resp['save_buzz'];
+        }
         $response['followers'] = array();
         $response['following'] = array();
         $followingResp = $followController->fetchFollowing($username);
