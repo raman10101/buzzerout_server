@@ -39,8 +39,7 @@ class UserService
           $response["details"] = $newResponse["details"];
         }
         $feedResp = $feedController->fetchFeedByRole($username, $response["user"]["role"]);
-        $response['feed'] = $feedResp['feed'];
-        unset($response['user']['role']);
+        $response['feed'] = $feedResp['feeds'];
         $resp = $feedController->fetchCollectionByuser($username);
         if ($resp['error'] == false){
           $response['hide_buzz'] = $resp['hide_buzz'];

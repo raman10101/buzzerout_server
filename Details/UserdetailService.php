@@ -74,6 +74,8 @@ class UserdetailService
             if($response["error"]==false){
                 $respController = $UserDetailController->fetchUserDetail($username);
                 $response["userdetails"] = $respController["userdetails"];
+                unset($response["userdetails"]['id']);
+                unset($response["userdetails"]['username']);
             }
             else{
                 return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);

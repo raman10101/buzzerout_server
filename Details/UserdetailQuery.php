@@ -36,6 +36,8 @@ class UserdetailQuery
 			$response["error"] = false;
 			$response["message"] = "Userdetail created";
 			$response["userdetails"] = mysqli_fetch_assoc($stmt);
+			unset($response["userdetails"]['id']);
+            unset($response["userdetails"]['username']);
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Userdetail Not created";

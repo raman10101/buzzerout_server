@@ -96,6 +96,7 @@ class FeedQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$stmt = mysqli_query($this->conn, "UPDATE feed_votes SET upvotes='" . $up . "' , downvotes='" . $down . "' WHERE feed_id='" . $feedid . "' and username='" . $username . "'");
 			if ($stmt) {
+				$response["error"] = false;
 				$response['message'] = "vote updated";
 				$response['upvotes'] = array();
 				$response['downvotes'] = array();
@@ -117,6 +118,7 @@ class FeedQuery
 		} else {
 			$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
 			if ($stmt) {
+				$response["error"] = false;
 				$response['message'] = "vote updated";
 				$response['upvotes'] = array();
 				$response['downvotes'] = array();

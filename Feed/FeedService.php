@@ -770,15 +770,34 @@ class FeedService
     {
         $feedImp = new FeedImp();
         $authController = new AuthController();
+        $feedController = new FeedController();
         $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-            return $feedImp->fetchFeedByRole($role);
+            $feeds = $feedImp->fetchFeedByRole($role)['feed'];
+            $response['feeds'] = array();
+            for ($i = 0; $i < count($feeds); $i++) {
+                $feedid = $feeds[$i]["feed_id"];
+                array_push($response["feeds"], $feedController->fetchFeedById($username,$feedid)["Feed"]);
+            }
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
         }
         return $response;
     }
+    // public function fetchFeedByRole($username, $role)
+    // {
+    //     $feedImp = new FeedImp();
+    //     $authController = new AuthController();
+    //     $response = array();
+    //     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+    //         return $feedImp->fetchFeedByRole($role);
+    //     } else {
+    //         $response["error"] = true;
+    //         $response["message"] = "User Not Found";
+    //     }
+    //     return $response;
+    // }
     public function fetchSaveBuzz($username)
     {
         $response = array();
