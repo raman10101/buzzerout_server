@@ -829,7 +829,10 @@ class FeedService
             if ($response["error"] == false) {
                 for ($i = 0; $i < count($response["hide_buzz"]); $i++) {
                     $feedid = $response["hide_buzz"][$i]["buzz_id"];
-                    $response["hide_buzz"][$i] =  $feedController->fetchFeedById($username,$feedid)["Feed"];
+                    $feedResp = $feedController->fetchFeedById($username,$feedid);
+                    if($feedResp['error'] == false){
+                        $response["hide_buzz"][$i] =  $feedResp["Feed"];
+                    }
                 }
             }
         } else {
@@ -860,7 +863,6 @@ class FeedService
     }
     public function fetchFeedById($username,$feedid)
     {
-        $response = array();
         $feedImp = new FeedImp();
         $authController = new AuthController();
         $response = array();
