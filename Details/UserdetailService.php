@@ -69,14 +69,11 @@ class UserdetailService
         $authController = new AuthController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $UserdetailImp = new UserdetailImp();
-            $UserDetailController =new UserdetailController();
-            $userDetailFetchResp = $UserDetailController->fetchUserDetail($username);
-            if($userDetailFetchResp["error"] == false){
-                $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
-                if($response["error"]==false){
-                    $respController = $UserDetailController->fetchUserDetail($username);
-                    $response["userdetails"] = $respController["userdetails"];
-                }
+            $UserDetailController = new UserdetailController();
+            $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
+            if($response["error"]==false){
+                $respController = $UserDetailController->fetchUserDetail($username);
+                $response["userdetails"] = $respController["userdetails"];
             }
             else{
                 return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
@@ -88,5 +85,32 @@ class UserdetailService
           }
         return $response; 
     }
+
+    // public function updateUserDetails($username, $about_you, $other_name, $fav_quote)
+    // {
+    //     $response = array();
+    //     //Check Username
+    //     $authController = new AuthController();
+    //     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+    //         $UserdetailImp = new UserdetailImp();
+    //         $UserDetailController =new UserdetailController();
+    //         $userDetailFetchResp = $UserDetailController->fetchUserDetail($username);
+    //         if($userDetailFetchResp["error"] == false){
+    //             $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
+    //             if($response["error"]==false){
+    //                 $respController = $UserDetailController->fetchUserDetail($username);
+    //                 $response["userdetails"] = $respController["userdetails"];
+    //             }
+    //         }
+    //         else{
+    //             return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+    //         }
+    //     }
+    //     else {
+    //         $response["error"] = true;
+    //         $response["message"] = "User Not Found";
+    //       }
+    //     return $response; 
+    // }
 
 }
