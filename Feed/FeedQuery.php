@@ -166,6 +166,22 @@ class FeedQuery
 		}
 		return $response;
 	}
+	
+	public function unHideBuzz($username, $buzzid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "Delete from buzz_hide  where buzz_id = '" . $buzzid . "'");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz UnHidden";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz not unhidden";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		
+		return $response;
+
+	}
 
 	public function saveBuzz($username, $buzzid){
 		$response = array();
@@ -176,6 +192,20 @@ class FeedQuery
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Buzz Not Saved";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
+	public function unSaveBuzz($username, $buzzid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "Delete from buzz_save where buzz_id = '".$buzzid."'");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz UnSaved";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz Not UnSaved";
 			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;

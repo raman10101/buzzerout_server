@@ -38,10 +38,20 @@ class FeedImp
     public function hideBuzz($username, $buzzid){
 		$feedQuery = new FeedQuery();
         return $feedQuery->hideBuzz($username, $buzzid);
-	}
+    }
+    
+    public function unHideBuzz($username, $buzzid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->unHideBuzz($username, $buzzid);
+    }
 	public function saveBuzz($username, $buzzid){
 		$feedQuery = new FeedQuery();
         return $feedQuery->saveBuzz($username, $buzzid);
+    }
+    
+    public function unSaveBuzz($username, $buzzid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->unSaveBuzz($username, $buzzid);
     }
     public function followBuzz($username, $buzzid){
 		$feedQuery = new FeedQuery();

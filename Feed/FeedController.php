@@ -55,10 +55,21 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->hideBuzz($username, $buzzid);
 	}
+	
+	public function unHideBuzz($username, $buzzid)
+	{
+		$feedService = new FeedService();
+		return $feedService->unHideBuzz($username, $buzzid);
+	}
 	public function saveBuzz($username, $buzzid)
 	{
 		$feedService = new FeedService();
 		return $feedService->saveBuzz($username, $buzzid);
+	}
+	public function unSaveBuzz($username, $buzzid)
+	{
+		$feedService = new FeedService();
+		return $feedService->unSaveBuzz($username, $buzzid);
 	}
 	public function followBuzz($username, $buzzid)
 	{

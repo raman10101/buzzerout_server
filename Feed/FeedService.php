@@ -176,6 +176,20 @@ class FeedService
         }
         return $response;
     }
+    
+    public function unHideBuzz($username, $buzzid)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->unHideBuzz($username, $buzzid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
     public function saveBuzz($username, $buzzid)
     {
         $response = array();
@@ -183,6 +197,20 @@ class FeedService
         $feedImp = new FeedImp();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->saveBuzz($username, $buzzid);
+        } else {
+            $response["error"] = true;
+            $response["message"] = "User Not Found";
+        }
+        return $response;
+    }
+    
+    public function unSaveBuzz($username, $buzzid)
+    {
+        $response = array();
+        $authController = new AuthController();
+        $feedImp = new FeedImp();
+        if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+            $response =  $feedImp->unSaveBuzz($username, $buzzid);
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -428,7 +456,7 @@ class FeedService
                         }
                     }
                 }
-                
+
             }
         } else {
             $response['error'] = true;

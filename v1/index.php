@@ -273,12 +273,28 @@ $app->post('/buzz/hideBuzz', function () use ($app) {
     $response = $feedController->hideBuzz($username, $buzzid);
     echoRespnse(200, $response);
 });
+$app->post('/buzz/unHideBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $buzzid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->unHideBuzz($username, $buzzid);
+    echoRespnse(200, $response);
+});
 $app->post('/buzz/saveBuzz', function () use ($app) {
     verifyRequiredParams((array('username', 'feed_id')));
     $username = $app->request->post('username');
     $buzzid = $app->request->post('feed_id');
     $feedController = new FeedController();
     $response = $feedController->saveBuzz($username, $buzzid);
+    echoRespnse(200, $response);
+});
+$app->post('/buzz/unSaveBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $buzzid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->unSaveBuzz($username, $buzzid);
     echoRespnse(200, $response);
 });
 $app->post('/buzz/followBuzz', function () use ($app) {
