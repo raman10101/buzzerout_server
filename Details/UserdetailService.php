@@ -73,9 +73,14 @@ class UserdetailService
             $response=$UserdetailImp->updateUserDetails($username, $about_you, $other_name, $fav_quote);
             if($response["error"]==false){
                 $respController = $UserDetailController->fetchUserDetail($username);
-                $response["userdetails"] = $respController["userdetails"];
-                unset($response["userdetails"]['id']);
-                unset($response["userdetails"]['username']);
+                if($respController['error'] == false){
+                    $response["userdetails"] = $respController["userdetails"];
+                    unset($response["userdetails"]['id']);
+                    unset($response["userdetails"]['username']);
+                }
+                else{
+                    $response["userdetails"] = "No user details found";
+                }
             }
             else{
                 return $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);

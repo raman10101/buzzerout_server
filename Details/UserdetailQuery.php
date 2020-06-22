@@ -34,13 +34,13 @@ class UserdetailQuery
 		$stmt = mysqli_query($this->conn, "SELECT * FROM  users_details  WHERE username = '" . $username . "' ");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
-			$response["message"] = "Userdetail created";
+			$response["message"] = "Userdetail fetched";
 			$response["userdetails"] = mysqli_fetch_assoc($stmt);
 			unset($response["userdetails"]['id']);
             unset($response["userdetails"]['username']);
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Userdetail Not created";
+			$response["message"] = "Userdetail Not fetched";
 			$response["info"] = mysqli_error($this->conn);
 		}
 		return $response;

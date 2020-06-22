@@ -23,7 +23,7 @@ class UserQuery
 			$response["user"] = mysqli_fetch_assoc($stmt);
 		}else{
 			$response["error"] = true;
-			$response["message"] = "Wrond credentials";
+			$response["message"] = "Wrong credentials";
 		}
 		return $response;
 	}

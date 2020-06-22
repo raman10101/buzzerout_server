@@ -17,7 +17,8 @@ class FeedQuery
 	{
 		$response = array();
 		$feedid = uniqid($username);
-		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "', New Post ,'" . $description . "','" . $location . "',  '" . $role . "' ) ");
+		$title = "New Post";
+		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "' ) ");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Buzz Created";
@@ -119,7 +120,7 @@ class FeedQuery
 			$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
 			if ($stmt) {
 				$response["error"] = false;
-				$response['message'] = "vote updated";
+				$response['message'] = "feed upvoted";
 				$response['upvotes'] = array();
 				$response['downvotes'] = array();
 				$stmt = mysqli_query($this->conn, "SELECT username, timestamp FROM feed_votes WHERE feed_id='" . $feedid . "' and upvotes = 1");
@@ -392,7 +393,7 @@ class FeedQuery
 		} else {
 			$stmt = mysqli_query($this->conn, "INSERT INTO  feed_votes ( feed_id ,  username ,  upvotes ,  downvotes ) VALUES ('" . $feedid . "','" . $username . "','" . $up . "','" . $down . "')");
 			if ($stmt) {
-
+												
 				$response["error"] = false;
 				if ($up == 1 && $down == 0) {
 					$response["message_feed"] = "Feed upvoted";
