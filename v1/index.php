@@ -775,8 +775,8 @@ $app->post('/detail/fetchUserDetail', function () use ($app) {
     $response = $detailController->fetchUserDetail($username);
     echoRespnse(200, $response);
 });
-$app->post('/detail/', function () use ($app) {
-    verifyRefetchUserDetailOfAllUsersquiredParams((array('username')));
+$app->post('/detail/fetchUserDetailOfAllUsers', function () use ($app) {
+    verifyRequiredParams((array('username')));
     $username = $app->request->post('username');
     $detailController = new UserdetailController();
     $response = $detailController->fetchUserDetailOfAllUsers($username);

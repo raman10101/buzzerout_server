@@ -852,7 +852,10 @@ class FeedService
             if ($response["error"] == false) {
                 for ($i = 0; $i < count($response["shared_buzz"]); $i++) {
                     $feedid = $response["shared_buzz"][$i]["feed_id"];
-                    $response["shared_buzz"][$i] =  $feedController->fetchFeedById($username,$feedid)["Feed"];
+                    $feedResp = $feedController->fetchFeedById($username,$feedid);
+                    if($feedResp['error'] == false){
+                        $response["shared_buzz"][$i] =  $feedResp["Feed"];
+                    }
                 }
             }
         } else {
