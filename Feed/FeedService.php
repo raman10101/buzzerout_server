@@ -15,6 +15,38 @@ class FeedService
     }
     // New
 
+    // public function createBuzz($username, $title, $description, $location)
+    // {
+    //     $response = array();
+    //     $authController = new AuthController();
+    //     $userController = new UserController();
+    //     $feedController = new FeedController();
+    //     $feedImp = new FeedImp();
+    //     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
+    //         $userResponse = $userController->fetchUserByUsername($username);
+    //         if ($userResponse["error"] == false) {
+    //             $role = $userResponse["user"]["role"];
+    //             $response = $feedImp->createBuzz($username, $title, $description, $location, $role);
+    //             if ($response["error"] == false) {
+    //                 $feedResponse = $feedController->Fetchfeedinfo($username,$response["buzzid"]);
+    //                 $response['comments'] = array();
+    //                 $response['images'] = array();
+    //                 $response['videos'] = array();
+    //                 $response['upvotes'] = array();
+    //                 $response['downvotes'] = array();
+    //                 $response['comments'] = $feedResponse['comments'];
+    //                 $response['images'] = $feedResponse['images'];
+    //                 $response['videos'] = $feedResponse['videos'];
+    //                 $response['upvotes'] = $feedResponse['upvotes'];
+    //                 $response['downvotes'] = $feedResponse['downvotes'];
+    //             }
+    //         }
+    //     } else {
+    //         $response["error"] = true;
+    //         $response["message"] = "User Not Found";
+    //     }
+    //     return $response;
+    // }
     public function createBuzz($username, $title, $description, $location)
     {
         $response = array();
@@ -28,17 +60,15 @@ class FeedService
                 $role = $userResponse["user"]["role"];
                 $response = $feedImp->createBuzz($username, $title, $description, $location, $role);
                 if ($response["error"] == false) {
-                    $feedResponse = $feedController->Fetchfeedinfo($username,$response["buzzid"]);
-                    $response['comments'] = array();
-                    $response['images'] = array();
-                    $response['videos'] = array();
-                    $response['upvotes'] = array();
-                    $response['downvotes'] = array();
-                    $response['comments'] = $feedResponse['comments'];
-                    $response['images'] = $feedResponse['images'];
-                    $response['videos'] = $feedResponse['videos'];
-                    $response['upvotes'] = $feedResponse['upvotes'];
-                    $response['downvotes'] = $feedResponse['downvotes'];
+                    $feedResponse = $feedController->fetchFeedById($username,$response["buzzid"]);
+                    if($feedResponse['error'] == false){
+                        $response['Feed'] = $feedResponse["Feed"];
+                        unset($response['buzzid']);
+                    }
+                    else{
+                        $response['error'] = true;
+                        $response['message'] = "error in fetching the buzz created.";
+                    }
                 }
             }
         } else {
@@ -615,16 +645,49 @@ class FeedService
     {
         $feedController = new FeedController();
         $authController = new AuthController();
+        $commentController = new CommentController();
         $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response = array();
-            $response["feed_delete"] = $feedController->feedDelete($feedid, $username);
-            $response["feed_image_delete"] = $feedController->imgdelete($feedid, $username);
-            $response["feed_video_delete"] = $feedController->videoDelete($feedid, $username);
-            $response["feed_vote_delete"] = $feedController->voteDelete($feedid, $username);
-
-            $commentController = new CommentController();
-            $response["feed_comment_delete"] = $commentController->deleteCommentByFeedId($username,$feedid);
+            $feedDeleteResp = $feedController->feedDelete($feedid, $username);
+            if($feedDeleteResp['error'] == false){
+                $feedImgDeleteResp = $feedController->imgdelete($feedid, $username);
+                if($feedImgDeleteResp['error'] == false){
+                    $feedVideoDeleteResp = $feedController->videoDelete($feedid, $username);
+                    if($feedVideoDeleteResp['error'] == false){
+                        $feedVoteDeleteResp = $feedController->voteDelete($feedid, $username);
+                        if($feedVoteDeleteResp['error'] == false){
+                            $rfeedCommentDeleteResp= $commentController->deleteCommentByFeedId($username,$feedid);
+                            if($rfeedCommentDeleteResp['error'] == false){
+                                $response['error'] = false;
+                                $response['message'] = "Feed deleted succesfully";
+                            }
+                            else{
+                                $response['error'] = true;
+                                $response['message'] = "Feed Comments not deleted ";
+                            }
+                        }
+                        else{
+                            $response['error'] = true;
+                            $response['message'] = "Feed Votes not deleted ";
+                        }
+                    }
+                    else{
+                        $response['error'] = true;
+                        $response['message'] = "Feed Videos not deleted ";
+                    }
+                }
+                else{
+                    $response['error'] = true;
+                    $response['message'] = "Feed Images not deleted ";
+                }
+            }
+            else{
+                $response['error'] = true;
+                $response['message'] = "Feed not deleted";
+            }
+            
+            
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -756,14 +819,25 @@ class FeedService
     {
         $feedImp = new FeedImp();
         $authController = new AuthController();
+        $feedController = new FeedController();
         $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-            return $feedImp->editFeed($username, $feed_id, $title, $description, $location);
+            $feedResp = $feedImp->editFeed($username, $feed_id, $title, $description, $location);
+            if($feedResp['error'] == false){
+                $feed = $feedController->fetchFeedById($username, $feed_id);
+                if($feed['error'] == false){
+                    $feedResp['Feed'] = $feed['Feed'];
+                }
+                else{
+                    $feedResp['Feed'] = "Error in fetching feed";
+                }
+                return $feedResp;
+            }
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
+            return $response;
         }
-        return $response;
     }
 
     public function fetchFeedByRole($username, $role)
@@ -809,7 +883,10 @@ class FeedService
             if ($response['error'] === false) {
                 for ($i = 0; $i < count($response["save_buzz"]); $i++) {
                     $feedid = $response["save_buzz"][$i]["buzz_id"];
-                    $response["save_buzz"][$i] =  $feedController->fetchFeedById($username,$feedid)["Feed"];
+                    $feedResp = $feedController->fetchFeedById($username,$feedid);
+                    if($feedResp['error'] == false){
+                        $response["save_buzz"][$i]= $feedResp['Feed'];
+                    }
                 }
             }
         } else {

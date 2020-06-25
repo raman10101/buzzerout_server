@@ -22,13 +22,9 @@ class FeedQuery
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Buzz Created";
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp DESC");
-			while ($row = mysqli_fetch_assoc($stmt2)) {
-				$response['buzzid'] = $row['feed_id'];
-				$response['description'] = $row['description'];
-				$response['time'] = $row['timestamp'];
-			}
-		} else {
+			$response['buzzid'] = $feedid;
+		} 
+		else {
 			$response["error"] = true;
 			$response["message"] = "Buzz Not Created";
 			$response["error_mess"] = mysqli_error($this->conn);
@@ -660,20 +656,11 @@ class FeedQuery
 	public function  editFeed($username, $feed_id, $title, $description, $location)
 	{
 		$response = array();
+		$feedController = new FeedController();
 		$stmt = mysqli_query($this->conn, "UPDATE feed set title ='" . $title . "',  description='" . $description . "' ,  location='" . $location . "' where feed_id='" . $feed_id . "'");
 		if ($stmt) {
 			$response["message"] = "feed edited";
 			$response["error"] = false;
-			$response["feed_id"] = $feed_id;
-			$response["username"] = $username;
-			$response["title"] = $title;
-			$response["descrption"] = $description;
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feed_id . "' and username='" . $username . "'");
-			while ($row = mysqli_fetch_assoc($stmt2)) {
-				$response['feedid'] = $row['feed_id'];
-				$response['description'] = $row['description'];
-				$response['time'] = $row['timestamp'];
-			}
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not edited";
@@ -754,14 +741,11 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' ");
+		$stmt = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "'");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
 			$response["Feed"] = mysqli_fetch_assoc($stmt);
-			// while ($row = mysqli_fetch_assoc($stmt)) {
-			// 	array_push($response["Feed"], $row);
-			// }
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Feed Not found";
