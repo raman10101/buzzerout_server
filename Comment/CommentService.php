@@ -5,6 +5,7 @@ class CommentService{
     function __construct(){
         require_once dirname(__FILE__) . '/CommentImp.php';
         require_once  './../User/UserController.php';
+        require_once './../Feed/FeedController.php';
         require_once '../Auth/AuthController.php';
     }
 	
@@ -114,6 +115,10 @@ class CommentService{
      if ($authController->authenticateUsernameInUser($username)["error"] == false) {
       $commentImp = new CommentImp();
       $response =  $commentImp->deleteCommentById($id, $username);
+      if($response["error"]==false){
+        $feedcontroller=new FeedController();
+        $response["comments"]=$feedcontroller->Fetchfeedinfo($username,$response["feed_id"])["Feed"]["comments"];
+      }
       }
       else{
         $response["error"] = true;
