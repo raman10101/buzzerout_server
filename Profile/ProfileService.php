@@ -34,10 +34,15 @@ class ProfileService
     public function updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital)
     {
         $ProfileImp = new ProfileImp();
+        $profileController = new ProfileController();
         $authController = new AuthController();
         $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response = $ProfileImp->updateProfile($username, $firstname, $lastname, $city, $state, $country, $gender, $dob, $marital);
+            if($response['error'] == false){
+                $resp = $profileController->fetchProfileOfUser($username);
+                $response['profile'] = $resp['profile'];
+            }
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -195,10 +200,16 @@ class ProfileService
     {
         $authController = new AuthController();
         $ProfileImp = new ProfileImp();
-        $profilecontroller = new ProfileController();
+        $profileController = new ProfileController();
         $response = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response = $ProfileImp->updateUserWebsiteLink($username, $phone_no, $social_link, $website_url);
+            if($response['error'] == false){
+                $resp = $profileController->fetchProfileOfUser($username);
+                if($resp['error'] == false){
+                    $response['profile'] = $resp['profile'];
+                }
+            }
         } 
         else {
             $response['error'] = true;

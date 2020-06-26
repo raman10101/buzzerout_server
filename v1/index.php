@@ -759,6 +759,16 @@ $app->post('/profile/updateUserWebsiteLink', function () use ($app) {
 
 //detial conrtoller
 
+$app->post('/detail/createUserDetails', function () use ($app) {
+    verifyRequiredParams((array('username','about_you','other_name','fav_quote')));
+    $username = $app->request->post('username');
+    $about_you = $app->request->post('about_you');
+    $other_name = $app->request->post('other_name');
+    $fav_quote = $app->request->post('fav_quote');
+    $detailController = new UserdetailController();
+    $response = $detailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+    echoRespnse(200, $response);
+});
 $app->post('/detail/updateUserDetails', function () use ($app) {
     verifyRequiredParams((array('username','about_you','other_name','fav_quote')));
     $username = $app->request->post('username');

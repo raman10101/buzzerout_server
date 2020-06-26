@@ -40,7 +40,7 @@ class UsersCollegeService
             $usersCollegeController = new UsersCollegeController();
             $resp=  $userscollegeImp->editCollege($username,  $college_name, $college_place,$college_id);
             if($resp["error"] == false ){
-                $respController = $usersCollegeController->fetchCollegeById($username, $college_id);
+                $respController = $usersCollegeController->fetchCollegeByUsername($username);
                 $resp["colleges"] = $respController["colleges"];
             }
         }

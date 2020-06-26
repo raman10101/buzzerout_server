@@ -66,7 +66,7 @@ class UserService
             $response['followers'][$i]["name"] = $followerResp['followers'][$i];
             $resp = $profileController->fetchProfileOfUser($followerResp['followers'][$i]);
             if ($resp['error'] == false){
-              $response['followers'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+              $response['followers'][$i]['image'] = $resp['profile']['user_profile_image'];
             }
           }
         }
@@ -157,7 +157,7 @@ class UserService
 
       $temp = $profilecontroller->fetchProfileOfUser($username);
       if ($temp['error'] == false) {
-        $response["details"]["profile"] = $temp["profile_detail"];
+        $response["details"]["profile"] = $temp["profile"];
       }
       $temp = $detailController->fetchUserDetail($username);
       if ($temp['error'] == false) {

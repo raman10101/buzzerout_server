@@ -954,7 +954,7 @@ class FeedService
                 $username = $response['Feed']['username'];
                 $profileResponse = $profileController->fetchProfileOfUser($username);
                 if ($profileResponse["error"] == false) {
-                    $response["Feed"]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+                    $response["Feed"]['userimage'] = $profileResponse["profile"]["user_profile_image"];
                 }
                 $resp = $feedController->Fetchfeedinfo($username,$feedid);
                 $response["Feed"]['comments'] = array();

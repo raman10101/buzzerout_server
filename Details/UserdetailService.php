@@ -29,6 +29,7 @@ class UserdetailService
             $response["error"] = true;
             $response["message"] = "User Not Found";
           }
+        return $response;
     }
     public function fetchUserDetail($username)
     {
@@ -79,7 +80,16 @@ class UserdetailService
                     unset($response["userdetails"]['username']);
                 }
                 else{
-                    $response["userdetails"] = "No user details found";
+                    $resp = $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
+                    if($resp['error'] == false){
+                        $response["userdetails"] = $resp["userdetails"];
+                        unset($response["userdetails"]['id']);
+                        unset($response["userdetails"]['username']);
+                        $response['message'] = "user details created";
+                    }
+                    else{
+                        $response['message'] = "error in creating the user details.";
+                    }
                 }
             }
             else{
