@@ -184,8 +184,11 @@ class FeedService
         $response = array();
         $authController = new AuthController();
         $feedImp = new FeedImp();
+        $response["shared_buzz"] = array();
+        $feedController = new FeedController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->shareBuzz($username, $feedid, $description);
+            $response["shared_buzz"] = $feedController->fetchShareBuzz($username)["shared_buzz"];
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -196,10 +199,13 @@ class FeedService
     public function hideBuzz($username, $buzzid)
     {
         $response = array();
+        $response["hide_buzz"] = array();
         $authController = new AuthController();
         $feedImp = new FeedImp();
+        $feedController = new FeedController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->hideBuzz($username, $buzzid);
+            $response["hide_buzz"] = $feedController->fetchHideBuzz($username)["hide_buzz"];
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -212,8 +218,12 @@ class FeedService
         $response = array();
         $authController = new AuthController();
         $feedImp = new FeedImp();
+        $feedController = new FeedController();
+        $response["hide_buzz"] = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->unHideBuzz($username, $buzzid);
+            $response["hide_buzz"] = $feedController->fetchHideBuzz($username)["hide_buzz"];
+
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -225,8 +235,12 @@ class FeedService
         $response = array();
         $authController = new AuthController();
         $feedImp = new FeedImp();
+        $feedController = new FeedController();
+        $response["save_buzz"] = array();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->saveBuzz($username, $buzzid);
+            $response["save_buzz"] = $feedController->fetchSaveBuzz($username)["save_buzz"];
+
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -239,8 +253,12 @@ class FeedService
         $response = array();
         $authController = new AuthController();
         $feedImp = new FeedImp();
+        $response["save_buzz"] = array();
+        $feedController = new FeedController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->unSaveBuzz($username, $buzzid);
+            $response["save_buzz"] = $feedController->fetchSaveBuzz($username)["save_buzz"];
+
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
