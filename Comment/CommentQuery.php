@@ -37,7 +37,8 @@ class CommentQuery
 			$response["error"] = false;
 			$response["message"] = "Comment edited";
 			$response["comment"] = mysqli_affected_rows($this->conn);
-		} else {
+		} 
+		else {
 			$response["error"] = true;
 			$response["message"] = "Comment not edited";
 			$response["info"] = mysqli_error($this->conn);

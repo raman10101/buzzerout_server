@@ -14,6 +14,7 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->createBuzz($username, $title, $description, $location);
 	}
+
 	public function createBuzzAnonymously($username, $title, $description, $location)
 	{
 		$feedService = new FeedService();
@@ -137,11 +138,11 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->Uploadfeedvideo($feedid, $video, $username);
 	}
-	public function Feedupvote($username, $feedid, $up, $down)
-	{
-		$feedService = new FeedService();
-		return $feedService->Feedupvote($username, $feedid, $up, $down);
-	}
+	// public function Feedupvote($username, $feedid, $up, $down)
+	// {
+	// 	$feedService = new FeedService();
+	// 	return $feedService->Feedupvote($username, $feedid, $up, $down);
+	// }
 	public function fetchAllFeed($username)
 	{
 		$feedService = new FeedService();
@@ -163,11 +164,11 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->clearFeedByLocation($username,$location);
 	}
-	public function Uploadfeed($username, $title, $description, $location)
-	{
-		$feedService = new FeedService();
-		return $feedService->Uploadfeed($username, $title, $description, $location);
-	}
+	// public function Uploadfeed($username, $title, $description, $location)
+	// {
+	// 	$feedService = new FeedService();
+	// 	return $feedService->Uploadfeed($username, $title, $description, $location);
+	// }
 	public function clearFeedByusername($username)
 	{
 		$feedService = new FeedService();

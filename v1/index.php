@@ -358,16 +358,17 @@ $app->post('/feed/fetchCollectionByuser', function () use ($app) {
 });
 
 // TO DELETE
-$app->post('/feed/uploadFeed', function () use ($app) {
-    verifyRequiredParams((array('username', 'title', 'description', 'location')));
-    $username = $app->request->post('username');
-    $title = $app->request->post('title');
-    $description = $app->request->post('description');
-    $location = $app->request->post('location');
-    $feedController = new FeedController();
-    $response = $feedController->Uploadfeed($username, $title, $description, $location);
-    echoRespnse(200, $response);
-});
+// $app->post('/feed/uploadFeed', function () use ($app) {
+//     verifyRequiredParams((array('username', 'title', 'description', 'location')));
+//     $username = $app->request->post('username');
+//     $title = $app->request->post('title');
+//     $description = $app->request->post('description');
+//     $location = $app->request->post('location');
+//     $feedController = new FeedController();
+//     $response = $feedController->Uploadfeed($username, $title, $description, $location);
+//     echoRespnse(200, $response);
+// });
+
 // upload image to feed
 $app->post('/feed/uploadFeedImage', function () use ($app) {
     verifyRequiredParams((array('feed_id', 'img', 'username')));

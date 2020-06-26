@@ -974,6 +974,7 @@ class FeedService
         }
         return $response;
     }
+    
     public function fetchCollectionByUser($username)
     {
         $response = array();
