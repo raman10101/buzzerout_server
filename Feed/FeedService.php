@@ -980,11 +980,13 @@ class FeedService
                 $response["Feed"]['videos'] = array();
                 $response["Feed"]['upvotes'] = array();
                 $response["Feed"]['downvotes'] = array();
-                $response["Feed"]['comments'] = $resp['comments'];
-                $response["Feed"]['images'] = $resp['images'];
-                $response["Feed"]['videos'] = $resp['videos'];
-                $response["Feed"]['upvotes'] = $resp['upvotes'];
-                $response["Feed"]['downvotes'] = $resp['downvotes'];
+                if($resp['error'] = false){
+                    $response["Feed"]['comments'] = $resp['comments'];
+                    $response["Feed"]['images'] = $resp['images'];
+                    $response["Feed"]['videos'] = $resp['videos'];
+                    $response["Feed"]['upvotes'] = $resp['upvotes'];
+                    $response["Feed"]['downvotes'] = $resp['downvotes'];
+                }
             }
         } else {
             $response["error"] = true;

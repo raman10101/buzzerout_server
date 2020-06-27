@@ -55,6 +55,7 @@ $app->post('/auth/authenticateNewEmail', function () use ($app) {
 /**
  * Register Controller API starts here
  */
+
 $app->post('/register/registerUser', function () use ($app) {
     verifyRequiredParams((array('username', 'firstname', 'email', 'password')));
     $first_name = $app->request->post('firstname');
@@ -389,24 +390,24 @@ $app->post('/feed/uploadFeedVideo', function () use ($app) {
     $response = $feedController->Uploadfeedvideo($feedid, $video, $username);
     echoRespnse(200, $response);
 });
-$app->post('/feed/feedUpvote', function () use ($app) {
-    verifyRequiredParams((array('username', 'feed_id')));
-    $username = $app->request->post('username');
-    $feedid = $app->request->post('feed_id');
+// $app->post('/feed/feedUpvote', function () use ($app) {
+//     verifyRequiredParams((array('username', 'feed_id')));
+//     $username = $app->request->post('username');
+//     $feedid = $app->request->post('feed_id');
 
-    $feedController = new FeedController();
-    $response = $feedController->Feedupvote($username, $feedid, 1, 0);
-    echoRespnse(200, $response);
-});
-$app->post('/feed/feedDownvote', function () use ($app) {
-    verifyRequiredParams((array('username', 'feed_id')));
-    $username = $app->request->post('username');
-    $feedid = $app->request->post('feed_id');
+//     $feedController = new FeedController();
+//     $response = $feedController->Feedupvote($username, $feedid, 1, 0);
+//     echoRespnse(200, $response);
+// });
+// $app->post('/feed/feedDownvote', function () use ($app) {
+//     verifyRequiredParams((array('username', 'feed_id')));
+//     $username = $app->request->post('username');
+//     $feedid = $app->request->post('feed_id');
 
-    $feedController = new FeedController();
-    $response = $feedController->Feedupvote($username, $feedid, 0, 1);
-    echoRespnse(200, $response);
-});
+//     $feedController = new FeedController();
+//     $response = $feedController->Feedupvote($username, $feedid, 0, 1);
+//     echoRespnse(200, $response);
+// });
 
 
 $app->post('/feed/fetchVotesOnFeed', function () use ($app) {

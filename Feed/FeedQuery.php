@@ -591,7 +591,7 @@ class FeedQuery
 				}
 			}
 		} else {
-			$response["error"] = true;
+			$response["error"] = false;
 			$response["message"] = "no image for feed";
 			$response["error_mess"] = mysqli_error($this->conn);
 		}

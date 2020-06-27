@@ -124,7 +124,7 @@ class CommentQuery
 		$stmt=mysqli_query($this->conn, "select feed_id FROM comments where comment_id = '" . $id . "'");
 		if(mysqli_num_rows($stmt) > 0){
 			$row=mysqli_fetch_assoc($stmt);
-			$response["feed_id"]=$row("feed_id");
+			$response["feed_id"]=$row;
 		}
 		$stmt = mysqli_query($this->conn, "DELETE FROM comments where comment_id = '" . $id . "'");
 		if ($stmt) {

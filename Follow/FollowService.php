@@ -47,7 +47,7 @@ class FollowService
                         $response['following'][$i]["name"] = $followingResp['following'][$i];
                         $resp = $profileController->fetchProfileOfUser($by);
                         if ($resp['error'] == false){
-                            $response['following'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+                            $response['following'][$i]['image'] = $resp['profile']['user_profile_image'];
                         }
                     }
                 }
@@ -98,7 +98,7 @@ class FollowService
                         $response['following'][$i]["name"] = $followingResp['following'][$i];
                         $resp = $profileController->fetchProfileOfUser($username);
                         if ($resp['error'] == false){
-                            $response['following'][$i]['image'] = $resp['profile_detail']['user_profile_image'];
+                            $response['following'][$i]['image'] = $resp['profile']['user_profile_image'];
                         }
                     }
                 }

@@ -117,8 +117,10 @@ class CommentService{
       $response =  $commentImp->deleteCommentById($id, $username);
       if($response["error"]==false){
         $feedcontroller=new FeedController();
-        $response["comments"]=$feedcontroller->Fetchfeedinfo($username,$response["feed_id"])["Feed"]["comments"];
-      }
+        $resp = $feedcontroller->Fetchfeedinfo($username,$response["feed_id"]['feed_id']);
+        $response["comments"]=$resp["comments"];
+        unset($response['feed_id']);
+        }
       }
       else{
         $response["error"] = true;
