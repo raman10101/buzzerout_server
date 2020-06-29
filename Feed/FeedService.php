@@ -480,7 +480,7 @@ class FeedService
                     $profileController = new ProfileController();
                     $profileResponse = $profileController->fetchProfileOfUser($user);
                     if ($profileResponse["error"] == false) {
-                        $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+                        $response["Feed"][$i]['userimage'] = $profileResponse["profile"]["user_profile_image"];
                     }
                     $feedid = $response["Feed"][$i]["feed_id"];
 
@@ -523,7 +523,7 @@ class FeedService
             $feedController = new FeedController;
             $profileResponse = $profileController->fetchProfileOfUser($user);
             if ($profileResponse["error"] == false) {
-                $response["Feed"][$i]['userimage'] = $profileResponse["profile_detail"]["user_profile_image"];
+                $response["Feed"][$i]['userimage'] = $profileResponse["profile"]["user_profile_image"];
             }
             $feedid = $response["Feed"][$i]["feed_id"];
 
