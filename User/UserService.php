@@ -20,21 +20,21 @@ class UserService
 
   public function loginUserWithUsername($username,  $password)
   {
-    $userImp = new UserImp();
 
+    $userImp = new UserImp();
     $authController = new AuthController();
     $usercontroller = new UserController();
     $feedController = new FeedController();
     $followController = new FollowController();
     $profileController = new ProfileController();
+
     $response = array();
 
     if ($authController->authenticateUsernameInUser($username)["error"] == false) {
-
       $response = $userImp->loginUserWithUsername($username,  $password);
       if ($response["error"] == false) {
-        $newResponse = $usercontroller->fetchaAllDetailOfUser($username);
         $response["details"] = array();
+        $newResponse = $usercontroller->fetchaAllDetailOfUser($username);
         if ($newResponse["error"] == false) {
           $response["details"] = $newResponse["details"];
         }
@@ -45,6 +45,9 @@ class UserService
           $response['hide_buzz'] = $resp['hide_buzz'];
           $response['shared_buzz'] = $resp['shared_buzz'];
           $response['save_buzz'] = $resp['save_buzz'];
+        }
+        else{
+          $response['feed_collection'] = "error in fetching collection feeds of user"; 
         }
         $response['followers'] = array();
         $response['following'] = array();
@@ -57,7 +60,13 @@ class UserService
             if ($resp['error'] == false){
               $response['following'][$i]['image'] = $resp['profile']['user_profile_image'];
             }
+            else{
+              $response['following_image'] = "error in fetching the profile image of following";
+            }
           }
+        }
+        else{
+          $response['following'] = "error in fetching the following";
         }
         $followerResp = $followController->fetchFollowedBy($username);
         if($followerResp['error'] == false){
@@ -68,7 +77,13 @@ class UserService
             if ($resp['error'] == false){
               $response['followers'][$i]['image'] = $resp['profile']['user_profile_image'];
             }
+            else{
+              $response['follower_image'] = "error in fetching the profile image of follower";
+            }
           }
+        }
+        else{
+          $response['follower'] = "error in fetching the follower";
         }
       }
     } else {

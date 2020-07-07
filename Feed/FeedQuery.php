@@ -38,17 +38,13 @@ class FeedQuery
 		$feedid = uniqid($username);
 		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role , is_anonymous) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "',1 ) ");
 		if ($stmt) {
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp DESC");
-			while ($row = mysqli_fetch_assoc($stmt2)) {
-				$response['buzzid'] = $row['feed_id'];
-				$response['description'] = $row['description'];
-				$response['time'] = $row['timestamp'];
-				$response["error"] = false;
-				$response["message"] = "Feed Uploaded";
-			}
-		} else {
+			$response["error"] = false; 
+			$response["message"] = "Buzz Created anonymously";
+			$response['buzzid'] = $feedid;
+		} 
+		else {
 			$response["error"] = true;
-			$response["message"] = "Feed Not Inserted";
+			$response["message"] = "Buzz Not Created";
 			$response["error_mess"] = mysqli_error($this->conn);
 		}
 		return $response;

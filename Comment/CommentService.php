@@ -118,8 +118,13 @@ class CommentService{
       if($response["error"]==false){
         $feedcontroller=new FeedController();
         $resp = $feedcontroller->Fetchfeedinfo($username,$response["feed_id"]['feed_id']);
-        $response["comments"]=$resp["comments"];
-        unset($response['feed_id']);
+        if($resp['error'] == false){
+          $response["comments"]=$resp["comments"];
+          unset($response['feed_id']);
+        }
+        else{
+          $response['message'] = "error in fetching the remaining comments";
+          }
         }
       }
       else{

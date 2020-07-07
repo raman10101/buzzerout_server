@@ -70,6 +70,14 @@ class FeedService
                         $response['message'] = "error in fetching the buzz created.";
                     }
                 }
+                else{
+                    $response['error'] = true;
+                    $response['message'] = "error in creating the buzz.";
+                }
+            }
+            else{
+                $response['error'] = true;
+                $response['message'] = "error in fetching the user.";
             }
         } else {
             $response["error"] = true;
@@ -89,20 +97,26 @@ class FeedService
             $userResponse = $userController->fetchUserByUsername($username);
             if ($userResponse["error"] == false) {
                 $role = $userResponse["user"]["role"];
-                $response = $feedImp->createBuzzAnonymously($username, $title, $description, $location, $role);
+                $response = $feedImp->createBuzz($username, $title, $description, $location, $role);
                 if ($response["error"] == false) {
-                    $feedResponse = $feedController->Fetchfeedinfo($username,$response["buzzid"]);
-                    $response['comments'] = array();
-                    $response['images'] = array();
-                    $response['videos'] = array();
-                    $response['upvotes'] = array();
-                    $response['downvotes'] = array();
-                    $response['comments'] = $feedResponse['comments'];
-                    $response['images'] = $feedResponse['images'];
-                    $response['videos'] = $feedResponse['videos'];
-                    $response['upvotes'] = $feedResponse['upvotes'];
-                    $response['downvotes'] = $feedResponse['downvotes'];
+                    $feedResponse = $feedController->fetchFeedById($username,$response["buzzid"]);
+                    if($feedResponse['error'] == false){
+                        $response['Feed'] = $feedResponse["Feed"];
+                        unset($response['buzzid']);
+                    }
+                    else{
+                        $response['error'] = true;
+                        $response['message'] = "error in fetching the buzz created.";
+                    }
                 }
+                else{
+                    $response['error'] = true;
+                    $response['message'] = "error in creating the buzz.";
+                }
+            }
+            else{
+                $response['error'] = true;
+                $response['message'] = "error in fetching the user.";
             }
         } else {
             $response["error"] = true;
@@ -812,7 +826,8 @@ class FeedService
             }
 
             $response["info"] = "all info provided";
-        } else {
+        } 
+        else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
         }
@@ -974,12 +989,12 @@ class FeedService
                 if ($profileResponse["error"] == false) {
                     $response["Feed"]['userimage'] = $profileResponse["profile"]["user_profile_image"];
                 }
-                $resp = $feedController->Fetchfeedinfo($username,$feedid);
                 $response["Feed"]['comments'] = array();
                 $response["Feed"]['images'] = array();
                 $response["Feed"]['videos'] = array();
                 $response["Feed"]['upvotes'] = array();
                 $response["Feed"]['downvotes'] = array();
+                $resp = $feedController->Fetchfeedinfo($username,$feedid);
                 if($resp['error'] = false){
                     $response["Feed"]['comments'] = $resp['comments'];
                     $response["Feed"]['images'] = $resp['images'];
