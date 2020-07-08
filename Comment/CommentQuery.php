@@ -121,6 +121,7 @@ class CommentQuery
 	public function deleteCommentById($id, $username)
 	{
 		$response = array();
+		$response["feed_id"] = array();
 		$stmt=mysqli_query($this->conn, "select feed_id FROM comments where comment_id = '" . $id . "'");
 		if(mysqli_num_rows($stmt) > 0){
 			$row=mysqli_fetch_assoc($stmt);

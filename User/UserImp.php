@@ -57,4 +57,9 @@ class UserImp
 		$userQuery = new UserQuery();
 		return $userQuery->resetPassword($username, $old_password, $new_password);
   }
+  
+  public function deleteUserAccount($username, $password){
+		$userQuery = new UserQuery();
+		return $userQuery->deleteUserAccount($username, $password);
+  }
 }

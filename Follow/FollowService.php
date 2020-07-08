@@ -18,51 +18,58 @@ class FollowService
     public function newFollow($by, $to)
     {
         //Check Username
-        $user = new UserController();
-        $userResponse = $user->fetchUserByUsername($by);
-        if($userResponse["error"] == true){
-            $userResponse["message"] = "Please SigIn first";
-            return $userResponse;
-        }
+        $authController = new AuthController();
+        if ($authController->authenticateUsernameInUser($by)["error"] == false) {
+            if ($authController->authenticateUsernameInUser($to)["error"] == false) {
+                $followImp = new FollowImp();
+                $followController = new FollowController();
+                $profileController = new ProfileController();
 
-        $followImp = new FollowImp();
-        $followController = new FollowController();
-        $profileController = new ProfileController();
-
-        $response = array();
-        // check if an user is already follwed.
-        $resp = $followingResp = $followController->fetchFollowing($by);
-        if (in_array($to, $resp['following'])){
-            $response['error'] = true;
-            $response['message'] = "the user is already followed";
-        }
-        else{
-            $response =  $followImp->newFollow($by, $to);
-            if ($response['error'] == false){
-                $response['following'] = array();
-                $followingResp = $followController->fetchFollowing($by);
-                if(count($followingResp['following'])>0){
-                    for ($i = 0; $i < count($followingResp['following']); $i++) {
-                        $response['following'][$i] = array();
-                        $response['following'][$i]["name"] = $followingResp['following'][$i];
-                        $resp = $profileController->fetchProfileOfUser($by);
-                        if ($resp['error'] == false){
-                            $response['following'][$i]['image'] = $resp['profile']['user_profile_image'];
-                        }
-                    }
+                $response = array();
+                // check if an user is already follwed.
+                $resp = $followingResp = $followController->fetchFollowing($by);
+                if (in_array($to, $resp['following'])){
+                    $response['error'] = true;
+                    $response['message'] = "the user is already followed";
                 }
                 else{
-                    $response['error'] = false;
-                    $response['message'] = "no following found";
+                    $response =  $followImp->newFollow($by, $to);
+                    if ($response['error'] == false){
+                        $response['following'] = array();
+                        $followingResp = $followController->fetchFollowing($by);
+                        if(count($followingResp['following'])>0){
+                            for ($i = 0; $i < count($followingResp['following']); $i++) {
+                                $response['following'][$i] = array();
+                                $response['following'][$i]["name"] = $followingResp['following'][$i];
+                                $resp = $profileController->fetchProfileOfUser($by);
+                                if ($resp['error'] == false){
+                                    $response['following'][$i]['image'] = $resp['profile']['user_profile_image'];
+                                }
+                            }
+                        }
+                        else{
+                            $response['error'] = false;
+                            $response['message'] = "no following found";
+                        }
+                    }
+                    else{
+                        $response['error'] = true;
+                        $response['message'] = 'error in following the user';
+                    }
                 }
             }
             else{
-                $response['error'] = true;
-                $response['message'] = 'error in following the user';
+                $response["error"] = true;
+                $response["message"] = "Following user Not Found";
             }
+        }
+        else{
+            $response["error"] = true;
+            $response["message"] = "current user Not Found";
         }
         return $response;
     }
+
     public function fetchFollowedBy($username)
     {
         $followImp = new FollowImp();

@@ -55,6 +55,11 @@ class UserController{
 		$userService = new UserService();
 		return $userService->resetPassword($username, $old_password, $new_password);
 	}
+
+	public function deleteUserAccount($username, $password){
+		$userService = new UserService();
+		return $userService->deleteUserAccount($username, $password);
+	}
 }
 
 ?>

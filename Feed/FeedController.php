@@ -51,6 +51,10 @@ class FeedController
 		$feedService = new FeedService();
 		return $feedService->shareBuzz($username, $feedid, $description);
 	}
+	public function unShareBuzz($username, $feedid){
+		$feedService = new FeedService();
+		return $feedService->unShareBuzz($username, $feedid);
+	}
 	public function hideBuzz($username, $buzzid)
 	{
 		$feedService = new FeedService();

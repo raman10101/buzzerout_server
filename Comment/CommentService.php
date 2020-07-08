@@ -116,14 +116,20 @@ class CommentService{
       $commentImp = new CommentImp();
       $response =  $commentImp->deleteCommentById($id, $username);
       if($response["error"]==false){
-        $feedcontroller=new FeedController();
-        $resp = $feedcontroller->Fetchfeedinfo($username,$response["feed_id"]['feed_id']);
-        if($resp['error'] == false){
-          $response["comments"]=$resp["comments"];
-          unset($response['feed_id']);
-        }
-        else{
-          $response['message'] = "error in fetching the remaining comments";
+        if(count($response["feed_id"]) > 0){
+          $feedcontroller=new FeedController();
+          $resp = $feedcontroller->Fetchfeedinfo($username,$response["feed_id"]['feed_id']);
+          if($resp['error'] == false){
+            $response["comments"]=$resp["comments"];
+            unset($response['feed_id']);
+          }
+          else{
+            $response['message'] = "error in fetching the remaining comments";
+            }
+          }
+          else{
+            $response['error'] = false;
+            $response['message'] = "comment already deleted";
           }
         }
       }

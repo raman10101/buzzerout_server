@@ -180,6 +180,15 @@ $app->post('/user/forgotPassword', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/user/deleteUserAccount', function () use ($app) {
+    verifyRequiredParams((array('username', 'password')));
+    $username = $app->request->post('username');
+    $password = $app->request->post('password');
+    $userController = new UserController();
+    $response = $userController->deleteUserAccount($username, $password);
+    echoRespnse(200, $response);
+});
+
 
 // Buzz Related API
 
@@ -266,6 +275,15 @@ $app->post('/buzz/shareBuzz', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/buzz/unShareBuzz', function () use ($app) {
+    verifyRequiredParams((array('username', 'feed_id')));
+    $username = $app->request->post('username');
+    $feedid = $app->request->post('feed_id');
+    $feedController = new FeedController();
+    $response = $feedController->unShareBuzz($username, $feedid);
+    echoRespnse(200, $response);
+});
+
 $app->post('/buzz/hideBuzz', function () use ($app) {
     verifyRequiredParams((array('username', 'feed_id')));
     $username = $app->request->post('username');
@@ -349,6 +367,14 @@ $app->post('/feed/fetchFeedById', function () use ($app) {
     echoRespnse(200, $response);
 });
 
+$app->post('/feed/fetchFeedInfo', function () use ($app) {
+    verifyRequiredParams((array('username','feed_id')));
+    $feedid = $app->request->post('feed_id');
+    $username = $app->request->post('username');
+    $feedController = new FeedController();
+    $response = $feedController->fetchFeedInfo($username,$feedid);
+    echoRespnse(200, $response);
+});
 
 $app->post('/feed/fetchCollectionByuser', function () use ($app) {
     verifyRequiredParams((array('username')));

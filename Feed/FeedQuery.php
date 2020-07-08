@@ -147,6 +147,22 @@ class FeedQuery
 		}
 		return $response;
 	}
+	
+	public function unShareBuzz($username, $feedid){
+		$response = array();
+		$stmt = mysqli_query($this->conn, "Delete from feed_shared  where feed_id = '" . $feedid . "'");
+		if ($stmt) {
+			$response["error"] = false;
+			$response["message"] = "Buzz UnShared";
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Buzz not Unshared";
+			$response["error_mess"] = mysqli_error($this->conn);
+		}
+		
+		return $response;
+
+	}
 
 	public function hideBuzz($username, $buzzid){
 		$response = array();

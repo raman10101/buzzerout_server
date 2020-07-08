@@ -34,7 +34,12 @@ class FeedImp
     public function shareBuzz($username, $feedid, $description){
 		$feedQuery = new FeedQuery();
         return $feedQuery->shareBuzz($username, $feedid, $description);
-	}
+    }
+    
+    public function unShareBuzz($username, $feedid){
+		$feedQuery = new FeedQuery();
+        return $feedQuery->unShareBuzz($username, $feedid);
+    }
     public function hideBuzz($username, $buzzid){
 		$feedQuery = new FeedQuery();
         return $feedQuery->hideBuzz($username, $buzzid);

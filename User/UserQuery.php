@@ -191,5 +191,22 @@ class UserQuery
 		}
 		return $response;
 	}
+	
+	public function deleteUserAccount($username, $password)
+	{
+		$response = array();
+
+		$stmt = mysqli_query($this->conn, "delete from users where username = '". $username. "'");
+		if($stmt){
+			$response["error"] = false;
+			$response["message"] = "user deleted  Successfully";
+		}else{
+			$response["error"] = true;
+			$response["message"] = "user not deleted";
+			$response['info'] = mysqli_error($this->conn);
+		}
+		return $response;
+	}
+	
 }
 ?>

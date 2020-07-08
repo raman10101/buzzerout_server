@@ -65,9 +65,6 @@ class UserService
             }
           }
         }
-        else{
-          $response['following'] = "error in fetching the following";
-        }
         $followerResp = $followController->fetchFollowedBy($username);
         if($followerResp['error'] == false){
           for ($i = 0; $i < count($followerResp['followers']); $i++) {
@@ -81,9 +78,6 @@ class UserService
               $response['follower_image'] = "error in fetching the profile image of follower";
             }
           }
-        }
-        else{
-          $response['follower'] = "error in fetching the follower";
         }
       }
     } else {
@@ -243,6 +237,16 @@ class UserService
       $response["message"] = "User Not Found";
     }
     return $response;
+  }
+
+  
+  public function deleteUserAccount($username, $password)
+  {
+    $userImp = new UserImp();
+    $response = array();
+
+    $resp = $userImp->deleteUserAccount($username, $password);
+    return $resp;
   }
 }
 ?>
