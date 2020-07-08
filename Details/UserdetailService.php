@@ -22,7 +22,7 @@ class UserdetailService
             $response = $UserdetailImp->createUserDetail($username, $about_you, $other_name, $fav_quote);
             if($response["error"] == false){
                 $respController = $UserDetailController->fetchUserDetail($username);
-                $response["userdetails"] = $respController["userdetails"];
+                $response["user_details"] = $respController["user_details"];
             }
         }
         else {
@@ -75,16 +75,16 @@ class UserdetailService
             if($response["error"]==false){
                 $respController = $UserDetailController->fetchUserDetail($username);
                 if($respController['error'] == false){
-                    $response["userdetails"] = $respController["userdetails"];
-                    unset($response["userdetails"]['id']);
-                    unset($response["userdetails"]['username']);
+                    $response["user_details"] = $respController["user_details"];
+                    unset($response["user_details"]['id']);
+                    unset($response["user_details"]['username']);
                 }
                 else{
                     $resp = $UserDetailController->createUserDetail($username, $about_you, $other_name, $fav_quote);
                     if($resp['error'] == false){
-                        $response["userdetails"] = $resp["userdetails"];
-                        unset($response["userdetails"]['id']);
-                        unset($response["userdetails"]['username']);
+                        $response["user_details"] = $resp["user_details"];
+                        unset($response["user_details"]['id']);
+                        unset($response["user_details"]['username']);
                         $response['message'] = "user details created";
                     }
                     else{

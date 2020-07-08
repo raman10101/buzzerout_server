@@ -963,15 +963,15 @@ class FeedService
         $feedController = new FeedController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->fetchSaveBuzz($username);
-            // if ($response['error'] === false) {
-            //     for ($i = 0; $i < count($response["save_buzz"]); $i++) {
-            //         $feedid = $response["save_buzz"][$i]["buzz_id"];
-            //         $feedResp = $feedController->fetchFeedById($username,$feedid);
-            //         if($feedResp['error'] == false){
-            //             $response["save_buzz"][$i]= $feedResp['Feed'];
-            //         }
-            //     }
-            // }
+            if ($response['error'] === false) {
+                for ($i = 0; $i < count($response["save_buzz"]); $i++) {
+                    $feedid = $response["save_buzz"][$i]["buzz_id"];
+                    $feedResp = $feedController->fetchFeedById($username,$feedid);
+                    if($feedResp['error'] == false){
+                        $response["save_buzz"][$i]= $feedResp['Feed'];
+                    }
+                }
+            }
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -986,15 +986,15 @@ class FeedService
         $feedController = new FeedController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->fetchHideBuzz($username);
-            // if ($response["error"] == false) {
-            //     for ($i = 0; $i < count($response["hide_buzz"]); $i++) {
-            //         $feedid = $response["hide_buzz"][$i]["buzz_id"];
-            //         $feedResp = $feedController->fetchFeedById($username,$feedid);
-            //         if($feedResp['error'] == false){
-            //             $response["hide_buzz"][$i] =  $feedResp["Feed"];
-            //         }
-            //     }
-            // }
+            if ($response["error"] == false) {
+                for ($i = 0; $i < count($response["hide_buzz"]); $i++) {
+                    $feedid = $response["hide_buzz"][$i]["buzz_id"];
+                    $feedResp = $feedController->fetchFeedById($username,$feedid);
+                    if($feedResp['error'] == false){
+                        $response["hide_buzz"][$i] =  $feedResp["Feed"];
+                    }
+                }
+            }
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";
@@ -1009,15 +1009,15 @@ class FeedService
         $feedController = new FeedController();
         if ($authController->authenticateUsernameInUser($username)["error"] == false) {
             $response =  $feedImp->fetchShareBuzz($username);
-            // if ($response["error"] == false) {
-            //     for ($i = 0; $i < count($response["shared_buzz"]); $i++) {
-            //         $feedid = $response["shared_buzz"][$i]["feed_id"];
-            //         $feedResp = $feedController->fetchFeedById($username,$feedid);
-            //         if($feedResp['error'] == false){
-            //             $response["shared_buzz"][$i] =  $feedResp["Feed"];
-            //         }
-            //     }
-            // }
+            if ($response["error"] == false) {
+                for ($i = 0; $i < count($response["shared_buzz"]); $i++) {
+                    $feedid = $response["shared_buzz"][$i]["feed_id"];
+                    $feedResp = $feedController->fetchFeedById($username,$feedid);
+                    if($feedResp['error'] == false){
+                        $response["shared_buzz"][$i] =  $feedResp["Feed"];
+                    }
+                }
+            }
         } else {
             $response["error"] = true;
             $response["message"] = "User Not Found";

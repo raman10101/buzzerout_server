@@ -53,10 +53,7 @@ class UsersSocialQuery
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "social accounts found.";
-            $response["social_accounts_details"] = mysqli_fetch_assoc($stmt);
-			// while($row = mysqli_fetch_assoc($stmt)){
-			// 	array_push($response["social_accounts_details"],$row);
-			// }
+            $response["socialMedia"] = mysqli_fetch_assoc($stmt);
         }
         else
         {
@@ -74,9 +71,9 @@ class UsersSocialQuery
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "social accounts found.";
-            $response["social_accounts_details"] = array();
+            $response["socialMedia"] = array();
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["social_accounts_details"],$row);
+				array_push($response["socialMedia"],$row);
 			}
         }
         else

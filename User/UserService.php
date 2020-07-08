@@ -170,7 +170,7 @@ class UserService
       }
       $temp = $detailController->fetchUserDetail($username);
       if ($temp['error'] == false) {
-        $response["details"]["user_details"] = $temp["userdetails"];
+        $response["details"]["user_details"] = $temp["user_details"];
       }
       $temp = $workcontroller->fetchWorkByUsername($username);
 
@@ -181,19 +181,19 @@ class UserService
       $temp = $placeController->fetchPlacesOfUser($username);
 
       if ($temp['error'] == false) {
-        $response['details']['city'] = $temp['places'];
+        $response['details']['city'] = $temp['city'];
       }
 
       $temp = $userscollegeController->fetchCollegeByUsername($username);
 
       if ($temp['error'] == false) {
-        $response['details']['college'] = $temp['colleges'];
+        $response['details']['college'] = $temp['college'];
       }
 
       $temp = $userssocialController->fetchSocialDetailsByUsername($username);
 
       if ($temp['error'] == false) {
-        $response['details']['socialMedia'] = $temp['social_accounts_details'];
+        $response['details']['socialMedia'] = $temp['socialMedia'];
       }
 
     } else {

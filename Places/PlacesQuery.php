@@ -35,9 +35,9 @@ class PlacesQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Places created";
-			$response["places"] = array();
+			$response["city"] = array();
 			while($row=mysqli_fetch_assoc($stmt)){
-				array_push($response["places"],$row);
+				array_push($response["city"],$row);
 			}
 		} else {
 			$response["error"] = true;

@@ -23,7 +23,7 @@ class PlacesService
             $response = $placesImp->addNewPlace($username, $place_name,$place_state);
             if($response["error"] == false){
                 $resp2 = $placeController->fetchPlacesOfUser($username);
-                $response["places"] = $resp2["places"];
+                $response["city"] = $resp2["city"];
             }
         }
         else {
@@ -57,7 +57,7 @@ class PlacesService
             $response = $placesImp->editPlace($username, $place_name,$place_state,$place_id);
             if($response["error"] == false){
                 $resp2 = $placeController->fetchPlacesOfUser($username);
-                $response["places"] = $resp2["places"];
+                $response["city"] = $resp2["city"];
             }
         }
         else {

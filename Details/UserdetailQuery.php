@@ -35,9 +35,9 @@ class UserdetailQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Userdetail fetched";
-			$response["userdetails"] = mysqli_fetch_assoc($stmt);
-			unset($response["userdetails"]['id']);
-            unset($response["userdetails"]['username']);
+			$response["user_details"] = mysqli_fetch_assoc($stmt);
+			unset($response["user_details"]['id']);
+            unset($response["user_details"]['username']);
 		} else {
 			$response["error"] = true;
 			$response["message"] = "Userdetail Not fetched";
@@ -54,9 +54,9 @@ class UserdetailQuery
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Userdetail Found";
-			$response["userdetails"] = array();
+			$response["user_details"] = array();
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["userdetails"],$row);
+				array_push($response["user_details"],$row);
 			}
 		} else {
 			$response["error"] = true;

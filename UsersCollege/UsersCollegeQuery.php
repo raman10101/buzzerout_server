@@ -48,13 +48,13 @@ class UsersCollegeQuery
 	public function fetchCollegeByUsername($username)
 	{
 		$response = array();
-		$response["colleges"] = array();
+		$response["college"] = array();
         $stmt = mysqli_query($this->conn, "select *  FROM users_college where username = '".$username."'");
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "college found.";
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["colleges"],$row);
+				array_push($response["college"],$row);
 			}
         }
         else
@@ -69,13 +69,13 @@ class UsersCollegeQuery
 	public function fetchCollegeById($username, $college_id)
 	{
 		$response = array();
-		$response["colleges"] = array();
+		$response["college"] = array();
         $stmt = mysqli_query($this->conn, "select *  FROM users_college where id = '".$college_id."'");
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "college found.";
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["colleges"],$row);
+				array_push($response["college"],$row);
 			}
         }
         else
@@ -90,13 +90,13 @@ class UsersCollegeQuery
 	public function fetchCollegeOfAllUsers($username)
 	{
 		$response = array();
-		$response["colleges"] = array();
+		$response["college"] = array();
         $stmt = mysqli_query($this->conn, "select *  FROM users_college ");
 		if(mysqli_num_rows($stmt) > 0){  
             $response["error"] = false;
             $response["message"] = "college found.";
 			while($row = mysqli_fetch_assoc($stmt)){
-				array_push($response["colleges"],$row);
+				array_push($response["college"],$row);
 			}
         }
         else

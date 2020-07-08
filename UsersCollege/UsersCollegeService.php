@@ -21,7 +21,7 @@ class UsersCollegeService
             $resp = $userscollegeImp->addCollege($username,  $college_name, $college_place);
             if($resp["error"] == false ){
                 $respController = $usersCollegeController->fetchCollegeByUsername($username);
-                $resp["colleges"] = $respController["colleges"];
+                $resp["college"] = $respController["college"];
             }
         }
         else{
@@ -41,7 +41,7 @@ class UsersCollegeService
             $resp=  $userscollegeImp->editCollege($username,  $college_name, $college_place,$college_id);
             if($resp["error"] == false ){
                 $respController = $usersCollegeController->fetchCollegeByUsername($username);
-                $resp["colleges"] = $respController["colleges"];
+                $resp["college"] = $respController["college"];
             }
         }
         else{
