@@ -526,7 +526,7 @@ class FeedQuery
 		$feedid = uniqid($username);
 		$stmt = mysqli_query($this->conn, "INSERT INTO feed ( feed_id,username ,  title ,  description ,  location ,role ) VALUES ('" . $feedid . "','" . $username . "','" . $title . "','" . $description . "','" . $location . "',  '" . $role . "' ) ");
 		if ($stmt) {
-			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp ASC");
+			$stmt2 = mysqli_query($this->conn, "select * from feed where feed_id='" . $feedid . "' order by timestamp DESC");
 			while ($row = mysqli_fetch_assoc($stmt2)) {
 				$response['feedid'] = $row['feed_id'];
 				$response['description'] = $row['description'];
@@ -684,7 +684,7 @@ class FeedQuery
 	{
 		$response = array();
 		$response["feed"] = array();
-		$stmt = mysqli_query($this->conn, "select * from feed where role='" . $role . "' order by timestamp ASC");
+		$stmt = mysqli_query($this->conn, "select * from feed where role='" . $role . "' order by timestamp DESC");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
