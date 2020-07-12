@@ -268,7 +268,7 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from feed where location='" . $location . "' order by timestamp ASC");
+		$stmt = mysqli_query($this->conn, "select * from feed where location='" . $location . "' order by timestamp DESC");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
@@ -287,7 +287,7 @@ class FeedQuery
 	{
 		$response = array();
 
-		$stmt = mysqli_query($this->conn, "select * from feed where username='" . $username . "' order by timestamp ASC");
+		$stmt = mysqli_query($this->conn, "select * from feed where username='" . $username . "' order by timestamp DESC");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			$response["message"] = "Feed Found";
