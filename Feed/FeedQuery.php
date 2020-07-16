@@ -444,7 +444,7 @@ class FeedQuery
 	{
 		$response = array();
 		$response["Feed"] = array();
-		$stmt = mysqli_query($this->conn, "select * from feed order by timestamp DESC");
+		$stmt = mysqli_query($this->conn, "select * from feed left join buzz_hide on feed.feed_id=buzz_hide.buzz_id where buzz_hide.buzz_id is NULL order by timestamp DESC");
 		if (mysqli_num_rows($stmt) > 0) {
 			$response["error"] = false;
 			while ($row = mysqli_fetch_assoc($stmt)) {
