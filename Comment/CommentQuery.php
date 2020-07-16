@@ -14,9 +14,10 @@ class CommentQuery
 
 	public function addComment($feed_id,  $username, $text)
 	{
+		date_default_timezone_set("Asia/Kolkata");
 		$response = array();
 		$comment_id = uniqid($feed_id.$username);
-		$stmt = mysqli_query($this->conn, "insert into comments (comment_id, feed_id,user_id,text,timestamp) values('" . $comment_id . "','" . $feed_id . "','" . $username . "','" . $text . "',NOW())");
+		$stmt = mysqli_query($this->conn, "insert into comments (comment_id, feed_id,user_id,text,timestamp) values('" . $comment_id . "','" . $feed_id . "','" . $username . "','" . $text . "',ADDTIME(NOW(), '5:30'))");
 		if ($stmt) {
 			$response["error"] = false;
 			$response["message"] = "Comment added!!";
